@@ -1,0 +1,63 @@
+/*
+(c)Kathmandu Living Labs
+*/
+/* 
+    Created on : Oct 30, 2014, 11:57:07 PM
+    Author     : jediKnight
+*/
+
+
+
+
+#interaction-bar>div.interaction-bar{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    text-align: center;
+    /*padding: 10px 0px 10px 20px;*/
+}
+
+#interaction-bar .slide-bar{
+    display:inline-flex;
+    min-width: 480px;
+    flex-flow: row-wrap;
+    background-color: #ececec;
+    line-height: 40px;
+    padding-left: 20px;
+    /*padding: auto 20px;*/
+}
+#interaction-bar .slide-bar a{
+    width: 80px;
+    color: #e74c3c;
+    font-family: "Helvetica";
+    font-size: 12pt;
+    /*font-weight: 700;*/
+}
+#interaction-bar .slide-bar a:hover, #interaction-bar .slide-bar a:active, #interaction-bar .slide-bar a.active{
+    border-bottom: #e74c3c medium solid;
+    color: #666666;
+    font-weight: 700;
+}
+
+
+#interaction-bar .splash-bar{
+    display:inline-flex;
+    flex-flow: row-wrap;
+    max-width: 880px;
+    line-height: 40px;
+    
+    /*padding: auto 40px;*/
+}
+#interaction-bar .splash-bar a{
+    width: 290px;
+    background-color: #e74c3c;
+    color: #ffffff;
+    font-family: "Helvetica";
+    font-size: 14pt;
+    font-weight: 700;
+}
+
+#interaction-bar a{
+    cursor: pointer;
+    box-sizing: border-box;
+}

@@ -1,0 +1,46 @@
+/*
+(c)Kathmandu Living Labs
+*/
+/* 
+    Created on : Oct 30, 2014, 10:23:36 PM
+    Author     : jediKnight
+*/
+
+body{
+    overflow-x: hidden;
+}
+
+#title-bar{
+    width: 100%;
+    height: 80px;
+    padding:6px;
+}
+
+#title-bar>.container-logo{
+    width: 100%;
+}
+
+#title-bar>.container-logo>img:first-child{
+    display: inline-block;
+    float: left;
+}
+
+#title-bar>.container-logo>img:last-child{
+    display: inline-block;
+    float: right;
+}
+
+#map-box{
+    width: 100%;
+    height: 580px;
+}
+
+#extension-box{
+    width: 100%;
+    height: 280px;
+}
+
+#footer-bar{
+    width: 100%;
+    height: 68px;
+}
