@@ -31,6 +31,25 @@ function UI_Button(initObj) {
 }
 
 
+
+function UI_DropdownMenu(options){
+    var dropdownMenu = $("<div class='menu-dropdown'/>");
+    for(var item in options.items){
+        dropdownMenu.append(function(){
+            return new UI_Button(options.items[item]);
+        });
+    }
+    
+    function _addTo(element){
+        dropdownMenu.appendTo(element);
+    }
+    
+    this.addTo = function(element){
+        _addTo(element);
+    };
+}
+
+
 function UI_SplitInteractionBar(options){
     var interactionBar = $("<div class='interaction-bar'/>");
     var slideBar = $("<div class='slide-bar'/>");
@@ -38,9 +57,10 @@ function UI_SplitInteractionBar(options){
     
     
     for(var button in options.slideBar.buttons){
-        options.slideBar.buttons[button].eventHandlers.mouseover = function(e){
+        /*options.slideBar.buttons[button].eventHandlers.mouseover = function(e){
             $(this).siblings().removeClass("active");
-        };
+            options.slideBar.buttons[button].eventHandlers.mouseover.call(this,e);
+        };*/
         
         slideBar.append(function(){
             return new UI_Button(options.slideBar.buttons[button]);
@@ -62,5 +82,36 @@ function UI_SplitInteractionBar(options){
     
     this.addTo = function(element){
         _addTo(element);
+    };
+}
+
+
+function UI_TabularColumn(options){
+    var column = $("<div class='col'/>");
+    var header = $("<div class='col-header'/>").append(options.header);
+    var body = $("<div class='col-body'/>");
+    
+    for(var c in options.body){
+       body.append(function(){
+          return $("<div class='body-row'/>").append($("<div/>").append(c)).append($("<div/>").append(options.body[c]));
+       });
+    }
+    
+    var footer = $("<div class='col-footer'/>").append(options.footer);
+    
+    header.appendTo(column);
+    body.appendTo(column);
+    footer.appendTo(column);
+    
+    this.getUI = function(){
+      return column[0];  
+    };
+}
+
+
+function UI_ExtensionColumns(options){
+    var column = new UI_TabularColumn(options).getUI();
+    this.getUI = function(){
+      return column;  
     };
 }

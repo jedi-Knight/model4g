@@ -61,3 +61,44 @@
     cursor: pointer;
     box-sizing: border-box;
 }
+
+
+.menu-dropdown{
+    background-color: #ececec;
+}
+
+#extension-box .col .col-header{
+    font-family: "Verdana";
+    font-weight: 700;
+    color: #43353D;
+}
+
+#extension-box .col .body-row>div:first-child{
+    font-family: "Verdana";
+    font-weight: 700;
+    color: #e74c3c;
+}
+#extension-box .col .body-row>div:last-child{
+    color: #979797;
+}
+
+#extension-box .col .col-footer a{
+    background-color: #f0f0f0;   
+    border-radius: 4px;
+    color: #e74c3c;
+    font-weight: 700;
+}
+
+#extension-box .col .col-footer a:hover, #extension-box .col .col-footer a:active{
+    text-shadow: 0px 0px 4px rgba(0,0,0,0.4);
+}
+
+#footer-bar{
+    background-color: #43353D;
+}
+
+a{
+    cursor: pointer;
+}
+
+
