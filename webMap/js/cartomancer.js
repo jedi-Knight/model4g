@@ -47,7 +47,7 @@ $(document).ready(function() {
         query: {
             geometries: {
                 type: "points",
-                group: "BrickKilns"
+                group: {"column":"amenity"}
             }
         },
         returnDataMeta: {
@@ -72,12 +72,12 @@ $(document).ready(function() {
             }
         });
 
-        var searchControl = new L.Control.Search({
+        /*var searchControl = new L.Control.Search({
             layer: clusterGeoJson,
             zoom: 16,
             circleLocation: false,
             animateCircle: false
-        });
+        });*/
 
         var popup = L.popup({
             autoPan: true,
@@ -85,11 +85,11 @@ $(document).ready(function() {
             offset: L.point(0, -22)
         });
 
-        searchControl.on('search_locationfound', function(e) {
+        /*searchControl.on('search_locationfound', function(e) {
             console.log(e);
             /*e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
              if (e.layer._popup)
-             e.layer.openPopup();*/
+             e.layer.openPopup();*\/
             var pointAttributes = e.layer.feature.properties.getAttributes(e.layer.feature.properties._cartomancer_id);
             var dom = new PanelDocumentModel(pointAttributes);
 
@@ -111,7 +111,7 @@ $(document).ready(function() {
             });
         });
 
-        map.addControl(searchControl);
+        map.addControl(searchControl);*/
 
 
 

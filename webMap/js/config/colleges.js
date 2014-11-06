@@ -1,6 +1,6 @@
 config={
     api:{
-        url: "data/colleges.json",
+        url: "data/colleges.geojson",
         type: "GET"
     },
     otherAPIs:{

@@ -132,14 +132,51 @@ function Data() {
 
             if (params.query.geometries) {
                 if (geometries[params.query.geometries.type])
-                    geometries[params.query.geometries.type][params.query.geometries.group] = data;
+                    try{
+                    Object.keys(params.query.geometries.group);
+                    params.query.geometries.group = data.features[0].properties[params.query.geometries.group.column];
+                        geometries[params.query.geometries.type][params.query.geometries.group] = data;
+                    }catch(e){
+                        geometries[params.query.geometries.type][params.query.geometries.group] = data;
+                    }
                 else
                     throw new Error();
+                
+                setTimeout(function(){
+                    var c = Object.keys(attributes[params.query.geometries.type]).length;
+                    var geojsonDB_attributes = {};
+                    
+                    for(var feature in geometries[params.query.geometries.type][params.query.geometries.group].features){
+                        geojsonDB_attributes[c] = geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties;
+                        
+                        if(geometries[params.query.geometries.type][params.query.geometries.group]["features"][feature]["properties"]["@id"]){
+                            geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties.id
+                            = geometries[params.query.geometries.type][params.query.geometries.group]["features"][feature]["properties"]["@id"];
+                            delete geometries[params.query.geometries.type][params.query.geometries.group]["features"][feature]["properties"]["@id"];
+                        }
+                        
+                        geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties = {
+                            feature_id : geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties.id,
+                            _cartoancer_id: c,
+                            getAttributes: function(_cartomancer_id) {
+                                return attributes[params.query.geometries.type][_cartomancer_id];
+                            }
+                        }
+                        c++;
+                    }
+                    
+                    $.extend(attributes[params.query.geometries.type], geojsonDB_attributes);
+                    
+                    
+                    writeQueryDeferred.resolve();
+                },0);
+                
+                
             } else if (params.query.attributes) {
                 switch (params.query.attributes.geometry) {
                 }
             }
-            writeQueryDeferred.resolve();
+            
 
         }
 
