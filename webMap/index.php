@@ -1,8 +1,18 @@
 <?php
+
 include_once "index_config.php";
-$map = $_GET['map'];
+try {
+    $map = $_GET['map'];
 //echo $index_config['map-init'][$map];
-$config_js = $index_config['map-init'][$map];
+    if (isset($index_config['map-init'][$map])) {
+        $config_js = $index_config['map-init'][$map];
+    } else {
+        throw new Exception("map not found!");
+    }
+} catch (Exception $e) {
+    $config_js = $index_config['map-init']['schools'];
+}
+
 $page = "
     <!DOCTYPE html>
 <!--
@@ -30,7 +40,7 @@ $page = "
 
         <link rel=\"stylesheet\" href=\"css/mapstyle.css\"/>
         <!--<link rel=\"stylesheet\" href=\"css/theme.css\"/>-->
-        <script src=\"".$config_js."\"></script>
+        <script src=\"" . $config_js . "\"></script>
         <script src=\"js/plugins.js\"></script>
         <script src=\"js/guiActions.js\"></script>
         <script src=\"js/data.js\"></script>
@@ -43,5 +53,5 @@ $page = "
 </html>
 
         ";
-        echo $page;
+echo $page;
 ?>
