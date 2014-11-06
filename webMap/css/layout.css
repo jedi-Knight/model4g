@@ -1,0 +1,112 @@
+/*
+(c)Kathmandu Living Labs
+*/
+/* 
+    Created on : Oct 30, 2014, 10:23:36 PM
+    Author     : jediKnight
+*/
+
+body{
+    overflow-x: hidden;
+    padding: 0px;
+}
+
+#title-bar{
+    width: 100%;
+    height: 60px;
+    padding:6px;
+    z-index:5;
+}
+
+#title-bar>.container-logo{
+    width: 100%;
+}
+
+#title-bar>.container-logo>img:first-child{
+    display: inline-block;
+    float: left;
+}
+
+#title-bar>.container-logo>img:last-child{
+    display: inline-block;
+    float: right;
+}
+#title-bar>.container-logo>img{
+    height: 60px;
+}
+
+#interaction-bar{
+    z-index: 4;
+}
+
+.menu-dropdown{
+    position:absolute;
+    z-index:10000;
+}
+
+
+
+#map-box{
+    width: 100%;
+    height: 540px;
+    z-index:3;
+}
+#map{
+    height: 540px;
+}
+
+#extension-box{
+    width: 100%;
+    height: 280px;
+    z-index:2;
+    text-align:center;
+}
+
+#extension-box .col{
+    display: inline-block;
+    width:340px;
+    margin: 20px 120px;
+    text-align: left;
+    vertical-align: text-top;
+}
+
+#extension-box .col div{
+    display: inline-block;
+}
+
+#extension-box .col .col-header{
+    line-height: 60px;
+    font-size: 20px;
+}
+
+#extension-box .col .body-row{
+    /*line-height: 20px;*/
+    height: 40px;
+    margin-bottom: 6px;
+}
+
+#extension-box .col .body-row>div:first-child{
+    line-height: 14px;
+    font-size: 14px;
+}
+#extension-box .col .body-row>div:last-child{
+    line-height: 10px;
+    font-size: 12px;
+    vertical-align: text-top;
+}
+
+#extension-box .col .col-footer{
+    font-family: "Verdana";
+    padding-top: 6px;
+}
+
+#extension-box .col .col-footer a{
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+#footer-bar{
+    width: 100%;
+    height: 68px;
+    z-index:1;
+}
