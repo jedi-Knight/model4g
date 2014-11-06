@@ -157,7 +157,7 @@ function Data() {
                         
                         geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties = {
                             feature_id : geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties.id,
-                            _cartoancer_id: c,
+                            _cartomancer_id: c,
                             getAttributes: function(_cartomancer_id) {
                                 return attributes[params.query.geometries.type][_cartomancer_id];
                             }
