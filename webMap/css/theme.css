@@ -149,3 +149,23 @@ a:hover .icon{
     /*border: #ffffff thin solid;*/
     border-radius: 0px;
 }
+
+
+#extension-box{
+    /*background-color: rgba(255,255,255,0.94);*/
+}
+
+.col{
+    background-color: rgba(255,255,255,0.94);
+}
+
+.ui-button-column-toggle{
+    /*background-color: #666666;*/
+    background-color: rgba(255,255,255,0.94);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+col.right + .ui-button-column-toggle{
+    
+}

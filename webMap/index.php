@@ -50,7 +50,12 @@ $page = "
         <script src=\"js/cartomancer.js\"></script>
     </head>
     <body>
-        <div id=\"map\"></div>
+    
+        <div id=\"mapBox\" class=\"smaller\">
+            <div id=\"map\"></div>
+        </div>
+        <div id=\"extension-box\"></div>
+        
     </body>
 </html>
 

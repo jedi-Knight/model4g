@@ -7,7 +7,8 @@ config={
         overpass: {
             url:"."
         }
-    }
+    },
+    "map-of": "Schools" ,
 };
 
 

@@ -59,7 +59,10 @@ function Data() {
                 return false;
 
         } else if (params.query.attributes) {
-            switch (params.query.attrubutes.geometry) {
+            switch (params.query.attributes.geometry) {
+                case "points":
+                    
+                    break;
             }
         }
     }

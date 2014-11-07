@@ -1,20 +1,21 @@
 $(document).ready(function() {
     $("#map").css({
-        height: $(document).innerHeight() - 20
+//        height: $(document).innerHeight() - 20,
+//        position: "initial !important"
     });
 
 
     var cartograph = new Map();
     $("#map").find("a.leaflet-control-zoom-out").text("–");
     var map = cartograph.getMap();
-    
+
     //console.log(map.getPanes().tilePane);
     //$(map.getPanes().tilePane).addClass("grayscale");
-    
-    map.on("baselayerchange", function(layer){
-        $(map.getPanes().tilePane).toggleClass("grayscale", layer.name==="OpenStreetMap Grayscale");
+
+    map.on("baselayerchange", function(layer) {
+        $(map.getPanes().tilePane).toggleClass("grayscale", layer.name === "OpenStreetMap Grayscale");
     });
-    
+
     var popup = new Popup();
     mapGlobals = {
         map: map
@@ -47,7 +48,7 @@ $(document).ready(function() {
         query: {
             geometries: {
                 type: "points",
-                group: {"column":"amenity"}
+                group: {"column": "amenity"}
             }
         },
         returnDataMeta: {
@@ -73,11 +74,11 @@ $(document).ready(function() {
         });
 
         /*var searchControl = new L.Control.Search({
-            layer: clusterGeoJson,
-            zoom: 16,
-            circleLocation: false,
-            animateCircle: false
-        });*/
+         layer: clusterGeoJson,
+         zoom: 16,
+         circleLocation: false,
+         animateCircle: false
+         });*/
 
         var popup = L.popup({
             autoPan: true,
@@ -86,32 +87,32 @@ $(document).ready(function() {
         });
 
         /*searchControl.on('search_locationfound', function(e) {
-            console.log(e);
-            /*e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
-             if (e.layer._popup)
-             e.layer.openPopup();*\/
-            var pointAttributes = e.layer.feature.properties.getAttributes(e.layer.feature.properties._cartomancer_id);
-            var dom = new PanelDocumentModel(pointAttributes);
-
-            var panelDocument = new PanelDocument(dom.documentModel);
-            panelDocument.addToTitleBar(dom.titleBarJson);
-            panelDocument.addHeader(dom.headerJson);
-            panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
-            
-            popup.setContent(panelDocument.getDocument());
-            popup.setLatLng(e.latlng);
-            popup.openOn(map);
-            
-            popup.update();
-
-        }).on('search_collapsed', function(e) {
-
-            clusterGeoJson.eachLayer(function(layer) {	//restore feature color
-                clusterGeoJson.resetStyle(layer);
-            });
-        });
-
-        map.addControl(searchControl);*/
+         console.log(e);
+         /*e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+         if (e.layer._popup)
+         e.layer.openPopup();*\/
+         var pointAttributes = e.layer.feature.properties.getAttributes(e.layer.feature.properties._cartomancer_id);
+         var dom = new PanelDocumentModel(pointAttributes);
+         
+         var panelDocument = new PanelDocument(dom.documentModel);
+         panelDocument.addToTitleBar(dom.titleBarJson);
+         panelDocument.addHeader(dom.headerJson);
+         panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
+         
+         popup.setContent(panelDocument.getDocument());
+         popup.setLatLng(e.latlng);
+         popup.openOn(map);
+         
+         popup.update();
+         
+         }).on('search_collapsed', function(e) {
+         
+         clusterGeoJson.eachLayer(function(layer) {	//restore feature color
+         clusterGeoJson.resetStyle(layer);
+         });
+         });
+         
+         map.addControl(searchControl);*/
 
 
 
@@ -122,8 +123,30 @@ $(document).ready(function() {
         clusterSpell.done(function(clusterGroup) {
             clusterGroup.addTo(map);
             map.fire("zoomend");
-            cartograph.getLayersControl().addOverlay(clusterGroup, "Brick Kilns / Brick Kiln Clusters");
+            cartograph.getLayersControl().addOverlay(clusterGroup, "Schools / School Clusters");
         });
+
+
+
+        var listColumnOptions = {
+            header: config["map-of"],
+            body: function() {
+                var bodyTable = {};
+                var pointAttributeList = mapData.getAttributes()["points"];
+                for (var point in pointAttributeList) {
+                    bodyTable[pointAttributeList[point].name] = "Show on the Map";
+                }
+                return bodyTable;
+            }(),
+            footer: "<a>Download as CSV</a>",
+            class: "right"
+        };
+
+        $(new UI_ExtensionColumns(listColumnOptions).getUI()).prependTo("#extension-box");
+
+
+
+
     });
 
 
@@ -141,7 +164,33 @@ $(document).ready(function() {
         }, 0);
     });
 
+    $("#mapBox").toggleClass("smaller larger");
 
+    (new UI_Button({
+        attributes: {
+            class: "ui-button-column-toggle"
+        },
+        eventHandlers: {
+            click: function() {
+                var target = $(this).siblings(".col");
+                if (target.css("width") !== "0px") {
+                    target.children().hide();
+                    target.animate({
+                        width: "0px"
+                    });
+                } else {
+                    target.animate({
+                        width: "196px"
+                    }, function() {
+                        target.children().show();
+                    });
+                }
+//                $("#mapBox").toggleClass("smaller larger");
+                map.fire("dragend");
+            }
+        }
+        //content: ">"
+    })).appendTo("#extension-box").append("<div class='icon'>></div>");
 
 
 
