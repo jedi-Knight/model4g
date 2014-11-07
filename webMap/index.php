@@ -38,8 +38,9 @@ $page = "
         
         <link rel=\"stylesheet\" href=\"css/layout.css\"/>
 
+        <link rel=\"stylesheet\" href=\"css/theme.css\"/>        
         <link rel=\"stylesheet\" href=\"css/mapstyle.css\"/>
-        <link rel=\"stylesheet\" href=\"css/theme.css\"/>
+        
         <link rel=\"stylesheet\" href=\"css/popuptab.css\"/>
         <link rel=\"stylesheet\" href=\"css/mediaviewer.css\"/>
         <script src=\"" . $config_js . "\"></script>

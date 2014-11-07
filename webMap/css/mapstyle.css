@@ -103,21 +103,36 @@
     /*border: #666666 thin solid;*/
     /*    border-radius: 0px;
         background-color: rgba(255,255,255,0.8);*/
-    background-color: rgba( 180,180,200,0.6);
-    border-radius: 0px;
+    /*background-color: rgba( 180,180,200,0.6);*/
+    background-color: #ececec;
+    border-radius: 20px;
+}
+.leaflet-control-zoom{
+    background-color: transparent;
 }
 .leaflet-control-zoom a, .leaflet-control-zoom a:first-child, .leaflet-control-zoom a:last-child{
-    border-radius: 0px;
-    background-color: transparent;
-    border: #aaaaaa thin solid;
+    /*border-radius: 20px;*/
+    background-color: #ececec;
+    /*border: #aaaaaa thin solid;*/
     font-family: "Verdana";
     font-size: 12pt;
     font-weight: 400;
     /*color: #223366;*/
     color: #0078a8;
 }
+
+.leaflet-control-zoom a{
+    width: 34px;
+    z-index: 2;
+}
+
+.leaflet-control-zoom a:first-child{
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
 .leaflet-control-zoom a:last-child{
-    margin-top: -1px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 /*.leaflet-control-zoom a:first-child{
     border-bottom: none;
@@ -130,9 +145,13 @@
     /*background-color: #eeeeee;*/
     color: #666666;
     box-shadow: 0px 0px 4px rgba(0,0,0,0.4);
+    width: 34px;
+    z-index: 20;
 }
 .leaflet-control-zoom a:active{
     box-shadow: 0px 0px 4px rgba(0,0,0,0.4) inset;
+    width: 34px;
+    z-index: 20;
 }
 
 
@@ -147,7 +166,7 @@
     letter-spacing: 1px;
 }
 .leaflet-control-layers{
-    border: #aaaaaa thin solid;
+    /*border: #aaaaaa thin solid;*/
 }
 .leaflet-control-layers-expanded{
     width: 283px;

@@ -155,15 +155,16 @@ a:hover .icon{
     /*background-color: rgba(255,255,255,0.94);*/
 }
 
-.col{
-    background-color: rgba(255,255,255,0.94);
+.col, .ui-button-column-toggle{
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.4), 0px 0px 6px #ffffff inset, 0px 0px 8px #ffffff inset;
+    background-color: #ececec;
 }
 
 .ui-button-column-toggle{
-    /*background-color: #666666;*/
-    background-color: rgba(255,255,255,0.94);
+    
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
+    
 }
 
 col.right + .ui-button-column-toggle{

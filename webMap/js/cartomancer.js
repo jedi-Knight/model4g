@@ -48,7 +48,7 @@ $(document).ready(function() {
         query: {
             geometries: {
                 type: "points",
-                group: {"column": "amenity"}
+                group: "Schools"
             }
         },
         returnDataMeta: {
@@ -134,7 +134,32 @@ $(document).ready(function() {
                 var bodyTable = {};
                 var pointAttributeList = mapData.getAttributes()["points"];
                 for (var point in pointAttributeList) {
-                    bodyTable[pointAttributeList[point].name] = "Show on the Map";
+                    bodyTable[pointAttributeList[point].name] = function() {
+                        var highlightButton = new UI_Button({
+                            attributes: {
+                            },
+                            eventHandlers: {
+                                click: function() {
+                                    var pointAttributes = mapData.getGeometries()["points"][config["map-of"]]["features"][point];
+                                    //var pointAttributes = e.layer.feature.properties.getAttributes(e.layer.feature.properties._cartomancer_id);
+                                    var dom = new PanelDocumentModel(pointAttributes);
+
+                                    var panelDocument = new PanelDocument(dom.documentModel);
+                                    panelDocument.addToTitleBar(dom.titleBarJson);
+                                    panelDocument.addHeader(dom.headerJson);
+                                    panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
+
+                                    popup.setContent(panelDocument.getDocument());
+                                    popup.setLatLng(e.latlng);
+                                    popup.openOn(map);
+
+                                    popup.update();
+                                }
+                            }
+                        });
+                        highlightButton.text("Show on the Map");
+                        return highlightButton;
+                    }();
                 }
                 return bodyTable;
             }(),
@@ -143,6 +168,7 @@ $(document).ready(function() {
         };
 
         $(new UI_ExtensionColumns(listColumnOptions).getUI()).prependTo("#extension-box");
+        $("<div class='col-plug'>").appendTo($("#extension-box").find(".ui-button-column-toggle"));
 
 
 
