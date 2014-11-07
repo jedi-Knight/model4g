@@ -1,7 +1,7 @@
 function Map() {
     var map = L.map('map', {
-        center: [27.68536, 85.38001],
-        zoom: 11,
+        center: [27.713702811633752, 85.34560561180113],
+        zoom: 17,
         doubleClickZoom: true
     });
 
@@ -527,129 +527,6 @@ function Popup() {
     });
 }
 
-function PanelDocumentModel(pointAttributes) {
 
-    return {titleBarJson: {
-//            "title": pointAttributes.name + ", " + pointAttributes.city,
-            "slider": new UI_ThumbnailView({
-                thumbUrls: function() {
-                    var srcs = [];
-                    for (var photo in pointAttributes.pictures) {
-//                        srcs.push("data/media/photos/thumbs/" + pointAttributes.pictures[photo]["pictures/photo"]);
-                        srcs.push("https://raw.githubusercontent.com/biplovbhandari/brckkln/master/media/photos/thumbs/" + pointAttributes.pictures[photo]["pictures/photo"]);
-                    }
-                    return srcs;
-                }(),
-                photoUrls: function() {
-                    var srcs = [];
-                    for (var photo in pointAttributes.pictures) {
-//                        srcs.push("data/media/photos/" + pointAttributes.pictures[photo]["pictures/photo"]);
-                        srcs.push("https://raw.githubusercontent.com/biplovbhandari/brckkln/master/media/photos/" + pointAttributes.pictures[photo]["pictures/photo"]);
-                    }
-                    return srcs;
-                }(),
-                mediaOptions: function(params) {
-                    return {
-                        triggers: {
-                            click: function(e) {
-//                                new MediaDocument(params.src).appendTo($("#map").find(".leaflet-popup-pane"));
-                                new SplashScreen(MediaDocument(params.src)).appendTo("body");
-                            }
-                        }
-                    };
-                }
-            }).createSlider()
-        },
-        headerJson: {
-            "": pointAttributes.name + ", " + pointAttributes.city
-//            "Contact Person": pointAttributes.contact_person,
-//            "Contact Number": pointAttributes.contact_number
-//                ,"city": pointAttributes.city
-        },
-        tabsJson: {
-            triggers: {
-                title: function() {
-
-                }
-            },
-            tabs: [
-                {
-                    title: "General Information",
-                    content: {
-                        Ownership: pointAttributes.ownership,
-                        "Bricks mainly Sold in": pointAttributes.market,
-                        "Operating Season": pointAttributes.operating_season,
-                        "Days Open": pointAttributes.days_open//,
-                        
-                    }
-                },
-                /*{
-                    title: "Input-Output",
-                    content: {
-                        "Fuel Quantity": pointAttributes.fuel_quantity,
-                        "Kind of Brick Produced": pointAttributes.brick_kind,
-                        Capacity: pointAttributes.capacity,
-                        "Raw Material": pointAttributes.raw_material,
-                        "Quality of Brick Produced": pointAttributes.brick_quality,
-                        Fuel: pointAttributes.fuel,
-                        "Brick Production": pointAttributes.brick_production,
-                        "Chimney category": pointAttributes.chimney_category,
-                        "Number of Chimneys": pointAttributes.chimney_numbers,
-                    }
-                },*/
-                {
-                    title: "Technical Details",
-                    content: {
-                        
-                        "Raw Material": pointAttributes.raw_material,
-                        "Fuel": pointAttributes.fuel,
-                        "Fuel Quantity": pointAttributes.fuel_quantity,
-                        "Kind of Brick Produced": pointAttributes.brick_kind,
-                        
-                        "Chimney category": pointAttributes.chimney_category,
-                        "Chimney-height": pointAttributes.chimney_height,
-                        "Number of Chimneys": pointAttributes.chimney_numbers,
-                        "Moulding Process": pointAttributes.moulding_process,
-                        //"Number of Chimneys": pointAttributes.chimney_numbers,
-                        //"Chimney-height": pointAttributes.chimney_height,
-                        "Firing": pointAttributes.firing,
-                        
-                        "Capacity": pointAttributes.capacity,
-                        
-                        
-                        
-                        "Bricks produced per batch": pointAttributes.brick_production,
-                        "Quality of Brick Produced": pointAttributes.brick_quality//,
-                        
-                        //"Chimney category": pointAttributes.chimney_category
-                    }
-                },
-                {
-                    title: "Socio-economic",
-                    content: {
-                        "Children as Labourers": pointAttributes.labor_children,
-                        "Female Workers": pointAttributes.labor_female,
-                        "Male Workers": pointAttributes.labor_male,
-                        "Total number of Workers": pointAttributes.labor_total,
-                        "Young Labourers": pointAttributes.labor_young,
-                        "Elderly Labourers": pointAttributes.labor_old,
-                        "Laboureres currently Studying": pointAttributes.labor_currently_studing,
-                        "Workers with SLC": pointAttributes.labor_slc,
-                        "Workers with Informal Education": pointAttributes.labor_informal_edu,
-                        "Workers not Literate": pointAttributes.labor_illiterate,
-                        "Food Allowance": pointAttributes.food_allowance
-                    }
-                }
-            ]
-        },
-        documentModel: {
-            titleBar: {
-                title: "Summary",
-                cotrols: new UI_CloseButton()
-            }
-        }
-    };
-
-}
 
 

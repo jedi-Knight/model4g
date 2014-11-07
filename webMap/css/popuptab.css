@@ -4,18 +4,21 @@
 .float.panel-document .panel-document-body{
     /*margin-top:12pt;*/
     height:174px;
-    background-color: #eeeeee;
+    /*background-color: #eeeeee;*/
     padding-top:6pt;
-    box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
+    /*box-shadow: 0px 0px 4px rgba(0,0,0,0.6);*/
     z-index:3;
-    border-top: #ffffff thin solid;
-    margin-top: -1px;
+    /*border-top: #ffffff thin solid;*/
+    /*margin-top: -1px;*/
+    width:300px;
 }
 .float.panel-document .panel-document-body>div.panel-document-tab{
     position: absolute;
+    width: 100%;
 }
 .float.panel-document .panel-document-body>div.panel-document-tab.inactive>div.panel-document-page{
     display: none;
+    width: 100%;
 }
 
 
@@ -90,6 +93,8 @@
     display: inline-block;
     width: 150px;
     word-wrap: normal;
+    height:0px;
+    display:none;
 }
 .float.panel-document .inactive a.tab-trigger{
     width:50px;
@@ -100,6 +105,7 @@
 .panel-document-titleBar{
     display: flex;
     z-index: 1;
+    height:0px;
 }
 .panel-document-titleBar>div{
     min-width: 180px;
@@ -135,15 +141,15 @@
 .panel-document-header{
     display: flex;
     flex-flow: column wrap;
-    margin-top: -40pt;
-    margin-left:167px;
+    /*margin-top: -40pt;*/
+    /*margin-left:167px;*/
     padding-top: 2pt;
-    background-color: #eeeeee;
-    width: 200px;
-    height: 56px;
+    /*background-color: #eeeeee;*/
+    width: 300px;
+    /*height: 56px;*/
     border-top-right-radius: 10px;
     z-index: 2;
-    box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
+    /*box-shadow: 0px 0px 4px rgba(0,0,0,0.6);*/
     border-top: #ffffff thin solid;
     border-right: #ffffff thin solid;
 }
@@ -157,7 +163,7 @@
 
 .panel-document-header .header-row{
     display: inline-block;
-    width:192px;
+    /*width:192px;*/
     padding: 0px 2px 4px 8px;
 }
 .panel-document-header .header-row>div{
@@ -184,14 +190,15 @@
 }
 
 .panel-document-body .head-plug{
-    width: 200px;
+    /*width: 200px;
     height: 6px;
     position: absolute;
     z-index: 100;
     margin-top: -14px;
     right:16px;
     background-color:  #eeeeee;
-    border-right: #ffffff thin solid;
+    border-right: #ffffff thin solid;*/
+    display:none;
 }
 
 .tab-trigger{
@@ -234,19 +241,19 @@
 }
 
 .panel-document-page{
-    background-color: #333333;
-    margin: 0px 7px 8px;
-    padding: 6px;
-    width:340px;
+    /*background-color: #333333;*/
+    /*margin: 0px 7px 8px;*/
+    padding: 8px;
+    /*width:340px;*/
     z-index: 2000;
-    border: #cccccc thin solid;
-    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.4);
+    /*border: #cccccc thin solid;*/
+    /*box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.4);*/
 }
 
 .cartomancer-popup-table{
     overflow: auto;
     height: 120px;
-    padding: 2px 8px;
+    /*padding: 2px 8px;*/
 }
 
 .cartomancer-popup-table .table-row>div>div{
@@ -284,15 +291,15 @@
 }
 
 .leaflet-popup-content-wrapper, .float.panel.media-viewer{
-    padding: 15px;
-    border-radius: 0px;
+    /*padding: 15px;*/
+    /*border-radius: 0px;
     background-color: rgba(180,180,200,0.6);
-    box-shadow: 0 3px 14px rgba(0,0,0,0.4), 0px 0px 6px #ffffff inset;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.4), 0px 0px 6px #ffffff inset;*/
     border: #999999 thin solid;
 }
 
 .leaflet-popup-tip-container{
-    display:none;
+    /*display:none;*/
 }
 
 .leaflet-container  a.leaflet-popup-close-button, .close.trigger{

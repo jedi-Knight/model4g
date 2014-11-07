@@ -1,104 +1,151 @@
-/*
-(c)Kathmandu Living Labs
-*/
-/* 
-    Created on : Oct 30, 2014, 11:57:07 PM
-    Author     : jediKnight
-*/
-
-
-
-
-#interaction-bar>div.interaction-bar{
-    width: 100%;
-    height: 40px;
-    display: flex;
-    text-align: center;
-    /*padding: 10px 0px 10px 20px;*/
+.panel{
+    /*background-color: rgba(255,255,255,0.8);*/
+    /*box-shadow: 0px 0px 6px rgba(0,0,0,0.6);*/
+    /*border: #666666 thin solid;*/
+    /*background-color: #115c09;*/
+    /*background-color: #115c09;*/
+    /*padding: 2px 0px 0px 0px;*/
+    padding: 0px;
+    font-family: "Verdana";
+    line-height: 1.1;
+    display:flex;
+    flex-flow: column wrap;
 }
-
-#interaction-bar .slide-bar{
-    display:inline-flex;
-    min-width: 480px;
-    flex-flow: row-wrap;
-    background-color: #ececec;
-    line-height: 40px;
-    padding-left: 20px;
-    /*padding: auto 20px;*/
-}
-#interaction-bar .slide-bar a{
-    width: 80px;
-    color: #e74c3c;
+.panel .titleBar{
     font-family: "Helvetica";
-    font-size: 12pt;
-    /*font-weight: 700;*/
+    /*font-style: italic;*/
+    padding-bottom:0px;
 }
-#interaction-bar .slide-bar a:hover, #interaction-bar .slide-bar a:active, #interaction-bar .slide-bar a.active{
-    border-bottom: #e74c3c medium solid;
-    color: #666666;
-    font-weight: 700;
+
+/*.panel-document-slider>div{
+    width: 100px;
+    height: 100px;
+}*/
+.panel-document-controls{
+    max-width: 90px;
+    position: absolute;
+    right: 0px;
+    top: -15px;
+    z-index:3;
 }
 
 
-#interaction-bar .splash-bar{
-    display:inline-flex;
-    flex-flow: row-wrap;
-    max-width: 880px;
-    line-height: 40px;
+
+
+
+
+
+
+
+
+
+
+
+.trigger{
+    /*padding: 6px 2px;*/
+    border-radius: 6px;
+    cursor: pointer;
     
-    /*padding: auto 40px;*/
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
-#interaction-bar .splash-bar a{
-    width: 290px;
-    background-color: #e74c3c;
-    color: #ffffff;
-    font-family: "Helvetica";
+
+
+
+
+.icon{
+    display: inline-block;
+    margin: 5px;
     font-size: 14pt;
     font-weight: 700;
+    //cursor: inherit;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: none;
 }
 
-#interaction-bar a{
-    cursor: pointer;
-    box-sizing: border-box;
+a:hover .icon{
+    text-shadow: 0px 0px 2px #ffffff, 0px 0px 2px #ffffff, 0px 0px 4px #ffffff, 0px 0px 4px #ffffff;
+}
+
+.thumbnail .icon{
+    box-shadow: -1px -1px 2px rgba(0,0,0,0.6);
+    height: 75px;
 }
 
 
-.menu-dropdown{
-    background-color: #ececec;
+.ui-slider-nav>a{
+    background-image: 
+        repeating-linear-gradient(45deg, transparent 4%, rgba(180,180,200,0.6) 4%, rgba(180,180,200,0.6) 6% , transparent 6%, transparent 8%),
+        repeating-linear-gradient(135deg, transparent 4%, rgba(180,180,200,0.6) 4%, rgba(180,180,200,0.6) 6% ,transparent 6%, transparent 8%);
 }
 
-#extension-box .col .col-header{
+
+
+/*.inactive .trigger{
+    background-color: rgba(0,0,0,0.4);
+    border: #aaaaaa thin solid;
+}*/
+
+
+.cartomancer-popup-table{
+    background-color: #ffffff;
+}
+
+
+
+.leaflet-container .leaflet-control-search{
+    background-color: rgba(180,180,200,0.6);
+    border: #aaaaaa thin solid;
+    border-radius: 0px;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.4);
+}
+
+.leaflet-control-search .search-input{
+    color: #0078a8;
     font-family: "Verdana";
-    font-weight: 700;
-    color: #43353D;
+    background-color: rgba(0,0,0,0);
+    border: #aaaaaa thin solid;
+    font-size: 10pt;
+    text-shadow: 0px 0px 2px #ffffff, 0px 0px 2px #ffffff, 0px 0px 4px #ffffff, 0px 0px 4px #ffffff;
 }
 
-#extension-box .col .body-row>div:first-child{
+.leaflet-container .leaflet-control-search a.search-button{
+    border-radius: 0px;
+}
+
+.leaflet-container .leaflet-control-search a.search-button:hover{
+    background-color: rgba(180,180,200,0.6);
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.8), 0px 0px 6px #ffffff inset;
+}
+
+.leaflet-container .leaflet-control-search.search-exp a.search-button:hover{
+    background-color: rgba(180,180,200,0.6);
+    box-shadow: 2px 0px 2px rgba(0,0,0,0.4), 0px 0px 6px #ffffff inset;
+}
+
+.leaflet-container .leaflet-control-search a.search-button:active{
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.4) inset;
+}
+
+.leaflet-control-search .search-tooltip{
+    background-color: rgba(180,180,200,0.6);
+    border: #aaaaaa thin solid;
+    box-shadow: none;
+}
+
+.leaflet-control-search .search-tip{
+    background-color: #eeeeee;
     font-family: "Verdana";
-    font-weight: 700;
-    color: #e74c3c;
+    font-size: 10pt;
+    /*text-shadow: 0px 0px 2px #ffffff, 0px 0px 2px #ffffff, 0px 0px 4px #ffffff, 0px 0px 4px #ffffff;*/
+    color: #0078a8;
+    /*border: #ffffff thin solid;*/
+    border-radius: 0px;
 }
-#extension-box .col .body-row>div:last-child{
-    color: #979797;
-}
-
-#extension-box .col .col-footer a{
-    background-color: #f0f0f0;   
-    border-radius: 4px;
-    color: #e74c3c;
-    font-weight: 700;
-}
-
-#extension-box .col .col-footer a:hover, #extension-box .col .col-footer a:active{
-    text-shadow: 0px 0px 4px rgba(0,0,0,0.4);
-}
-
-#footer-bar{
-    background-color: #43353D;
-}
-
-a{
-    cursor: pointer;
-}
-
-

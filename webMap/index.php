@@ -1,17 +1,17 @@
 <?php
 
 include_once "index_config.php";
-try {
+
+$map = "schools";
+$config_js = $index_config['map-init'][$map];
+
+if (isset($_GET['map']))
     $map = $_GET['map'];
 //echo $index_config['map-init'][$map];
-    if (isset($index_config['map-init'][$map])) {
-        $config_js = $index_config['map-init'][$map];
-    } else {
-        throw new Exception("map not found!");
-    }
-} catch (Exception $e) {
-    $config_js = $index_config['map-init']['schools'];
-}
+if (isset($index_config['map-init'][$map]))
+    $config_js = $index_config['map-init'][$map];
+
+
 
 $page = "
     <!DOCTYPE html>
