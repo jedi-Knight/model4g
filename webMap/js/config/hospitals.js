@@ -33,7 +33,7 @@ var Styles = {
     iconStyle: {
         iconSize: [25, 42],
         iconAnchor: [12.5, 40],
-        html: "<img src='markers/yellow.png'/>"
+        html: "<img src='markers/hospital.png'/>"
 
     }
 };
