@@ -126,7 +126,7 @@
     /*text-shadow: 0px 0px 2px #ffffff, 0px 0px 2px #ffffff, 0px 0px 3px #ffffff, 0px 0px 3px #ffffff;*/
     text-shadow: 0px 0px 2px #ffffff, 0px 0px 2px #ffffff, 0px 0px 4px #ffffff, 0px 0px 4px #ffffff;
     /*color: #223366;*/
-    color: #0078a8;
+    color: #e74c3c;
 }
 .panel-document-slider{
     max-width: 300px;
@@ -181,7 +181,7 @@
 .panel-document-header .header-row>div:last-child{
     /*float:right;*/
     /*color: #223366;*/
-    color: #0078a8;
+    color: #e74c3c;
     font-size: 12pt;
 }
 
@@ -262,7 +262,7 @@
     float: right;
     font-weight: 700;
     /*color: #223366;*/
-    color: #0078a8;
+    color: #e74c3c;
     text-transform: capitalize;
 }
 .cartomancer-popup-table .table-row>div>div.not-available{
