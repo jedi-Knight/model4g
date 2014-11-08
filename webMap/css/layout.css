@@ -49,24 +49,34 @@ body{
 }
 
 #extension-box .col .col-header{
+    font-family: "Helvetica";
     line-height: 60px;
-    font-size: 20px;
+    font-size: 20pt;
+    /*color: #e74c3c;*/
+    /*text-shadow: 0px 0px 4px #000000;*/
 }
 
 #extension-box .col .body-row{
     /*line-height: 20px;*/
-    height: 40px;
-    margin-bottom: 6px;
+    /*height: 40px;*/
+    /*margin-bottom: 6px;*/
+    font-family: "Helvetica";
+    margin-bottom: 8px;
 }
 
 #extension-box .col .body-row>div:first-child{
-    line-height: 14px;
-    font-size: 14px;
+    /*line-height: 22pt;*/
+    /*min-height: 22pt;*/
+    font-size: 12pt;
 }
 #extension-box .col .body-row>div:last-child{
-    line-height: 10px;
-    font-size: 12px;
+    line-height: 10pt;
+    font-size: 10pt;
     vertical-align: text-top;
+}
+
+#extension-box .col .body-row>div a{
+    cursor: pointer;
 }
 
 /*#extension-box .col .col-footer{
@@ -131,7 +141,11 @@ body{
     display: inline-block;
     position: absolute;
     width: 10px;
-    margin-left: 4px;
+    margin-left: 1px;
     height:  70%;
     background-color: #ececec;
+}
+
+.leaflet-control-attribution{ /**until overlay positions are finalized**/
+    display: none;
 }

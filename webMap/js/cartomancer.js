@@ -48,7 +48,7 @@ $(document).ready(function() {
         query: {
             geometries: {
                 type: "points",
-                group: "Schools"
+                group: config["map-of"]
             }
         },
         returnDataMeta: {
@@ -135,10 +135,11 @@ $(document).ready(function() {
                 var pointAttributeList = mapData.getAttributes()["points"];
                 for (var point in pointAttributeList) {
                     bodyTable[pointAttributeList[point].name] = function() {
-                        if(highlightButton) delete highlightButton;
+                        if (highlightButton)
+                            delete highlightButton;
                         var highlightButton = new UI_Button({
                             attributes: {
-                                _cartomancer_id : point
+                                _id: point
                             },
                             eventHandlers: {
                                 click: function() {
@@ -147,13 +148,13 @@ $(document).ready(function() {
                                     map.setZoom(16, {
                                         animate: true
                                     });
-                                    
+
                                     var buttonDOMElement = this;
-                                    
+
                                     setTimeout(function() {
-                                        var pointOfAttributes = mapData.getGeometries()["points"][config["map-of"]]["features"][$(buttonDOMElement).attr("_cartomancer_id")];
+                                        var pointOfAttributes = mapData.getGeometries()["points"][config["map-of"]]["features"][$(buttonDOMElement).attr("_id")];
                                         //var pointAttributes = e.layer.feature.properties.getAttributes(e.layer.feature.properties._cartomancer_id);
-                                        var dom = new PanelDocumentModel(pointOfAttributes.properties.getAttributes($(buttonDOMElement).attr("_cartomancer_id")));
+                                        var dom = new PanelDocumentModel(pointOfAttributes.properties.getAttributes($(buttonDOMElement).attr("_id")));
 
                                         var panelDocument = new PanelDocument(dom.documentModel);
                                         panelDocument.addToTitleBar(dom.titleBarJson);
@@ -170,11 +171,13 @@ $(document).ready(function() {
                                         });
 
                                         map.once("zoomend", function() {
-                                            popup.openOn(map);
+                                            setTimeout(function() {
+                                                popup.openOn(map);
 
-                                            popup.update();
+                                                popup.update();
+                                            }, 300);
                                         });
-                                    }, 1000);
+                                    }, 500);
 
                                     map.on("popupclose", function() {
 
@@ -189,7 +192,7 @@ $(document).ready(function() {
                 }
                 return bodyTable;
             }(),
-            footer: "<a>Download as CSV</a>",
+            footer: "<a><div>Download as CSV</div></a>",
             class: "right"
         };
 
@@ -217,6 +220,7 @@ $(document).ready(function() {
     });
 
     $("#mapBox").toggleClass("smaller larger");
+    map.fire("dragend");
 
     (new UI_Button({
         attributes: {
@@ -224,25 +228,39 @@ $(document).ready(function() {
         },
         eventHandlers: {
             click: function() {
-                var target = $(this).siblings(".col");
-                if (target.css("width") !== "0px") {
-                    target.children().hide();
-                    target.animate({
-                        width: "0px"
-                    });
-                } else {
-                    target.animate({
-                        width: "196px"
-                    }, function() {
-                        target.children().show();
-                    });
-                }
+                var btn_target = $(this).siblings(".col");
+                var btn_icon = $(this).find(".icon");
+
+                setTimeout(function() {
+
+
+                    btn_icon.css("opacity", 0);
+                    btn_icon.toggleClass("collapse");
+
+
+                    if (btn_target.css("width") !== "0px") {
+                        btn_target.children().css("opacity", 0);
+                        btn_target.animate({
+                            width: "0px"
+                        }, function() {
+                            btn_icon.css("opacity", 1);
+                        });
+                    } else {
+                        btn_target.animate({
+                            width: "196px"
+                        }, function() {
+                            btn_target.children().css("opacity", 1);
+
+                            btn_icon.css("opacity", 1);
+                        });
+                    }
 //                $("#mapBox").toggleClass("smaller larger");
-                map.fire("dragend");
+                    map.fire("dragend");
+                }, 0);
             }
         }
         //content: ">"
-    })).appendTo("#extension-box").append("<div class='icon'>></div>");
+    })).appendTo("#extension-box").append("<div class='icon collapse'></div>");
 
 
 

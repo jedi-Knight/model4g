@@ -53,7 +53,8 @@ function Map() {
 
 function Cluster(features, map) {
     var clusterGroup = L.markerClusterGroup({
-        showCoverageOnHover: false
+        showCoverageOnHover: false,
+        disableClusteringAtZoom: 18
     });
     var clustering = $.Deferred();
 

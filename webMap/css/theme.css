@@ -67,7 +67,7 @@
     -ms-user-select: none;
     -webkit-user-select: none;
     user-select: none;
-    pointer-events: none;
+    /*pointer-events: none;*/
 }
 
 a:hover .icon{
@@ -152,7 +152,7 @@ a:hover .icon{
 
 
 #extension-box{
-    /*background-color: rgba(255,255,255,0.94);*/
+    font-faily: "Verdana";
 }
 
 .col, .ui-button-column-toggle{
@@ -169,4 +169,51 @@ a:hover .icon{
 
 col.right + .ui-button-column-toggle{
     
+}
+
+.ui-button-column-toggle .icon{
+    background-image: url("gfx/column_toggle_active.svg");
+    background-size: 18px;
+    width: 18px;
+    height: 44px;
+    margin-top: 450%;
+    cursor: pointer;
+}
+/*.ui-button-column-toggle .icon:hover, .ui-button-column-toggle .icon:active{
+    background: url("gfx/column_toggle_active.svg");
+    background-size: 18px;
+}*/
+
+.ui-button-column-toggle .icon.collapse{
+    -ms-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.col .body-row a{
+    color: #e74c3c;
+    margin-top: 2px;
+}
+
+.col-footer a{
+    
+    
+    text-align: center;
+    
+    cursor: pointer;
+    display: block;
+    margin-top: 20px;
+    border-radius: 20px;
+}
+
+.col-footer div{
+/*    height: 12pt;*/
+    /*width: 100%;*/
+    background-color: #e74c3c;
+    font-family: "Helvetica";
+    font-size: 12pt;
+    font-weight: normal;
+    color: #ffffff;
+    display: inline-block;
+    border-radius: 20px;
 }
