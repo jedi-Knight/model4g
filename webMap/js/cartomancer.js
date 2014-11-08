@@ -135,25 +135,51 @@ $(document).ready(function() {
                 var pointAttributeList = mapData.getAttributes()["points"];
                 for (var point in pointAttributeList) {
                     bodyTable[pointAttributeList[point].name] = function() {
+                        if(highlightButton) delete highlightButton;
                         var highlightButton = new UI_Button({
                             attributes: {
+                                _cartomancer_id : point
                             },
                             eventHandlers: {
                                 click: function() {
-                                    var pointAttributes = mapData.getGeometries()["points"][config["map-of"]]["features"][point];
-                                    //var pointAttributes = e.layer.feature.properties.getAttributes(e.layer.feature.properties._cartomancer_id);
-                                    var dom = new PanelDocumentModel(pointAttributes);
+                                    map.closePopup();
 
-                                    var panelDocument = new PanelDocument(dom.documentModel);
-                                    panelDocument.addToTitleBar(dom.titleBarJson);
-                                    panelDocument.addHeader(dom.headerJson);
-                                    panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
+                                    map.setZoom(16, {
+                                        animate: true
+                                    });
+                                    
+                                    var buttonDOMElement = this;
+                                    
+                                    setTimeout(function() {
+                                        var pointOfAttributes = mapData.getGeometries()["points"][config["map-of"]]["features"][$(buttonDOMElement).attr("_cartomancer_id")];
+                                        //var pointAttributes = e.layer.feature.properties.getAttributes(e.layer.feature.properties._cartomancer_id);
+                                        var dom = new PanelDocumentModel(pointOfAttributes.properties.getAttributes($(buttonDOMElement).attr("_cartomancer_id")));
 
-                                    popup.setContent(panelDocument.getDocument());
-                                    popup.setLatLng(e.latlng);
-                                    popup.openOn(map);
+                                        var panelDocument = new PanelDocument(dom.documentModel);
+                                        panelDocument.addToTitleBar(dom.titleBarJson);
+                                        panelDocument.addHeader(dom.headerJson);
+                                        panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
 
-                                    popup.update();
+                                        popup.setContent(panelDocument.getDocument());
+
+                                        var latlng = L.latLng(pointOfAttributes.geometry.coordinates[1], pointOfAttributes.geometry.coordinates[0]);
+
+                                        popup.setLatLng(latlng);
+                                        map.setView(latlng, 18, {
+                                            animate: true
+                                        });
+
+                                        map.once("zoomend", function() {
+                                            popup.openOn(map);
+
+                                            popup.update();
+                                        });
+                                    }, 1000);
+
+                                    map.on("popupclose", function() {
+
+                                    });
+
                                 }
                             }
                         });
