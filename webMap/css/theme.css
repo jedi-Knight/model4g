@@ -217,3 +217,11 @@ col.right + .ui-button-column-toggle{
     display: inline-block;
     border-radius: 20px;
 }
+
+.leaflet-control-layers-toggle{
+    background-size: 30px;
+}
+
+.leaflet-popup-tip{
+    border: #999999 thin solid;
+}

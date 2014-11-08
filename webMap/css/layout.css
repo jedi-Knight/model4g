@@ -46,6 +46,7 @@ body{
 
 #extension-box .col div{
     display: block;
+    
 }
 
 #extension-box .col .col-header{
@@ -148,4 +149,9 @@ body{
 
 .leaflet-control-attribution{ /**until overlay positions are finalized**/
     display: none;
+}
+
+.col-body{
+    height: 426px;
+    overflow: hidden;
 }
