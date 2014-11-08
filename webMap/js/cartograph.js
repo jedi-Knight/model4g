@@ -65,7 +65,7 @@ function Cluster(features, map) {
             var marker = L.marker(L.latLng(features[point].geometry.coordinates[1], features[point].geometry.coordinates[0]), {
                 icon: L.divIcon(Styles.iconStyle),
                 riseOnHover: true,
-                title: pointAttributes.name + ", " + pointAttributes.city
+                title: pointAttributes.name
             });
 
             

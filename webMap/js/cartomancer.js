@@ -212,7 +212,7 @@ $(document).ready(function() {
         setTimeout(function() {
             $("#map").find("div.marker-cluster").attrByFunction(function() {
                 return {
-                    "title": $(this).find("span").text() + " Brick Kilns in this cluster. Click to zoom in."
+                    "title": $(this).find("span").text() + " "+ config["map-of"]+ " in this cluster. Click to zoom in."
                 };
             });
 
