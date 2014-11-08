@@ -123,7 +123,7 @@ $(document).ready(function() {
         clusterSpell.done(function(clusterGroup) {
             clusterGroup.addTo(map);
             map.fire("zoomend");
-            cartograph.getLayersControl().addOverlay(clusterGroup, "Schools / School Clusters");
+            //cartograph.getLayersControl().addOverlay(clusterGroup, "Schools / School Clusters");
         });
 
 
