@@ -3,7 +3,8 @@
 }
 .float.panel-document .panel-document-body{
     /*margin-top:12pt;*/
-    height:174px;
+    /*min-height: 120px;*/
+    max-height: 194px;
     /*background-color: #eeeeee;*/
     padding-top:6pt;
     /*box-shadow: 0px 0px 4px rgba(0,0,0,0.6);*/
@@ -11,9 +12,10 @@
     /*border-top: #ffffff thin solid;*/
     /*margin-top: -1px;*/
     width:300px;
+    padding-bottom: 10px;
 }
 .float.panel-document .panel-document-body>div.panel-document-tab{
-    position: absolute;
+    /*position: absolute;*/
     width: 100%;
 }
 .float.panel-document .panel-document-body>div.panel-document-tab.inactive>div.panel-document-page{
@@ -252,7 +254,7 @@
 
 .cartomancer-popup-table{
     overflow: auto;
-    height: 120px;
+    max-height: 180px;
     /*padding: 2px 8px;*/
 }
 

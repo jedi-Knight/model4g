@@ -96,7 +96,7 @@ function PanelDocumentModel(pointAttributes) {
                     title: "General Information",
                     content: {
                         "Operator": pointAttributes.operator_t,
-                        "Average number of OPD patients per day": pointAttributes.opd_patien,
+                        "Average OPD patients per day": pointAttributes.opd_patien,
                         "Number of Hospital Staff": pointAttributes.personnel_,
                         "Source of Information": pointAttributes.source
                     }
