@@ -99,8 +99,8 @@ function PanelDocumentModel(pointAttributes) {
                         "Operator": pointAttributes.operator_t,
                         "Number of Students": pointAttributes.student_co,
                         "Number of Personnel": pointAttributes.personnel_,
-                        "Phone Number": pointAttributes.phone
-                        
+                        "Phone Number": pointAttributes.phone,
+                        "Source of Information": pointAttributes.source
                     }
                 }
             ]

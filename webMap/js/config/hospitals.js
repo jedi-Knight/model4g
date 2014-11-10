@@ -95,12 +95,10 @@ function PanelDocumentModel(pointAttributes) {
                 {
                     title: "General Information",
                     content: {
-                        "Level": pointAttributes.isced_leve,
                         "Operator": pointAttributes.operator_t,
-                        "Number of Students": pointAttributes.student_co,
-                        "Number of Personnel": pointAttributes.personnel_,
-                        "Phone Number": pointAttributes.phone
-                        
+                        "Average number of OPD patients per day": pointAttributes.opd_patien,
+                        "Number of Hospital Staff": pointAttributes.personnel_,
+                        "Source of Information": pointAttributes.source
                     }
                 }
             ]

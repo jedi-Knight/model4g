@@ -8,7 +8,7 @@ config={
             url:"."
         }
     },
-    "map-of": "Colleges" ,
+    "map-of": "Colleges" 
 };
 
 
@@ -98,9 +98,9 @@ function PanelDocumentModel(pointAttributes) {
                         "Level": pointAttributes.isced_leve,
                         "Operator": pointAttributes.operator_t,
                         "Number of Students": pointAttributes.student_co,
-                        "Number of Personnel": pointAttributes.personnel_,
-                        "Phone Number": pointAttributes.phone
-                        
+                        "Number of College Staff": pointAttributes.personnel_,
+                        "Phone Number": pointAttributes.phone,
+                        "Source of Information": pointAttributes.source
                     }
                 }
             ]
