@@ -212,7 +212,7 @@ $(document).ready(function() {
         setTimeout(function() {
             $("#map").find("div.marker-cluster").attrByFunction(function() {
                 return {
-                    "title": $(this).find("span").text() + " "+ config["map-of"]+ " in this cluster. Click to zoom in."
+                    "title": $(this).find("span").text() + " " + config["map-of"] + " in this cluster. Click to zoom in."
                 };
             });
 
@@ -262,8 +262,20 @@ $(document).ready(function() {
         //content: ">"
     })).appendTo("#extension-box").append("<div class='icon collapse'></div>");
 
+    var overviewMap = new UI_OverviewMap({
+        map: map,
+        zoom: 14,
+        "ui-dom-id": "overview-map",
+        basemap: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 14,
+            minZoom: 14
+        })
+    });
 
+    $("#mapBox").append(overviewMap.getUI());
 
+    overviewMap.drawMap();
 
 });
 $.fn.attrByFunction = function(fn) {

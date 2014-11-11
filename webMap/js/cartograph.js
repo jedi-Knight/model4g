@@ -38,7 +38,7 @@ function Map() {
     var overlayMaps = {
     };
 
-    var layersControl = L.control.layers(baseMaps, overlayMaps,{
+    var layersControl = L.control.layers(baseMaps, overlayMaps, {
         position: "topleft"
     }).addTo(map);
     layersControl._layers.dummylayer1.layer;
@@ -48,6 +48,70 @@ function Map() {
     };
     this.getLayersControl = function() {
         return layersControl;
+    };
+}
+
+function UI_OverviewMap(options) {
+
+    function GeoJsonFromLatLngBounds(latLngBounds) {
+        return {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [latLngBounds.getEast(), latLngBounds.getNorth()],
+                        [latLngBounds.getEast(), latLngBounds.getSouth()],
+                        [latLngBounds.getWest(), latLngBounds.getSouth()],
+                        [latLngBounds.getWest(), latLngBounds.getNorth()],
+                        [latLngBounds.getEast(), latLngBounds.getNorth()]
+                    ]
+                ]
+            }
+        };
+    }
+    
+    var map = null;
+
+    function _drawMap() {
+        map = L.map(options["ui-dom-id"], {
+            center: options.map.getCenter(),
+            zoom: options.zoom,
+            doubleClickZoom: false,
+            dragging: false,
+            zoomControl: false
+        });
+        
+        map.addLayer(options.basemap);
+
+        options.map.on("moveend", function() {
+            setTimeout(function() {
+
+                map.eachLayer(function(layer) {
+                    if (layer.feature.redrawable) {
+                        this.removeLayer(layer);
+                    }
+                });
+
+                L.geoJson(new GeoJsonFromLatLngBounds(options.map.getBounds()), {
+                    onEachFeature: function(feature, layer) {
+                        feature.redrawable = true;
+                    }
+                }).addTo(map);
+            }, 0);
+        });
+    }
+
+    this.drawMap = function() {
+        _drawMap();
+    };
+
+    this.getMap = function() {
+        return map;
+    };
+
+    this.getUI = function() {
+        return $("<div/>").attr("id", options["ui-dom-id"])[0];
     };
 }
 
@@ -68,7 +132,7 @@ function Cluster(features, map) {
                 title: pointAttributes.name
             });
 
-            
+
 
             /*var titleBarJson = {
              "title": pointAttributes.name + ", " + pointAttributes.city,
@@ -532,32 +596,32 @@ function Popup() {
 
 
 
-function UI_TabularColumn(options){
+function UI_TabularColumn(options) {
     var column = $("<div class='col'/>");
     var header = $("<div class='col-header'/>").append(options.header);
     var body = $("<div class='col-body'/>");
-    
-    for(var c in options.body){
-       body.append(function(){
-          return $("<div class='body-row'/>").append($("<div/>").append(c)).append($("<div/>").append(options.body[c]));
-       });
+
+    for (var c in options.body) {
+        body.append(function() {
+            return $("<div class='body-row'/>").append($("<div/>").append(c)).append($("<div/>").append(options.body[c]));
+        });
     }
-    
+
     var footer = $("<div class='col-footer'/>").append(options.footer);
-    
+
     header.appendTo(column);
     body.appendTo(column);
     footer.appendTo(column);
-    
-    this.getUI = function(){
-      return column[0];  
+
+    this.getUI = function() {
+        return column[0];
     };
 }
 
 
-function UI_ExtensionColumns(options){
+function UI_ExtensionColumns(options) {
     var column = $(new UI_TabularColumn(options).getUI()).addClass(options.class);
-    this.getUI = function(){
-      return column;  
+    this.getUI = function() {
+        return column;
     };
 }

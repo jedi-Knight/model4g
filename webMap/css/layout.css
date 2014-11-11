@@ -155,3 +155,8 @@ body{
     height: 426px;
     overflow: hidden;
 }
+
+#overview-map{
+    width: 250px;
+    height: 250px;
+}
