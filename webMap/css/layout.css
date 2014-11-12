@@ -156,11 +156,23 @@ body{
     overflow: hidden;
 }
 
-#overview-map{
-    width: 250px;
-    height: 250px;
+#ui-overview-map{
+    width: 150px;
+    height: 150px;
     cursor: default;
 }
-#overview-map g{
+#ui-overview-map g{
     pointer-events: none;
+}
+
+.ui-container-overview-map{
+    display:inline-block;
+    position:absolute;
+    margin-top: -164px;
+    margin-left: 6px;
+    padding: 4px;
+}
+
+.leaflet-bottom.leaflet-left{
+    left: 164px;
 }

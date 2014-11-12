@@ -265,7 +265,8 @@ $(document).ready(function() {
     var overviewMap = new UI_OverviewMap({
         map: map,
         zoom: 13,
-        "ui-dom-id": "overview-map",
+        "ui-dom-id": "ui-overview-map",
+        "ui-container-class": "ui-container-overview-map",
         basemap: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
             maxZoom: 13,

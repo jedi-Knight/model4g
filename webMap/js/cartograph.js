@@ -1,7 +1,8 @@
 function Map() {
     var map = L.map('map', {
-        center: [27.713702811633752, 85.34560561180113],
+        center: [27.71639, 85.34546],
         zoom: 17,
+        minZoom: 16,
         doubleClickZoom: true
     });
 
@@ -96,6 +97,7 @@ function UI_OverviewMap(options) {
                 L.geoJson(new GeoJsonFromLatLngBounds(options.map.getBounds()), {
                     onEachFeature: function(feature, layer) {
                         feature.redrawable = true;
+                        layer.setStyle(LayerStyles["inset-map-current-view"]);
                     }
                 }).addTo(map);
             }, 0);
@@ -119,7 +121,7 @@ function UI_OverviewMap(options) {
     };
 
     this.getUI = function() {
-        return $("<div/>").attr("id", options["ui-dom-id"])[0];
+        return $("<div>").append($("<div/>").attr("id", options["ui-dom-id"])).addClass(options["ui-container-class"])[0];
     };
 }
 

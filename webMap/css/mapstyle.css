@@ -211,3 +211,9 @@
 .hidden{
     display:none;
 }
+
+.ui-container-overview-map{
+    background-color: #ffffff;
+    border: #999999 thin solid;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.4), 0px 0px 6px #ffffff inset, 0px 0px 8px #ffffff inset;
+}
