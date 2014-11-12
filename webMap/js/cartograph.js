@@ -84,12 +84,12 @@ function UI_OverviewMap(options) {
         
         map.addLayer(options.basemap);
 
-        options.map.on("moveend", function() {
+        options.map.on("movestart moveend", function() {
             setTimeout(function() {
 
                 map.eachLayer(function(layer) {
-                    if (layer.feature.redrawable) {
-                        this.removeLayer(layer);
+                    if (layer.feature && layer.feature.redrawable) {
+                        map.removeLayer(layer);
                     }
                 });
 
