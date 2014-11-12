@@ -270,12 +270,14 @@ $(document).ready(function() {
             //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
             maxZoom: 14,
             minZoom: 14
-        })
+        }),
+        "ui-control-map": true
     });
 
     $("#mapBox").append(overviewMap.getUI());
 
     overviewMap.drawMap();
+    map.fire("moveend");
 
 });
 $.fn.attrByFunction = function(fn) {

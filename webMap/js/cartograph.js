@@ -70,7 +70,7 @@ function UI_OverviewMap(options) {
             }
         };
     }
-    
+
     var map = null;
 
     function _drawMap() {
@@ -81,7 +81,7 @@ function UI_OverviewMap(options) {
             dragging: false,
             zoomControl: false
         });
-        
+
         map.addLayer(options.basemap);
 
         options.map.on("movestart moveend", function() {
@@ -100,6 +100,14 @@ function UI_OverviewMap(options) {
                 }).addTo(map);
             }, 0);
         });
+
+
+        if (options["ui-control-map"]) {
+            map.on("click", function(e) {
+                options.map.panTo(e.latlng);
+            });
+        }
+
     }
 
     this.drawMap = function() {
