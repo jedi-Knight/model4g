@@ -181,7 +181,8 @@ col.right + .ui-button-column-toggle{
     background-size: 18px;
     width: 18px;
     height: 44px;
-    margin-top: 450%;
+    /*margin-top: 450%;*/
+    margin-top: 24%;
     cursor: pointer;
 }
 /*.ui-button-column-toggle .icon:hover, .ui-button-column-toggle .icon:active{

@@ -127,7 +127,7 @@ body{
 
 .ui-button-column-toggle{
     display: inline-block;
-    height: 70%;
+    height: 12%;
     width: 40px;
     float: left;
     /*left:0px;*/
@@ -146,7 +146,7 @@ body{
     position: absolute;
     width: 10px;
     margin-left: 1px;
-    height:  70%;
+    height:  12%;
     background-color: #ececec;
 }
 
@@ -230,6 +230,12 @@ a.find-mapfeature .icon{
     z-index: 2;
     position:absolute;
     right: 40px;
+}
+
+.ui-button-download-data>div{
+    padding: 4px 10px;
+    display: block;
+    width: 100%;
 }
 
 

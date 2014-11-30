@@ -194,7 +194,7 @@ $(document).ready(function() {
                 }
                 return bodyTable;
             }(),
-            footer: "<a><div>Download as CSV</div></a>",
+            footer: "<a class='ui-button-download-data'><div>Download as CSV</div></a>",
             class: "right"
         };
 
