@@ -79,6 +79,11 @@ a:hover .icon{
     height: 75px;
 }
 
+a.find-mapfeature .icon{
+    background-image: url("gfx/findonmap.svg");
+    
+}
+
 
 .ui-slider-nav>a{
     background-image: 

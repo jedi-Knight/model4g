@@ -616,7 +616,7 @@ function UI_TabularColumn(options) {
             return $("<div class='body-row'/>").append($("<div/>").append(c)).append($("<div/>").append(options.body[c]));
         });
     }
-
+    
     var footer = $("<div class='col-footer'/>").append(options.footer);
 
     header.appendTo(column);

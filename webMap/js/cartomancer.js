@@ -129,7 +129,7 @@ $(document).ready(function() {
 
 
         var listColumnOptions = {
-            header: config["map-of"],
+            header: "<h3>"+config["map-of"]+"</h3>",
             body: function() {
                 var bodyTable = {};
                 var pointAttributeList = mapData.getAttributes()["points"];
@@ -139,7 +139,8 @@ $(document).ready(function() {
                             delete highlightButton;
                         var highlightButton = new UI_Button({
                             attributes: {
-                                _id: point
+                                _id: point,
+                                class: "find-mapfeature"
                             },
                             eventHandlers: {
                                 click: function() {
@@ -186,7 +187,8 @@ $(document).ready(function() {
                                 }
                             }
                         });
-                        highlightButton.text("Show on the Map");
+                        //highlightButton.text("Show on the Map");
+                        highlightButton.append("<div class=icon/>");
                         return highlightButton;
                     }();
                 }
@@ -198,6 +200,14 @@ $(document).ready(function() {
 
         $(new UI_ExtensionColumns(listColumnOptions).getUI()).prependTo("#extension-box");
         $("<div class='col-plug'>").appendTo($("#extension-box").find(".ui-button-column-toggle"));
+        
+        $(new UI_Control_Filter({
+            "ui-control-id": "filter-search",
+            "target-container": $("#extension-box").find(".col-body"),
+            "target-items-selector": ".body-row>div:first-child"
+        }).getUI()).appendTo($("#extension-box").find(".col-header"));
+        
+        
 
 
 
@@ -267,7 +277,7 @@ $(document).ready(function() {
         zoom: 13,
         "ui-dom-id": "ui-overview-map",
         "ui-container-class": "ui-container-overview-map",
-        basemap: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        basemap: L.tileLayer('images/minimap_tiles/{z}/{x}/{y}.png', {
             //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
             maxZoom: 13,
             minZoom: 13
