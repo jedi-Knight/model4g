@@ -1,6 +1,6 @@
 config = {
     api: {
-        url: "data/schools.geojson",
+        url: "data/",
         type: "GET"
     },
     otherAPIs: {
@@ -8,15 +8,7 @@ config = {
             url: "."
         }
     },
-    "map-of": "Schools",
-    "data-columns": [
-        "Level",
-        "Operator",
-        "Number of Students",
-        "Number of Personnel",
-        "Phone Number",
-        "Source of Information"
-    ]
+    "map-of": "Ward Projects"
 };
 
 
@@ -88,7 +80,7 @@ function PanelDocumentModel(pointAttributes) {
              }).createSlider()*/
         },
         headerJson: {
-            "": pointAttributes.name
+            "": pointAttributes["आयोजनाको नाम"]
 //            "Contact Person": pointAttributes.contact_person,
 //            "Contact Number": pointAttributes.contact_number
 //                ,"city": pointAttributes.city
@@ -103,12 +95,12 @@ function PanelDocumentModel(pointAttributes) {
                 {
                     title: "General Information",
                     content: {
-                        "Level": pointAttributes.isced_leve,
-                        "Operator": pointAttributes.operator_t,
-                        "Number of Students": pointAttributes.student_co,
-                        "Number of Personnel": pointAttributes.personnel_,
-                        "Phone Number": pointAttributes.phone,
-                        "Source of Information": pointAttributes.source
+                        "क्षेत्रफल (ब.मि.\/र.मि)": pointAttributes["क्षेत्रफल (ब.मि.\/र.मि)"],
+                        "लागत इस्तिमेत": pointAttributes["लागत इस्तिमेत"],
+                        "टोल ": pointAttributes["टोल"],
+                        "टोल सुधार समिति": pointAttributes["टोल सुधार समिति"],
+                        "टोले सुधार समितिको फोन नम्बर": pointAttributes["टोले सुधार समितिको फोन नम्बर"],
+                        "उपभोक्ता समितिको फोन नम्बर": pointAttributes["उपभोक्ता समितिको फोन नम्बर"]
                     }
                 }
             ]

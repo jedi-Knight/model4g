@@ -1,104 +1,233 @@
-/*
-(c)Kathmandu Living Labs
-*/
-/* 
-    Created on : Oct 30, 2014, 11:57:07 PM
-    Author     : jediKnight
-*/
-
-
-
-
-#interaction-bar>div.interaction-bar{
-    width: 100%;
-    height: 40px;
-    display: flex;
-    text-align: center;
-    /*padding: 10px 0px 10px 20px;*/
+.panel{
+    /*background-color: rgba(255,255,255,0.8);*/
+    /*box-shadow: 0px 0px 6px rgba(0,0,0,0.6);*/
+    /*border: #666666 thin solid;*/
+    /*background-color: #115c09;*/
+    /*background-color: #115c09;*/
+    /*padding: 2px 0px 0px 0px;*/
+    padding: 0px;
+    font-family: "Verdana";
+    line-height: 1.1;
+    display:flex;
+    flex-flow: column wrap;
 }
-
-#interaction-bar .slide-bar{
-    display:inline-flex;
-    min-width: 480px;
-    flex-flow: row-wrap;
-    background-color: #ececec;
-    line-height: 40px;
-    padding-left: 20px;
-    /*padding: auto 20px;*/
-}
-#interaction-bar .slide-bar a{
-    width: 80px;
-    color: #e74c3c;
+.panel .titleBar{
     font-family: "Helvetica";
-    font-size: 12pt;
-    /*font-weight: 700;*/
+    /*font-style: italic;*/
+    padding-bottom:0px;
 }
-#interaction-bar .slide-bar a:hover, #interaction-bar .slide-bar a:active, #interaction-bar .slide-bar a.active{
-    border-bottom: #e74c3c medium solid;
-    color: #666666;
-    font-weight: 700;
+
+/*.panel-document-slider>div{
+    width: 100px;
+    height: 100px;
+}*/
+.panel-document-controls{
+    max-width: 90px;
+    position: absolute;
+    right: 0px;
+    top: -15px;
+    z-index:3;
 }
 
 
-#interaction-bar .splash-bar{
-    display:inline-flex;
-    flex-flow: row-wrap;
-    max-width: 880px;
-    line-height: 40px;
+
+
+
+
+
+
+
+
+
+
+
+.trigger{
+    /*padding: 6px 2px;*/
+    border-radius: 6px;
+    cursor: pointer;
     
-    /*padding: auto 40px;*/
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
-#interaction-bar .splash-bar a{
-    width: 290px;
-    background-color: #e74c3c;
-    color: #ffffff;
-    font-family: "Helvetica";
+
+
+
+
+.icon{
+    display: inline-block;
+    margin: 5px;
     font-size: 14pt;
     font-weight: 700;
+    //cursor: inherit;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    /*pointer-events: none;*/
 }
 
-#interaction-bar a{
-    cursor: pointer;
-    box-sizing: border-box;
+a:hover .icon{
+    text-shadow: 0px 0px 2px #ffffff, 0px 0px 2px #ffffff, 0px 0px 4px #ffffff, 0px 0px 4px #ffffff;
+}
+
+.thumbnail .icon{
+    box-shadow: -1px -1px 2px rgba(0,0,0,0.6);
+    height: 75px;
+}
+
+a.find-mapfeature .icon{
+    background-image: url("gfx/findonmap.svg");
+    
 }
 
 
-.menu-dropdown{
+.ui-slider-nav>a{
+    background-image: 
+        repeating-linear-gradient(45deg, transparent 4%, rgba(180,180,200,0.6) 4%, rgba(180,180,200,0.6) 6% , transparent 6%, transparent 8%),
+        repeating-linear-gradient(135deg, transparent 4%, rgba(180,180,200,0.6) 4%, rgba(180,180,200,0.6) 6% ,transparent 6%, transparent 8%);
+}
+
+
+
+/*.inactive .trigger{
+    background-color: rgba(0,0,0,0.4);
+    border: #aaaaaa thin solid;
+}*/
+
+
+.cartomancer-popup-table{
+    background-color: #ffffff;
+}
+
+
+
+.leaflet-container .leaflet-control-search{
+    background-color: rgba(180,180,200,0.6);
+    border: #aaaaaa thin solid;
+    border-radius: 0px;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.4);
+}
+
+.leaflet-control-search .search-input{
+    color: #0078a8;
+    font-family: "Verdana";
+    background-color: rgba(0,0,0,0);
+    border: #aaaaaa thin solid;
+    font-size: 10pt;
+    text-shadow: 0px 0px 2px #ffffff, 0px 0px 2px #ffffff, 0px 0px 4px #ffffff, 0px 0px 4px #ffffff;
+}
+
+.leaflet-container .leaflet-control-search a.search-button{
+    border-radius: 0px;
+}
+
+.leaflet-container .leaflet-control-search a.search-button:hover{
+    background-color: rgba(180,180,200,0.6);
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.8), 0px 0px 6px #ffffff inset;
+}
+
+.leaflet-container .leaflet-control-search.search-exp a.search-button:hover{
+    background-color: rgba(180,180,200,0.6);
+    box-shadow: 2px 0px 2px rgba(0,0,0,0.4), 0px 0px 6px #ffffff inset;
+}
+
+.leaflet-container .leaflet-control-search a.search-button:active{
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.4) inset;
+}
+
+.leaflet-control-search .search-tooltip{
+    background-color: rgba(180,180,200,0.6);
+    border: #aaaaaa thin solid;
+    box-shadow: none;
+}
+
+.leaflet-control-search .search-tip{
+    background-color: #eeeeee;
+    font-family: "Verdana";
+    font-size: 10pt;
+    /*text-shadow: 0px 0px 2px #ffffff, 0px 0px 2px #ffffff, 0px 0px 4px #ffffff, 0px 0px 4px #ffffff;*/
+    color: #0078a8;
+    /*border: #ffffff thin solid;*/
+    border-radius: 0px;
+}
+
+
+#extension-box{
+    font-faily: "Verdana";
+}
+
+.col, .ui-button-column-toggle{
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.4), 0px 0px 6px #ffffff inset, 0px 0px 8px #ffffff inset;
     background-color: #ececec;
 }
 
-#extension-box .col .col-header{
-    font-family: "Verdana";
-    font-weight: 700;
-    color: #43353D;
+.ui-button-column-toggle{
+    
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    
 }
 
-#extension-box .col .body-row>div:first-child{
-    font-family: "Verdana";
-    font-weight: 700;
-    color: #e74c3c;
-}
-#extension-box .col .body-row>div:last-child{
-    color: #979797;
+col.right + .ui-button-column-toggle{
+    
 }
 
-#extension-box .col .col-footer a{
-    background-color: #f0f0f0;   
-    border-radius: 4px;
-    color: #e74c3c;
-    font-weight: 700;
-}
-
-#extension-box .col .col-footer a:hover, #extension-box .col .col-footer a:active{
-    text-shadow: 0px 0px 4px rgba(0,0,0,0.4);
-}
-
-#footer-bar{
-    background-color: #43353D;
-}
-
-a{
+.ui-button-column-toggle .icon{
+    background-image: url("gfx/column_toggle_active.svg");
+    background-size: 18px;
+    width: 18px;
+    height: 44px;
+    /*margin-top: 450%;*/
+    margin-top: 24%;
     cursor: pointer;
 }
+/*.ui-button-column-toggle .icon:hover, .ui-button-column-toggle .icon:active{
+    background: url("gfx/column_toggle_active.svg");
+    background-size: 18px;
+}*/
 
+.ui-button-column-toggle .icon.collapse{
+    -ms-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
 
+.col .body-row a{
+    color: #e74c3c;
+    margin-top: 2px;
+}
+
+.col-footer a{
+    
+    
+    text-align: center;
+    
+    cursor: pointer;
+    display: block;
+    margin-top: 20px;
+    border-radius: 20px;
+}
+
+.col-footer div{
+/*    height: 12pt;*/
+    /*width: 100%;*/
+    background-color: #e74c3c;
+    font-family: "Helvetica";
+    font-size: 12pt;
+    font-weight: normal;
+    color: #ffffff;
+    display: inline-block;
+    border-radius: 20px;
+}
+
+.leaflet-control-layers-toggle{
+    background-size: 30px;
+}
+
+.leaflet-popup-tip{
+    border: #999999 thin solid;
+}

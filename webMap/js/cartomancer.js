@@ -129,7 +129,7 @@ $(document).ready(function() {
 
 
         var listColumnOptions = {
-            header: "<h3>"+config["map-of"]+"</h3>",
+            header: "<h3>" + config["map-of"] + "</h3>",
             body: function() {
                 var bodyTable = {};
                 var pointAttributeList = mapData.getAttributes()["points"];
@@ -194,20 +194,62 @@ $(document).ready(function() {
                 }
                 return bodyTable;
             }(),
-            footer: "<a class='ui-button-download-data'><div>Download as CSV</div></a>",
+            //footer: "<a class='ui-button-download-data'><div>Download as CSV</div></a>",
+            footer: function() {
+                var csvFileBlob;
+                var url;
+                var csvFileURL = "";
+                var csvDataSource = mapData.getAttributes()["points"];
+                    var documentModel = new PanelDocumentModel(csvDataSource[0]);
+                    var csvColumns = documentModel.tabsJson.tabs[0].content;
+                    var csvArray = [Object.keys(csvColumns).toString()];
+                
+                //setTimeout(function() {
+                    
+                    
+                    for (var c in csvDataSource) {
+                        var csvLine = [];
+                        for (var d in csvColumns) {
+                            //console.log(csvColumns);
+                            csvLine.push(csvDataSource[csvColumns[d]]);
+                        }
+                        csvArray.push(csvLine.join(","));
+                        //console.log(csvLine.toString());
+                    }
+
+                    csvFileBlob = new Blob(new Array(csvArray.join("\n")), {type: "application/binary"});
+                    //console.log(csvArray.join("\n"));
+
+                    url = window.URL || window.webkitURL;
+                    csvFileURL = url.createObjectURL(csvFileBlob);
+                    
+                //}, 0);
+
+                return new UI_Button({
+                    attributes: {
+                        class: "ui-button-download-data",
+                        href: csvFileURL,
+                        download: config["map-of"]+".csv"
+                    },
+                    eventHandlers: {
+                        
+                    },
+                    content: "<div>Download as CSV</div>"
+                });
+            }(),
             class: "right"
         };
 
         $(new UI_ExtensionColumns(listColumnOptions).getUI()).prependTo("#extension-box");
         $("<div class='col-plug'>").appendTo($("#extension-box").find(".ui-button-column-toggle"));
-        
+
         $(new UI_Control_Filter({
             "ui-control-id": "filter-search",
             "target-container": $("#extension-box").find(".col-body"),
             "target-items-selector": ".body-row>div:first-child"
         }).getUI()).appendTo($("#extension-box").find(".col-header"));
-        
-        
+
+
 
 
 

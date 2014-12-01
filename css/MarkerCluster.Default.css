@@ -1,20 +1,21 @@
 .marker-cluster-small {
     /*background-color: rgba(181, 226, 140, 0.6);*/
     /*        background-color: rgba(130,0,0,0.6);*/
-    background-color: rgba(40,130,0,0.6);
+    background-color: rgba(255,255,255,0.8);
     color: #ffffff;
     font-weight:700;
+    border: #e74c3c thin solid;
 }
 .marker-cluster-small div {
     /*background-color: rgba(110, 204, 57, 0.6);*/
-    background-color: rgba(40,130,0,0.6);
+    background-color: rgba(231,76,60,1);
     color: #ffffff;
     font-weight:700;
 }
 
 .marker-cluster-medium {
     /*background-color: rgba(253, 156, 115, 0.6);*/
-    background-color: rgba(40,130,0,0.6);
+    background-color: rgba(255,255,255,0.8);
     color: #ffffff;
     font-weight:700;
     width: 50px !important;
@@ -22,10 +23,11 @@
     margin-left: -25px !important;
     margin-top: -25px !important;
     border-radius: 25px !important;
+    border: #e74c3c thin solid;
 }
 .marker-cluster-medium div {
     /*background-color: rgba(241, 128, 23, 0.6);*/
-    background-color: rgba(40,130,0,0.6);
+    background-color: rgba(231,76,60,1);
     color: #ffffff;
     font-weight:700 !important;
     width: 36px !important;
@@ -44,7 +46,7 @@
 
 .marker-cluster-large {
     /*background-color: rgba(253, 156, 115, 0.6);*/
-    background-color: rgba(40,130,0,0.6);
+    background-color: rgba(255,255,255,0.8);
     color: #ffffff;
     font-weight:700;
     width: 80px !important;
@@ -52,10 +54,11 @@
     margin-left: -40px !important;
     margin-top: -40px !important;
     border-radius: 40px !important;
+    border: #e74c3c thin solid;
 }
 .marker-cluster-large div {
     /*background-color: rgba(241, 128, 23, 0.6);*/
-    background-color: rgba(40,130,0,0.6);
+    background-color: rgba(231,76,60,1);
     color: #ffffff;
     font-weight:700 !important;
     width: 60px !important;

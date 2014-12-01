@@ -1,214 +1,340 @@
-/* 
- (c) Kathmandu Living Labs
- */
-/* 
-    Created on : Oct 30, 2014, 11:37:18 PM
-    Author     : jediKnight
-*/
+$(document).ready(function() {
+    $("#map").css({
+//        height: $(document).innerHeight() - 20,
+//        position: "initial !important"
+    });
 
 
+    var cartograph = new Map();
+    $("#map").find("a.leaflet-control-zoom-out").text("–");
+    var map = cartograph.getMap();
+
+    //console.log(map.getPanes().tilePane);
+    //$(map.getPanes().tilePane).addClass("grayscale");
+
+    map.on("baselayerchange", function(layer) {
+        $(map.getPanes().tilePane).toggleClass("grayscale", layer.name === "OpenStreetMap Grayscale");
+    });
+
+    var popup = new Popup();
+    mapGlobals = {
+        map: map
+    };
 
 
-$(document).ready(function(){
-    
-    var list_programmes = {
-        items:[
-            {
-                attributes:{
-                       
-                },
-                eventHandlers:{
-                       click:function(e){
-                           $(this).addClass("active");
-                           
-                           var map = L.map('map', {
-                                center: [27.7134314, 85.3440550],
-                                zoom: 18,
-                                doubleClickZoom: true
-                            });
-                            
-                            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-                                maxZoom: 19,
-                                minZoom: 1
-                            }).addTo(map);
-                            
-                            $.getJSON("data.json", function(data){
-                                L.geoJson(data,{
-                                    onEachFeature: function(feature, layer){
-                                        var popupContent = $("<div class='popupcontent'/>")
-                                        for(var c in feature.properties){
-                                            popupContent.append("<div>"+c+": "+feature.properties[c]+"</div>");
-                                        }
-                                        console.log(popupContent[0]);
-                                        layer.bindPopup(popupContent[0]);
-                                    }
-                                }).addTo(map);
-                            });
-                            $("#map-box").find("img.poimap").toggle();
-                       },
-                       mouseout:function(e){
-                           $(this).parent().remove();
-                       }
-                },
-                content:function(){
-                       return $("<div class='menu-item'/>Household Survey</div>");
-                }
-            },
-            {
-                attributes:{
-                       
-                   },
-                   eventHandlers:{
-                       click:function(e){
-                           $(this).addClass("active");
-                       }
-                   },
-                   content:function(){
-                       return $("<div class='menu-item'>Melamchi Pipeline</div>");
-                   }
+    /*var osmWays = L.geoJson(null, {
+     onEachFeature: function(feature, layer) {
+     setTimeout(function() {
+     layer._container.setAttribute("title", "This is a " + feature.geometry.type.replace("String", "") + " feature. Click to have a look at some of its attributes.");
+     
+     layer.setStyle(feature.geometry.type === "Polygon" ? Styles.polygonStyle : Styles.lineStyle);
+     layer.on("click", function(e) {
+     popup.setLatLng(e.latlng);
+     popup.openOn(map);
+     popup.setContent(new TableContent(feature.properties, true));
+     popup.update();
+     });
+     }, 0);
+     },
+     className: "vector-layer"
+     }).addTo(map);*/
+
+
+    var mapData = new Data();
+
+    mapGlobals.mapData = mapData;
+
+    var modelQueryPoints = mapData.fetchData({
+        query: {
+            geometries: {
+                type: "points",
+                group: config["map-of"]
             }
-        ]
-    };
-    
-    var interactionBarOptions={
-        slideBar:{
-            buttons:[
-                {
-                   attributes:{
-                       
-                   },
-                   eventHandlers:{
-                       click:function(e){
-                           $(this).addClass("active");
-                       }
-                   },
-                   content:function(){
-                       return $("<div class='home-tab'>गृहपृष्ठ</div>");
-                   }
-                },
-                {
-                   attributes:{
-                       
-                   },
-                   eventHandlers:{
-                       
-                   },
-                   content:function(){
-                       return $("<div class='services-tab'>सेवा</div>");
-                   }
-                },
-                {
-                   attributes:{
-                       
-                   },
-                   eventHandlers:{
-                       
-                   },
-                   content:function(){
-                       return $("<div class='updates-tab'>अपडेट</div>");
-                   }
-                },
-                {
-                   attributes:{
-                       
-                   },
-                   eventHandlers:{
-                       
-                   },
-                   content:function(){
-                       return $("<div class='data-tab'>डाटा</div>");
-                   }
-                },
-                {
-                   attributes:{
-                       
-                   },
-                   eventHandlers:{
-                       mouseover: function(e){
-                           if(!$(this).find(".menu-dropdown").length)
-                                new UI_DropdownMenu(list_programmes).addTo(this);
-                       }
-                   },
-                   content:function(){
-                       return $("<div class='programmes-tab'>कार्यक्रम</div>");
-                   }
-                },
-                {
-                   attributes:{
-                       
-                   },
-                   eventHandlers:{
-                       
-                   },
-                   content:function(){
-                       return $("<div class='materials-tab'>सामग्रीहरू</div>");
-                   }
-                }
-            ]
         },
-        splashBar:{
-            buttons:[
-                {
-                   attributes:{
-                       
-                   },
-                   eventHandlers:{
-                       
-                   },
-                   content:function(){
-                       return $("<div class='help-splash'>हामी कसरी  सहयोग गर्न सक्छौँ?</div>");
-                   }
-                },
-                {
-                   attributes:{
-                       
-                   },
-                   eventHandlers:{
-                       
-                   },
-                   content:function(){
-                       return $("<div class='info-splash'>वडाका ७३ सेवाहरुबारे जानकारी </div>");
-                   }
-                },
-                {
-                   attributes:{
-                       
-                   },
-                   eventHandlers:{
-                       
-                   },
-                   content:function(){
-                       return $("<div class='search-box'>नक्सामा भएका वस्तुहरु खोज्नुहोस</div>");
-                   }
+        returnDataMeta: {
+//            type: "formhub_JSON"
+        }
+    });
+
+    modelQueryPoints.done(function(data, params) {
+
+        var clusterGeoJson = L.geoJson(data, {
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: L.divIcon({
+                        className: "hidden"
+                    })
+                });
+            },
+            onEachFeature: function(feature, layer) {
+                //console.log(feature);
+                var attributes = feature.properties.getAttributes(feature.properties._cartomancer_id);
+                feature.properties.title = attributes.name/*+", "+attributes.city*/;
+            }
+        });
+
+        /*var searchControl = new L.Control.Search({
+         layer: clusterGeoJson,
+         zoom: 16,
+         circleLocation: false,
+         animateCircle: false
+         });*/
+
+        var popup = L.popup({
+            autoPan: true,
+            keepInView: true,
+            offset: L.point(0, -22)
+        });
+
+        /*searchControl.on('search_locationfound', function(e) {
+         console.log(e);
+         /*e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+         if (e.layer._popup)
+         e.layer.openPopup();*\/
+         var pointAttributes = e.layer.feature.properties.getAttributes(e.layer.feature.properties._cartomancer_id);
+         var dom = new PanelDocumentModel(pointAttributes);
+         
+         var panelDocument = new PanelDocument(dom.documentModel);
+         panelDocument.addToTitleBar(dom.titleBarJson);
+         panelDocument.addHeader(dom.headerJson);
+         panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
+         
+         popup.setContent(panelDocument.getDocument());
+         popup.setLatLng(e.latlng);
+         popup.openOn(map);
+         
+         popup.update();
+         
+         }).on('search_collapsed', function(e) {
+         
+         clusterGeoJson.eachLayer(function(layer) {	//restore feature color
+         clusterGeoJson.resetStyle(layer);
+         });
+         });
+         
+         map.addControl(searchControl);*/
+
+
+
+
+
+
+        var clusterSpell = new Cluster(data.features);
+        clusterSpell.done(function(clusterGroup) {
+            clusterGroup.addTo(map);
+            map.fire("zoomend");
+            //cartograph.getLayersControl().addOverlay(clusterGroup, "Schools / School Clusters");
+        });
+
+
+
+        var listColumnOptions = {
+            header: "<h3>" + config["map-of"] + "</h3>",
+            body: function() {
+                var bodyTable = {};
+                var pointAttributeList = mapData.getAttributes()["points"];
+                for (var point in pointAttributeList) {
+                    bodyTable[pointAttributeList[point].name] = function() {
+                        if (highlightButton)
+                            delete highlightButton;
+                        var highlightButton = new UI_Button({
+                            attributes: {
+                                _id: point,
+                                class: "find-mapfeature"
+                            },
+                            eventHandlers: {
+                                click: function() {
+                                    map.closePopup();
+
+                                    map.setZoom(16, {
+                                        animate: true
+                                    });
+
+                                    var buttonDOMElement = this;
+
+                                    setTimeout(function() {
+                                        var pointOfAttributes = mapData.getGeometries()["points"][config["map-of"]]["features"][$(buttonDOMElement).attr("_id")];
+                                        //var pointAttributes = e.layer.feature.properties.getAttributes(e.layer.feature.properties._cartomancer_id);
+                                        var dom = new PanelDocumentModel(pointOfAttributes.properties.getAttributes($(buttonDOMElement).attr("_id")));
+
+                                        var panelDocument = new PanelDocument(dom.documentModel);
+                                        panelDocument.addToTitleBar(dom.titleBarJson);
+                                        panelDocument.addHeader(dom.headerJson);
+                                        panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
+
+                                        popup.setContent(panelDocument.getDocument());
+
+                                        var latlng = L.latLng(pointOfAttributes.geometry.coordinates[1], pointOfAttributes.geometry.coordinates[0]);
+
+                                        popup.setLatLng(latlng);
+                                        map.setView(latlng, 18, {
+                                            animate: true
+                                        });
+
+                                        map.once("zoomend", function() {
+                                            setTimeout(function() {
+                                                popup.openOn(map);
+
+                                                popup.update();
+                                            }, 300);
+                                        });
+                                    }, 500);
+
+                                    map.on("popupclose", function() {
+
+                                    });
+
+                                }
+                            }
+                        });
+                        //highlightButton.text("Show on the Map");
+                        highlightButton.append("<div class=icon/>");
+                        return highlightButton;
+                    }();
                 }
-            ]
-        }
-    };
-    
-    var footerColumnOptions = [
-        {
-            header: "New Datasets",
-            body: {
-                "Ward number 7 population distribution by age and gender.":"August, 2014",
-                "Kathmandu Metropolitan City Ward number 7 Budget for 2014":"Auguts, 2014"
-            },
-            footer: "<a>View All Datasets</a>"
+                return bodyTable;
+            }(),
+            //footer: "<a class='ui-button-download-data'><div>Download as CSV</div></a>",
+            footer: function() {
+                var csvFileBlob;
+                var url;
+                var csvFileURL = "";
+                var csvDataSource = mapData.getAttributes()["points"];
+                    var documentModel = new PanelDocumentModel(csvDataSource[0]);
+                    var csvColumns = documentModel.tabsJson.tabs[0].content;
+                    var csvArray = [Object.keys(csvColumns).toString()];
+                
+                //setTimeout(function() {
+                    
+                    
+                    for (var c in csvDataSource) {
+                        var csvLine = [];
+                        for (var d in csvColumns) {
+                            //console.log(csvColumns);
+                            csvLine.push(csvDataSource[csvColumns[d]]);
+                        }
+                        csvArray.push(csvLine.join(","));
+                        //console.log(csvLine.toString());
+                    }
+
+                    csvFileBlob = new Blob(new Array(csvArray.join("\n")), {type: "application/binary"});
+                    //console.log(csvArray.join("\n"));
+
+                    url = window.URL || window.webkitURL;
+                    csvFileURL = url.createObjectURL(csvFileBlob);
+                    
+                //}, 0);
+
+                return new UI_Button({
+                    attributes: {
+                        class: "ui-button-download-data",
+                        href: csvFileURL,
+                        download: config["map-of"]+".csv"
+                    },
+                    eventHandlers: {
+                        
+                    },
+                    content: "<div>Download as CSV</div>"
+                });
+            }(),
+            class: "right"
+        };
+
+        $(new UI_ExtensionColumns(listColumnOptions).getUI()).prependTo("#extension-box");
+        $("<div class='col-plug'>").appendTo($("#extension-box").find(".ui-button-column-toggle"));
+
+        $(new UI_Control_Filter({
+            "ui-control-id": "filter-search",
+            "target-container": $("#extension-box").find(".col-body"),
+            "target-items-selector": ".body-row>div:first-child"
+        }).getUI()).appendTo($("#extension-box").find(".col-header"));
+
+
+
+
+
+
+    });
+
+
+
+
+
+    map.on("zoomend", function() {
+        setTimeout(function() {
+            $("#map").find("div.marker-cluster").attrByFunction(function() {
+                return {
+                    "title": $(this).find("span").text() + " " + config["map-of"] + " in this cluster. Click to zoom in."
+                };
+            });
+
+        }, 0);
+    });
+
+    $("#mapBox").toggleClass("smaller larger");
+    map.fire("dragend");
+
+    (new UI_Button({
+        attributes: {
+            class: "ui-button-column-toggle"
         },
-        {
-            header: "Ward 7 Updates",
-            body: {
-                "Appointment of Accounts Officers on re-employment basis for four District Legal Services Authorities.":"August, 2014",
-                "Appointment of Accounts Officers on re-employment basis for four District Legal Services Authorities2":"Auguts, 2014"
-            },
-            footer: "<a>View All Datasets</a>"
+        eventHandlers: {
+            click: function() {
+                var btn_target = $(this).siblings(".col");
+                var btn_icon = $(this).find(".icon");
+
+                setTimeout(function() {
+
+
+                    btn_icon.css("opacity", 0);
+                    btn_icon.toggleClass("collapse");
+
+
+                    if (btn_target.css("width") !== "0px") {
+                        btn_target.children().css("opacity", 0);
+                        btn_target.animate({
+                            width: "0px"
+                        }, function() {
+                            btn_icon.css("opacity", 1);
+                        });
+                    } else {
+                        btn_target.animate({
+                            width: "196px"
+                        }, function() {
+                            btn_target.children().css("opacity", 1);
+
+                            btn_icon.css("opacity", 1);
+                        });
+                    }
+//                $("#mapBox").toggleClass("smaller larger");
+                    map.fire("dragend");
+                }, 0);
+            }
         }
-    ];
-    
-    new UI_SplitInteractionBar(interactionBarOptions).addTo("#interaction-bar");
-    $("#interaction-bar").find("a:first-child").click();
-    
-    for(var c in footerColumnOptions){
-        $(new UI_ExtensionColumns(footerColumnOptions[c]).getUI()).appendTo("#extension-box");
-    }
+        //content: ">"
+    })).appendTo("#extension-box").append("<div class='icon collapse'></div>");
+
+    var overviewMap = new UI_OverviewMap({
+        map: map,
+        zoom: 13,
+        "ui-dom-id": "ui-overview-map",
+        "ui-container-class": "ui-container-overview-map",
+        basemap: L.tileLayer('images/minimap_tiles/{z}/{x}/{y}.png', {
+            //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 13,
+            minZoom: 13
+        }),
+        "ui-control-map": true
+    });
+
+    $("#mapBox").append(overviewMap.getUI());
+
+    overviewMap.drawMap();
+    map.fire("moveend");
+
 });
+$.fn.attrByFunction = function(fn) {
+    return $(this).each(function() {
+        $(this).attr(fn.call(this));
+    });
+};
