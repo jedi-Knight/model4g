@@ -440,6 +440,47 @@ function Tabs() {
     };
 }
 
+function UI_SlidingTabs(options) {
+    var deferred = $.Deferred();
+    setTimeout(function() {
+        var uiElement = $("<div/>");
+        options.attributes.class += " ui-sliding-tabs";
+        uiElement.attr(options.attributes);
+        
+        for (var c in options.tabs) {
+            var tab = $("<div/>");
+            var content = $("<div class='content'/>");
+            var tabTrigger = new UI_Button({
+                attributes: {
+                    class: "trigger"
+                },
+                eventHandlers: {
+                    click: function(e) {
+                        console.log($(this).closest(".ui-sliding-tabs").find(".content"));
+                        $(this).parent().siblings().find(".content").animate({
+                            "height": "0px",
+                            "opacity": 0
+                        });
+
+                        $(this).siblings(".content").animate({
+                            "height": "60px",
+                            "opacity": 1
+                        });
+                    }
+                },
+                content: "<div>" + options.tabs[c].title + "</div>"
+            });
+            tabTrigger.appendTo(tab);
+            $(options.tabs[c].content).appendTo(content);
+            content.appendTo(tab);
+            tab.appendTo(uiElement);
+        }
+        
+        deferred.resolve(uiElement);
+    }, 0);
+    return deferred;
+}
+
 
 
 function UI_Button(initObj) {
@@ -616,7 +657,7 @@ function UI_TabularColumn(options) {
             return $("<div class='body-row'/>").append($("<div/>").append(c)).append($("<div/>").append(options.body[c]));
         });
     }
-    
+
     var footer = $("<div class='col-footer'/>").append(options.footer);
 
     header.appendTo(column);

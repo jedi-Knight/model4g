@@ -49,12 +49,33 @@ $(document).ready(function() {
         position: "topleft",
         collapsed: false
     }).addTo(map);
-    
+
     var layersControlMunicipalProjects = L.control.layers(null, municipalProjectsLayers, {
         position: "topleft",
         collapsed: false
     }).addTo(map);
-    
+
+    (new UI_SlidingTabs({
+        tabs: [
+            {
+                "title": "Ward-level Projects",
+                "content": $(layersControlWardProjects._container).find("form")
+            },
+            {
+                "title": "Municipal-level Projects",
+                "content": $(layersControlMunicipalProjects._container).find("form")
+            }
+        ],
+        attributes: {
+            "class": "leaflet-control",
+            "aria-haspopup": "true"
+        }
+    })).done(function(uiElement) {
+        uiElement.appendTo("#map .leaflet-control-container .leaflet-top.leaflet-left");
+        $(layersControlWardProjects._container).remove();
+        $(layersControlMunicipalProjects._container).remove();
+    });
+
     console.log(layersControlWardProjects);
 
     mapGlobals.mapData = mapData;
@@ -92,8 +113,11 @@ $(document).ready(function() {
                     });
                 }, 0);
             });
+
+            //layer.setStyle(LayerStyles["map-features"]["road"]);
             //layer.addTo(map);
-            if(layerGroup)layerGroup.addLayer(layer);
+            if (layerGroup)
+                layerGroup.addLayer(layer);
         }, 0);
 
 
