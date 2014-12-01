@@ -99,7 +99,7 @@
     width:25px;
 }
 
-.leaflet-control-zoom, .leaflet-control-layers{
+.leaflet-control-zoom, .leaflet-control-layers, .ui-sliding-tabs{
     /*border: #666666 thin solid;*/
     /*    border-radius: 0px;
         background-color: rgba(255,255,255,0.8);*/
@@ -156,7 +156,7 @@
 }
 
 
-.leaflet-bar, .leaflet-control-layers{
+.leaflet-bar, .leaflet-control-layers, .ui-sliding-tabs{
     box-shadow: 0px 0px 4px rgba(0,0,0,0.4), 0px 0px 6px #ffffff inset;
     font-family: "Verdana";
     /*font-size: 10pt;*/

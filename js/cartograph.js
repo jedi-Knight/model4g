@@ -446,7 +446,7 @@ function UI_SlidingTabs(options) {
         var uiElement = $("<div/>");
         options.attributes.class += " ui-sliding-tabs";
         uiElement.attr(options.attributes);
-        
+
         for (var c in options.tabs) {
             var tab = $("<div/>");
             var content = $("<div class='content'/>");
@@ -456,16 +456,54 @@ function UI_SlidingTabs(options) {
                 },
                 eventHandlers: {
                     click: function(e) {
-                        console.log($(this).closest(".ui-sliding-tabs").find(".content"));
-                        $(this).parent().siblings().find(".content").animate({
+                        //if($(this).parent().hasClass("expanded")) return;
+                        var element = this;
+                        //setTimeout(function() {
+
+                        //$(element).parent().siblings().find("input").prop("checked", false);
+                        /*$(element).parent().siblings().find(".content").css({
                             "height": "0px",
+                            "min-height": "0px",
                             "opacity": 0
                         });
 
-                        $(this).siblings(".content").animate({
-                            "height": "60px",
-                            "opacity": 1
+                        $(element).siblings(".content").css({
+                            "min-height": "80px",
+                            "opacity": 1,
+                            "height": "auto"
+                        }, function() {
+                            $(this).css("height", "auto");
+
+                        });*/
+                        
+                        $(element).parent().siblings().find(".content").css({
+                            "display": "none"
                         });
+
+                        $(element).siblings(".content").css({
+                            "display": "inline"
+                        });
+                       $(element).closest(".ui-sliding-tabs").find("label").css({
+                           "display":"block"
+                       });
+
+                        var checkbox = $(this).parent().find("input");
+
+                        /*if ($(this).parent().hasClass("expanded"))
+                            return;*/
+                        $(this).parent().siblings().find("input").each(function(){
+                            if($(this)[0].checked) $(this).click();
+                        });
+                        checkbox.each(function(){
+                            if(!$(this)[0].checked)$(this).click();
+                        });
+
+                        /*$(this).parent().addClass("expanded");
+                        $(this).parent().siblings().removeClass("expanded");*/
+
+                        //options["tabs-trigger-eventHandlers"]["click"].call(element, e);
+                        //}, 0);
+
                     }
                 },
                 content: "<div>" + options.tabs[c].title + "</div>"
@@ -473,9 +511,13 @@ function UI_SlidingTabs(options) {
             tabTrigger.appendTo(tab);
             $(options.tabs[c].content).appendTo(content);
             content.appendTo(tab);
+            content.css({
+                "height": "0px",
+                "opacity": 0
+            });
             tab.appendTo(uiElement);
         }
-        
+
         deferred.resolve(uiElement);
     }, 0);
     return deferred;

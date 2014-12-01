@@ -16,7 +16,8 @@ $(document).ready(function() {
 
     var popup = new Popup();
     mapGlobals = {
-        map: map
+        map: map,
+        cartograph: cartograph
     };
 
 
@@ -55,6 +56,8 @@ $(document).ready(function() {
         collapsed: false
     }).addTo(map);
 
+    cartograph.getLayersControl().expanded = true;
+
     (new UI_SlidingTabs({
         tabs: [
             {
@@ -69,11 +72,24 @@ $(document).ready(function() {
         attributes: {
             "class": "leaflet-control",
             "aria-haspopup": "true"
+        },
+        "tabs-trigger-eventHandlers": {
+            /*"click": function(e) {
+                
+                var element = this;
+                setTimeout(function() {
+                    $(element).parent().siblings().find("label").click();
+                    $(element).siblings(".content").find("label").click();
+                    
+                }, 0);
+            }*/
         }
     })).done(function(uiElement) {
-        uiElement.appendTo("#map .leaflet-control-container .leaflet-top.leaflet-left");
+        uiElement.appendTo($("#map .leaflet-control-container .leaflet-right")[0]);
         $(layersControlWardProjects._container).remove();
         $(layersControlMunicipalProjects._container).remove();
+        $($(uiElement.find(".content")[1])).find("label").click();
+        $(uiElement.find("a.trigger")[0]).click();
     });
 
     console.log(layersControlWardProjects);

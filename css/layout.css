@@ -239,6 +239,22 @@ a.find-mapfeature .icon{
 }
 
 
+.ui-sliding-tabs form label{
+    display: inline-block;
+    width: 240px;
+}
+
+.ui-sliding-tabs .content{
+    max-width: 260px;
+}
+
+.ui-sliding-tabs>div:first-child{
+    border-bottom: #cccccc thin solid;
+    padding-bottom: 10px;
+}
+.ui-sliding-tabs>div{
+    margin: 10px;
+}
 
 
 .hidden{
