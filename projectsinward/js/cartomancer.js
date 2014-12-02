@@ -129,11 +129,22 @@ $(document).ready(function() {
                     });
                 }, 0);
             });
+            
+           /* switch(pointAttributes["project-category"]){
+                case "road": 
+                    {
+                        /*var newLine
+                        for(var c in feature.geometry.coordinates){
+                            
+                        }
+                    }
+            }*/
 
             //layer.setStyle(LayerStyles["map-features"]["road"]);
             //layer.addTo(map);
             if (layerGroup)
                 layerGroup.addLayer(layer);
+            //map.addLayer(layerGroup);
         }, 0);
 
 

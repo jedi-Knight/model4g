@@ -80,7 +80,7 @@ function PanelDocumentModel(pointAttributes) {
              }).createSlider()*/
         },
         headerJson: {
-            "": pointAttributes["आयोजनाको नाम"]
+            "": pointAttributes["project-name"]
 //            "Contact Person": pointAttributes.contact_person,
 //            "Contact Number": pointAttributes.contact_number
 //                ,"city": pointAttributes.city
@@ -95,9 +95,9 @@ function PanelDocumentModel(pointAttributes) {
                 {
                     title: "General Information",
                     content: {
-                        "क्षेत्रफल (ब.मि.\/र.मि)": pointAttributes["क्षेत्रफल (ब.मि.\/र.मि)"],
-                        "लागत इस्तिमेत": pointAttributes["लागत इस्तिमेत"],
-                        "टोल ": pointAttributes["टोल"],
+                        "क्षेत्रफल (ब.मि.\/र.मि)": pointAttributes["project-area-sqm"],
+                        "लागत इस्तिमेत": pointAttributes["project-cost-estimate"],
+                        "टोल ": pointAttributes["tole"],
                         "टोल सुधार समिति": pointAttributes["टोल सुधार समिति"],
                         "टोले सुधार समितिको फोन नम्बर": pointAttributes["टोले सुधार समितिको फोन नम्बर"],
                         "उपभोक्ता समितिको फोन नम्बर": pointAttributes["उपभोक्ता समितिको फोन नम्बर"]
