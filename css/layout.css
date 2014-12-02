@@ -271,6 +271,44 @@ a.marker-info-zoom-trigger>div{
 }
 
 
+
+.info-popup{
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    margin-left: -225px;
+    width: 450px;
+    /*height: 60px;*/
+    padding: 4px;
+    text-align: center;
+    font-size: 20px;
+    font-family: "Verdana";
+    background-color: #ececec;
+    border-radius: 20px;
+    border: #e74c3c thin solid;
+    box-shadow: 0px 0px 6px rgba(0,0,0,0.8);
+    color: #e74c3c;
+}
+.icon-submit-report{
+    padding: 2px 6px;
+    font-family: "Verdana";
+    font-size: 20px;
+    color: #ffffff;
+    background-color: #e74c3c;
+    border-radius: 20px;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
+    border: #999999 thin solid;
+    cursor: pointer;
+}
+.icon-submit-report:hover{
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.6), 0px 0px 4px rgba(255,255,255,0.6) inset;
+    text-shadow: 0px 0px 4px #ffffff;
+}
+.icon-submit-report:active{
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.6), 0px 0px 4px rgba(255,255,255,0.6) inset;
+    /*text-shadow: 0px 0px 8px #ffffff;*/
+}
+
 .hidden{
     display:none !important;
 }
