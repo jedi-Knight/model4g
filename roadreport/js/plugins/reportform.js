@@ -22,10 +22,7 @@ function UI_Form(options) {
                     var timerAnim = $("<div class='timer-anim'><img src='../css/gfx/timer-anim.gif'/></div>").appendTo($(this).closest(".splash-screen"));
                     $(this).closest(".form").css("opacity","0.3");
                     
-                    setTimeout(function(){
-                        $.ajax({
-                            url: config["report-submission-url"],
-                            data: {
+                    console.log({
                                 "incident_title":$(this).closest(".form").find("input[label='Incident Title']")[0].value,
                                 "incident_description":$(this).closest(".form").find("input[label='Incident Description']")[0].value,
                                 "incident_date":$(this).closest(".form").find("input[label='Incident Date']")[0].value,
@@ -35,13 +32,31 @@ function UI_Form(options) {
                                 "incident_category":1,
                                 "latitude": options.lat,
                                 "longitude": options.lng,
-                                "location_name": $(this).closest(".form").find("input[label='Location Name']")[0].value,
+                                "location_name": $(this).closest(".form").find("input[label='Incident Location']")[0].value,
                                 "incident_photo": $(this).closest(".form").find("input[label='Location Photo']")[0].value
+                            });
+                    
+                    setTimeout(function(){
+                        $.ajax({
+                            url: config["report-submission-url"],
+                            data: {
+                                "incident_title":$(element).closest(".form").find("input[label='Incident Title']")[0].value,
+                                "incident_description":$(element).closest(".form").find("input[label='Incident Description']")[0].value,
+                                "incident_date":$(element).closest(".form").find("input[label='Incident Date']")[0].value,
+                                "incident_hour":$(element).closest(".form").find("input[label='Incident Hour']")[0].value,
+                                "incident_minute":$(element).closest(".form").find("input[label='Incident Minute']")[0].value,
+                                "incident_ampm":$(element).closest(".form").find("select").find("option:selected")[0].value,
+                                "incident_category":1,
+                                "latitude": options.lat,
+                                "longitude": options.lng,
+                                "location_name": $(element).closest(".form").find("input[label='Incident Location']")[0].value,
+                                "incident_photo": $(element).closest(".form").find("input[label='Location Photo']")[0].value
                             },
-                            success: function(){
+                            success: function(data){
                                 $(this).closest(".form").remove();
                                 timerAnim.remove();
-                            }
+                            },
+                            type: "POST"
                         });
                     },0);
                 }
@@ -51,7 +66,7 @@ function UI_Form(options) {
             }
         });
         
-        submitButton.appendTo(container);
+        $("<div class='form-footer'/>").append(submitButton).appendTo(container);
         
         var formdef = config["report-submission-form"];
         for(var c in formdef){

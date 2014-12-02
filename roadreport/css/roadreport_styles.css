@@ -6,8 +6,56 @@
     margin-left: -225px;
     width: 450px;
     height: 400px;
-    background-color: #ececec;
+    background-color: #ffffff;
     border-radius: 20px;
-    border: #e74c3c;
+    border: #aaaaaa thin solid;
     box-shadow: 0px 0px 6px rgba(0,0,0,0.4);
+    padding: 6px 12px;
+}
+
+.form-box div{
+    width: 200px;
+    display: inline-block;
+    margin: 6px;
+    line-height: 20pt;
+    font-size: 12pt;
+    border-bottom: #aaaaaa thin solid;
+}
+
+.form .title{
+    display: block;
+    line-height: 28pt;
+    font-size: 22pt;
+    color: #e74c3c;
+    border-bottom: #aaaaaa thin solid;
+    margin-bottom: 16px;
+}
+
+.form .form-box{
+    margin-left: 6px;
+    margin-bottom: 16px;
+    /*border-bottom: #aaaaaa thin solid;*/
+}
+
+.form .form-footer{
+    margin-top: 16px;
+    border-top: #aaaaaa thin solid;
+}
+
+.form-footer a>div{
+    width: 90px;
+    font-size: 12pt;
+    background-color: #e74c3c;
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 4px 6px;
+    text-align: center;
+    /*border: #aaaaaa thin solid;*/
+    /*box-shadow: 0px 0px 4px rgba(0,0,0,0.4);*/
+}
+
+.form-footer a{
+    margin-top: 6px;
+    float: right;
 }

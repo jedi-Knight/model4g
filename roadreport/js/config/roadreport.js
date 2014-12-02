@@ -43,6 +43,13 @@ config = {
             "required": "required"
         },
         {
+            "type": "text",
+            "label": "Incident Minute",
+            "name": "incident_minute",
+            "pattern": "[0-5]{1}[0-9]{1}",
+            "required": "required"
+        },
+        {
             "type": "select",
             "options": [{
                     "label": "AM",

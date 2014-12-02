@@ -294,10 +294,13 @@ $(document).ready(function() {
                         icon: L.divIcon(Styles["new-report-iconStyle"]),
                         draggable: true
                     }).on("dragend", function(e){
+                        var element = this;
                         $("#mapBox").find(".info-popup.new-report").text("..now please fill up the following form to submit the report.");
                         (new UI_Form({
                             "title": "New report",
                             "form": config["report-form"],
+                            "lat": element.getLatLng().lat,
+                            "lng": element.getLatLng().lng,
                             "submission-url": config["report-submission-url"],
                             "successful-submission-message": "Report submitted. Thank you for your contribution."
                         }).getUI()).appendTo("#mapBox");
