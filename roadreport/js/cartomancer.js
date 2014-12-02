@@ -289,10 +289,12 @@ $(document).ready(function() {
                 //alert("hello");
 
                 setTimeout(function() {
-                    $("<div class='info-popup new-report'>Move the marker labelled <b>\"New Report\"</b> to the report's location on the map and fill up the form that follows..</div>").appendTo("#mapBox");
+                    $("<div class='info-popup new-report'>Move the marker labelled <b>\"New Report\"</b> to the report's location on the map..</div>").appendTo("#mapBox");
                     L.marker(map.getCenter(),{
                         icon: L.divIcon(Styles["new-report-iconStyle"]),
                         draggable: true
+                    }).on("dragend", function(e){
+                        $("#mapBox").find(".info-popup.new-report").text("..now please fill up the following form to submit the report.");
                     }).addTo(map);
 
                 }, 0);
