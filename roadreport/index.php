@@ -36,7 +36,7 @@ $page = "
         <link rel=\"stylesheet\" href=\"../css/MarkerCluster.css\"/>
         <!--<link rel=\"stylesheet\" href=\"../css/leaflet-search.css\"/>-->
         
-        <link rel=\"stylesheet\" href=\"css/layout.css\"/>
+        <link rel=\"stylesheet\" href=\"../css/layout.css\"/>
 
         <link rel=\"stylesheet\" href=\"../css/theme.css\"/>        
         <link rel=\"stylesheet\" href=\"../css/mapstyle.css\"/>

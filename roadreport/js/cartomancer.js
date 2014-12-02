@@ -278,45 +278,28 @@ $(document).ready(function() {
     
     map.fire("dragend");
 
-    /*(new UI_Button({
+    $("<div class='leaflet-control' aria-haspopup='true'/>").append($("<div/>").append(new UI_Button({
         attributes: {
-            class: "ui-button-column-toggle"
+            class: "ui-button-submit-report leaflet-clickable"
         },
         eventHandlers: {
             click: function() {
-                var btn_target = $(this).siblings(".col");
-                var btn_icon = $(this).find(".icon");
+                if($("#mapBox").find(".info-popup.new-report").length)
+                    return;
+                //alert("hello");
 
                 setTimeout(function() {
+                    $("<div class='info-popup new-report'>Move the marker labelled <b>\"New Report\"</b> to the report's location on the map and fill up the form that follows..</div>").appendTo("#mapBox");
+                    L.marker(map.getCenter(),{
+                        icon: L.divIcon(Styles["new-report-iconStyle"]),
+                        draggable: true
+                    }).addTo(map);
 
-
-                    btn_icon.css("opacity", 0);
-                    btn_icon.toggleClass("collapse");
-
-
-                    if (btn_target.css("width") !== "0px") {
-                        btn_target.children().css("opacity", 0);
-                        btn_target.animate({
-                            width: "0px"
-                        }, function() {
-                            btn_icon.css("opacity", 1);
-                        });
-                    } else {
-                        btn_target.animate({
-                            width: "196px"
-                        }, function() {
-                            btn_target.children().css("opacity", 1);
-
-                            btn_icon.css("opacity", 1);
-                        });
-                    }
-//                $("#mapBox").toggleClass("smaller larger");
-                    map.fire("dragend");
                 }, 0);
             }
-        }
-        //content: ">"
-    })).appendTo("#extension-box").append("<div class='icon collapse'></div>");*/
+        },
+        content: "<div class='icon-submit-report'>Submit a Report</div>"
+    }))).appendTo($("#map").find(".leaflet-control-container .leaflet-top.leaflet-right"));
 
     var overviewMap = new UI_OverviewMap({
         map: map,
@@ -335,7 +318,7 @@ $(document).ready(function() {
 
     overviewMap.drawMap();
     map.fire("moveend");
-
+    
 });
 $.fn.attrByFunction = function(fn) {
     return $(this).each(function() {
