@@ -114,3 +114,77 @@ function PanelDocumentModel(pointAttributes) {
     };
 
 }
+
+function TolePanelDocumentModel(pointAttributes) {
+
+    return {titleBarJson: {
+            /*"title": pointAttributes.name + ", " + pointAttributes.city
+             ,"slider": new UI_ThumbnailView({
+             thumbUrls: function() {
+             var srcs = [];
+             for (var photo in pointAttributes.pictures) {
+             //                        srcs.push("data/media/photos/thumbs/" + pointAttributes.pictures[photo]["pictures/photo"]);
+             srcs.push("https://raw.githubusercontent.com/biplovbhandari/brckkln/master/media/photos/thumbs/" + pointAttributes.pictures[photo]["pictures/photo"]);
+             }
+             return srcs;
+             }(),
+             photoUrls: function() {
+             var srcs = [];
+             for (var photo in pointAttributes.pictures) {
+             //                        srcs.push("data/media/photos/" + pointAttributes.pictures[photo]["pictures/photo"]);
+             srcs.push("https://raw.githubusercontent.com/biplovbhandari/brckkln/master/media/photos/" + pointAttributes.pictures[photo]["pictures/photo"]);
+             }
+             return srcs;
+             }(),
+             mediaOptions: function(params) {
+             return {
+             triggers: {
+             click: function(e) {
+             //                                new MediaDocument(params.src).appendTo($("#map").find(".leaflet-popup-pane"));
+             new SplashScreen(MediaDocument(params.src)).appendTo("body");
+             }
+             }
+             };
+             }
+             }).createSlider()*/
+        },
+        headerJson: {
+            "": pointAttributes["name"]
+//            "Contact Person": pointAttributes.contact_person,
+//            "Contact Number": pointAttributes.contact_number
+//                ,"city": pointAttributes.city
+        },
+        tabsJson: {
+            triggers: {
+                title: function() {
+
+                }
+            },
+            tabs: [
+                {
+                    title: "General Information",
+                    content: {
+                        "number of buildings": pointAttributes["building-count"],
+                        "number of residents": pointAttributes["resident-count"],
+                        "number of projects": pointAttributes["projects-count"],
+                        "projects-road": pointAttributes["projects-road"],
+                        "projects-sewerage": pointAttributes["projects-sewerage"],
+                        "projects-water-supply": pointAttributes["projects-water-supply"],
+                        "projects-space": pointAttributes["projects-space"],
+                        "projects-heritage": pointAttributes["projects-heritage"],
+                        "टोल सुधार समिति": pointAttributes["टोल सुधार समिति"],
+                        "टोले सुधार समितिको फोन नम्बर": pointAttributes["टोले सुधार समितिको फोन नम्बर"],
+                        "उपभोक्ता समितिको फोन नम्बर": pointAttributes["उपभोक्ता समितिको फोन नम्बर"]
+                    }
+                }
+            ]
+        },
+        documentModel: {
+            titleBar: {
+                title: "Summary",
+                cotrols: new UI_CloseButton()
+            }
+        }
+    };
+
+}

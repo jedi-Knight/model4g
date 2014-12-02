@@ -75,14 +75,14 @@ $(document).ready(function() {
         },
         "tabs-trigger-eventHandlers": {
             /*"click": function(e) {
-                
-                var element = this;
-                setTimeout(function() {
-                    $(element).parent().siblings().find("label").click();
-                    $(element).siblings(".content").find("label").click();
-                    
-                }, 0);
-            }*/
+             
+             var element = this;
+             setTimeout(function() {
+             $(element).parent().siblings().find("label").click();
+             $(element).siblings(".content").find("label").click();
+             
+             }, 0);
+             }*/
         }
     })).done(function(uiElement) {
         uiElement.appendTo($("#map .leaflet-control-container .leaflet-right")[0]);
@@ -101,6 +101,8 @@ $(document).ready(function() {
         //console.log(feature);
         var attributes = feature.properties.getAttributes(feature.properties._cartomancer_id);
         feature.properties.title = attributes.name/*+", "+attributes.city*/;
+
+        feature.properties["min-zoom"] = LayerStyles["map-features"]["min-zoom"];
 
         setTimeout(function() {
 
@@ -129,16 +131,16 @@ $(document).ready(function() {
                     });
                 }, 0);
             });
-            
-           /* switch(pointAttributes["project-category"]){
-                case "road": 
-                    {
-                        /*var newLine
-                        for(var c in feature.geometry.coordinates){
-                            
-                        }
-                    }
-            }*/
+
+            /* switch(pointAttributes["project-category"]){
+             case "road": 
+             {
+             /*var newLine
+             for(var c in feature.geometry.coordinates){
+             
+             }
+             }
+             }*/
 
             //layer.setStyle(LayerStyles["map-features"]["road"]);
             //layer.addTo(map);
@@ -150,7 +152,122 @@ $(document).ready(function() {
 
     }
 
+    function drawPoints(feature, layer, deferred) {
+        //console.log(feature);
+        var attributes = feature.properties.getAttributes(feature.properties._cartomancer_id);
+        feature.properties.title = attributes.name/*+", "+attributes.city*/;
 
+        setTimeout(function() {
+
+            //for (var point in features) {
+            var pointAttributes = feature.properties.getAttributes(feature.properties._cartomancer_id);
+
+
+            var dom = new TolePanelDocumentModel(pointAttributes);
+
+            var panelDocument = new PanelDocument(dom.documentModel);
+            panelDocument.addToTitleBar(dom.titleBarJson);
+            panelDocument.addHeader(dom.headerJson);
+            panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
+
+            layer.bindPopup(panelDocument.getDocument(), {
+                autoPan: true,
+                keepInView: true
+                        //,offset: L.point(0, -22)
+            });
+
+            layer.on("popupopen", function() {
+                setTimeout(function() {
+                    $("#map").find(".panel-document-header .header-row>div:last-child").each(function() {
+                        if ($(this).outerHeight() > 56)
+                            $(this).addClass("smaller-text");
+                    });
+                }, 0);
+            });
+
+
+            /*if (layerGroup)
+             layerGroup.addLayer(layer);*/
+            map.addLayer(layer);
+        }, 0);
+
+
+    }
+
+    var modelQueryToleLocations = mapData.fetchData({
+        query: {
+            geometries: {
+                type: "points",
+                group: "toles"
+            },
+            url: "toles.geojson"
+        },
+        returnDataMeta: {
+        }
+    });
+
+    modelQueryToleLocations.done(function(data, params) {
+
+        var zoomingDeferred;
+
+        var point = L.geoJson(data, {
+            onEachFeature: function(feature, layer) {
+                drawPoints(feature, layer, zoomingDeferred);
+            },
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    icon: L.divIcon({
+                        html: function() {
+                            var infobox = $("<div/>").addClass("marker-info-box");
+                            infobox.append(new UI_Button({
+                                attributes: {
+                                    class: "marker-info-zoom-trigger"
+                                },
+                                eventHandlers: {
+                                    click: function(e) {
+
+                                    },
+                                    mouseenter: function(e) {
+                                        console.log("mouseover marker");
+                                        console.log(e);
+                                    }
+                                },
+                                content: "<div>" + feature.properties.getAttributes(feature.properties._cartomancer_id).name + "</div>"
+                            }));
+                            return infobox.html();
+                        }()
+                    })
+                }).on("click", function(e) {
+                    zoomingDeferred = $.Deferred();
+                    map.setView(latlng, 18, {
+                        animate: true
+                    });
+                    setTimeout(function() {
+                        zoomingDeferred.resolve();
+                    });
+                    //console.log(this);
+                }).on("mouseover", function(e) {
+                    console.log(e);
+                    setTimeout(function() {
+                        map.eachLayer(function(layer) {
+                            if (!layer.feature)
+                                return;
+                            if (layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id).tole !== feature.properties.getAttributes(feature.properties._cartomancer_id).tole)
+                                return;
+                            try {
+                                layer.setStyle(
+                                        LayerStyles["map-features"]["on-tole-hovered"][layer.feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]
+                                        );
+                            } catch (e) {
+                                console.log(feature.properties.getAttributes(feature.properties._cartomancer_id));
+                            }
+                        });
+                    }, 0);
+                });
+            }
+        });
+
+    });
 
 
 
@@ -253,12 +370,31 @@ $(document).ready(function() {
 
 
 
-    map.on("zoomend", function() {
+    map.on("zoomstart zoomend", function() {
+        var element = this;
         setTimeout(function() {
-            $("#map").find("div.marker-cluster").attrByFunction(function() {
-                return {
-                    "title": $(this).find("span").text() + " " + config["map-of"] + " in this cluster. Click to zoom in."
-                };
+            /*$("#map").find("div.marker-cluster").attrByFunction(function() {
+             return {
+             "title": $(this).find("span").text() + " " + config["map-of"] + " in this cluster. Click to zoom in."
+             };
+             });*/
+
+            element.eachLayer(function(layer) {
+                if (!layer.feature)
+                    return;
+                //console.log(layer.feature);
+                if (!layer.feature.properties["min-zoom"])
+                    return;
+                if (element.getZoom() < layer.feature.properties["min-zoom"])
+                    layer.setStyle({
+                        //weight: 0,
+                        opacity: 0,
+                        //color: "#000000",
+                        clickable: false
+                    });
+                else {
+                    layer.setStyle(LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]]);
+                }
             });
 
         }, 0);
