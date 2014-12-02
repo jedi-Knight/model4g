@@ -295,6 +295,12 @@ $(document).ready(function() {
                         draggable: true
                     }).on("dragend", function(e){
                         $("#mapBox").find(".info-popup.new-report").text("..now please fill up the following form to submit the report.");
+                        (new UI_Form({
+                            "title": "New report",
+                            "form": config["report-form"],
+                            "submission-url": config["report-submission-url"],
+                            "successful-submission-message": "Report submitted. Thank you for your contribution."
+                        }).getUI()).appendTo("#mapBox");
                     }).addTo(map);
 
                 }, 0);

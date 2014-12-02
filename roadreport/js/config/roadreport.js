@@ -10,14 +10,58 @@ config = {
         }
     },
     "map-of": "roadreports",
-    "data-columns": [
-        "Level",
-        "Operator",
-        "Number of Students",
-        "Number of Personnel",
-        "Phone Number",
-        "Source of Information"
-    ]
+    "report-submission-form": [
+        {
+            "type": "text",
+            "label": "Incident Title",
+            "name": "incident_title",
+            "required": "required"
+        },
+        {
+            "type": "text",
+            "label": "Incident Location",
+            "name": "incident_location",
+            "required": "required"
+        },
+        {
+            "type": "text",
+            "label": "Incident Description",
+            "name": "incident_description",
+            "required": "required"
+        },
+        {
+            "type": "date",
+            "label": "Incident Date",
+            "name": "incident_date",
+            "required": "required"
+        },
+        {
+            "type": "text",
+            "label": "Incident Hour",
+            "name": "incident_hour",
+            "pattern": "[0,1]{1}[0-9]{1}",
+            "required": "required"
+        },
+        {
+            "type": "select",
+            "options": [{
+                    "label": "AM",
+                    "value": "am"
+                },
+                {
+                    "label": "PM",
+                    "value": "pm"
+                }
+            ]
+        },
+        {
+            "type": "file",
+            "label": "Location Photo",
+            "name": "incident_photo",
+            "accept": "image/*"
+        }
+    ],
+    "report-submission-url": "http://www.kathmandulivinglabs.org/roadreport/api?task=report"
 };
 
 
@@ -44,7 +88,7 @@ var Styles = {
         iconAnchor: [12.5, 40],
         html: "<img src='markers/school.png'/>"
     },
-    "new-report-iconStyle":{
+    "new-report-iconStyle": {
         iconSize: [25, 42],
         iconAnchor: [12.5, 40],
         html: "<div class='new-report-marker'>New Report<img src='markers/school.png'/></div>"
