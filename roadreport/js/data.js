@@ -4,8 +4,6 @@ function Data() {
         points: {
         },
         polygons: {
-        },
-        lines: {
         }
     };
 
@@ -13,8 +11,6 @@ function Data() {
         points: {
         },
         polygons: {
-        },
-        lines: {
         }
     };
 
@@ -38,18 +34,16 @@ function Data() {
 
         return attributes;
     };
-
-    this.getFeatureIndexForAttribute = function(feature, attribute) {
-        var featureIndexForAttribute = {};
-        for (var c in attributes[feature]) {
-            if (attributes[feature][c][attribute])
-                featureIndexForAttribute[c] = {
-                    attribute: attributes[feature][c][attribute],
-                    group: attributes[feature][c]._metaX.group
-                };
-        }
-        ;
-        return featureIndexForAttribute;
+    
+    this.getFeatureIndexForAttribute = function (feature, attribute){
+      var featureIndexForAttribute = {};
+      for(var c in attributes[feature]){
+        if(attributes[feature][c][attribute]) featureIndexForAttribute[c] = {
+            attribute: attributes[feature][c][attribute],
+            group: attributes[feature][c]._metaX.group
+        };
+      };
+      return featureIndexForAttribute;
     };
     /**:temporary hack**/
 
@@ -67,7 +61,7 @@ function Data() {
         } else if (params.query.attributes) {
             switch (params.query.attributes.geometry) {
                 case "points":
-
+                    
                     break;
             }
         }
@@ -135,105 +129,37 @@ function Data() {
                 writeQueryDeferred.resolve();
             }, 0);
 
-        } else if (params.returnDataMeta.type === "ushahidi_JSON") {
-            setTimeout(function() {
-
-                var c = Object.keys(attributes.points).length;
-
-                var geoJSONDB_geometries = {
-                    type: "FeatureCollection",
-                    properties: {
-                        _cartomancer_group_startIndex: c
-                    },
-                    features: []
-                };
-                var geoJSONDB_attributes = {
-                };
 
 
-
-
-
-                for (var form in data["payload"]["incidents"]) {
-
-                    data["payload"]["incidents"][form]["incident"]["locationlatitude"] && data["payload"]["incidents"][form]["incident"]["locationlongitude"] ? geoJSONDB_geometries.features.push({
-                        type: "Feature",
-                        properties: {
-                            datapoint_id: data["payload"]["incidents"][form]["incident"]["incidentid"],
-                            _cartomancer_id: c,
-                            getAttributes: function(id) {
-                                return attributes.points[id];
-                            }
-                        },
-                        geometry: {
-                            type: "Point",
-                            coordinates: [data["payload"]["incidents"][form]["incident"]["locationlongitude"], data["payload"]["incidents"][form]["incident"]["locationlatitude"]]
-                        }
-                    }) : function() {
-                        if (!freeTables.formhub)
-                            freeTables.ushahidi = {};
-                        freeTables.ushahidi[data["payload"]["incidents"][form]["incident"]["incidentid"]] = data["payload"]["incidents"][form];
-                    }();
-
-                    //delete data[form]._geolocation;
-                    /*data[form]._metaX = {
-                        dataSource: "formhub",
-                        group: params.query.geometries.group
-                    };*/
-
-
-                    geoJSONDB_attributes[c] = {
-                        "_metaX": {
-                            dataSource: "ushahidi",
-                            group: params.query.geometries.group
-                        },
-                        "category": data["payload"]["incidents"][form]["categories"][0]["category"]["title"],
-                        "pictures":[  //update this for multiple photos / other types of media
-                            {
-                                "photo":data["payload"]["incidents"][form]["media"].length?data["payload"]["incidents"][form]["media"][0]["link_url"]:"",
-                                "thumb":data["payload"]["incidents"][form]["media"].length?data["payload"]["incidents"][form]["media"][0]["thumb_url"]:""
-                            }
-                        ]
-                    };
-                    
-                    $.extend(geoJSONDB_attributes[c], data["payload"]["incidents"][form]["incident"])
-
-                    c++;
-                }
-
-                geometries.points[params.query.geometries.group] = geoJSONDB_geometries;
-                $.extend(attributes.points, geoJSONDB_attributes);
-                writeQueryDeferred.resolve();
-            }, 0);
         } else {
 
             if (params.query.geometries) {
                 if (geometries[params.query.geometries.type])
-                    try {
-                        Object.keys(params.query.geometries.group);
-                        params.query.geometries.group = data.features[0].properties[params.query.geometries.group.column];
+                    try{
+                    Object.keys(params.query.geometries.group);
+                    params.query.geometries.group = data.features[0].properties[params.query.geometries.group.column];
                         geometries[params.query.geometries.type][params.query.geometries.group] = data;
-                    } catch (e) {
+                    }catch(e){
                         geometries[params.query.geometries.type][params.query.geometries.group] = data;
                     }
                 else
                     throw new Error();
-
-                setTimeout(function() {
+                
+                setTimeout(function(){
                     var c = Object.keys(attributes[params.query.geometries.type]).length;
                     var geojsonDB_attributes = {};
-
-                    for (var feature in geometries[params.query.geometries.type][params.query.geometries.group].features) {
+                    
+                    for(var feature in geometries[params.query.geometries.type][params.query.geometries.group].features){
                         geojsonDB_attributes[c] = geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties;
-
-                        if (geometries[params.query.geometries.type][params.query.geometries.group]["features"][feature]["properties"]["@id"]) {
+                        
+                        if(geometries[params.query.geometries.type][params.query.geometries.group]["features"][feature]["properties"]["@id"]){
                             geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties.id
-                                    = geometries[params.query.geometries.type][params.query.geometries.group]["features"][feature]["properties"]["@id"];
+                            = geometries[params.query.geometries.type][params.query.geometries.group]["features"][feature]["properties"]["@id"];
                             delete geometries[params.query.geometries.type][params.query.geometries.group]["features"][feature]["properties"]["@id"];
                         }
-
+                        
                         geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties = {
-                            feature_id: geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties.id,
+                            feature_id : geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties.id,
                             _cartomancer_id: c,
                             getAttributes: function(_cartomancer_id) {
                                 return attributes[params.query.geometries.type][_cartomancer_id];
@@ -241,19 +167,19 @@ function Data() {
                         }
                         c++;
                     }
-
+                    
                     $.extend(attributes[params.query.geometries.type], geojsonDB_attributes);
-
-
+                    
+                    
                     writeQueryDeferred.resolve();
-                }, 0);
-
-
+                },0);
+                
+                
             } else if (params.query.attributes) {
                 switch (params.query.attributes.geometry) {
                 }
             }
-
+            
 
         }
 
@@ -278,7 +204,7 @@ function Data() {
             console.log("data not found in local cache..making ajax call;");
             var apiCall = $.Deferred();
 
-            var url = config.api.url + params.query.url;
+            var url = config.api.url;
             var requestType = config.api.requestType;
             //var id="name";
 
@@ -319,8 +245,7 @@ function Data() {
                         });
                     },
                     dataType: "json",
-                    cache: false,
-                    crossDomain: true
+                    cache: false
                             /*,headers: {Connection: "close"}*/
                 });
             }
