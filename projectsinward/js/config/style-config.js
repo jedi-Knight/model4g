@@ -37,6 +37,7 @@ LayerStyles = {
             "heritage": {
             }
         },
-        "min-zoom": 18
+        "min-zoom": 18,
+        "max-zoom": 22
     }
 };

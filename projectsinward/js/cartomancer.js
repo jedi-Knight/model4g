@@ -156,6 +156,8 @@ $(document).ready(function() {
         //console.log(feature);
         var attributes = feature.properties.getAttributes(feature.properties._cartomancer_id);
         feature.properties.title = attributes.name/*+", "+attributes.city*/;
+        feature.properties["max-zoom"] = 17;
+        feature.properties["min-zoom"] = 14;
 
         setTimeout(function() {
 
@@ -247,7 +249,7 @@ $(document).ready(function() {
                     });
                     //console.log(this);
                 }).on("mouseover", function(e) {
-                    console.log(e);
+                    //console.log(e);
                     setTimeout(function() {
                         map.eachLayer(function(layer) {
                             if (!layer.feature)
@@ -258,6 +260,24 @@ $(document).ready(function() {
                                 layer.setStyle(
                                         LayerStyles["map-features"]["on-tole-hovered"][layer.feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]
                                         );
+                            } catch (e) {
+                                console.log(feature.properties.getAttributes(feature.properties._cartomancer_id));
+                            }
+                        });
+                    }, 0);
+                }).on("mouseout", function(e) {
+                    //console.log(e);
+                    setTimeout(function() {
+                        map.eachLayer(function(layer) {
+                            if (!layer.feature)
+                                return;
+                            if (layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id).tole !== feature.properties.getAttributes(feature.properties._cartomancer_id).tole)
+                                return;
+                            try {
+                                layer.setStyle({
+                                    opacity: 0
+
+                                });
                             } catch (e) {
                                 console.log(feature.properties.getAttributes(feature.properties._cartomancer_id));
                             }
@@ -383,18 +403,35 @@ $(document).ready(function() {
                 if (!layer.feature)
                     return;
                 //console.log(layer.feature);
-                if (!layer.feature.properties["min-zoom"])
+                if (!(layer.feature.properties["min-zoom"] || layer.feature.properties["max-zoom"]))
                     return;
-                if (element.getZoom() < layer.feature.properties["min-zoom"])
-                    layer.setStyle({
-                        //weight: 0,
-                        opacity: 0,
-                        //color: "#000000",
-                        clickable: false
-                    });
-                else {
-                    layer.setStyle(LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]]);
+
+                try {
+                    
+                    if (element.getZoom() < layer.feature.properties["min-zoom"])
+                        layer.setStyle({
+                            //weight: 0,
+                            opacity: 0,
+                            //color: "#000000",
+                            clickable: false
+                        });
+                    else {
+                        layer.setStyle(LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]]);
+                    }
+
+                    
+                } catch (e) {
+                    
+                    if (element.getZoom() > layer.feature.properties["max-zoom"]) {
+                        console.log(layer);
+                        $(layer._icon).css("display", "none");
+                    } else {
+                        $(layer._icon).css("display", "inline-block");
+                    }
+
                 }
+
+
             });
 
         }, 0);
