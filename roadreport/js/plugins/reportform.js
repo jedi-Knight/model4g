@@ -19,7 +19,7 @@ function UI_Form(options) {
             eventHandlers: {
                 click: function(e){
                     var element = this;
-                    var timerAnim = $("<div class='timer-anim'><img src='../css/gfx/timer-anim.gif'/></div>").appendTo($(this).closest(".splash-screen"));
+                    //var timerAnim = $("<div class='timer-anim'><img src='../css/gfx/timer-anim.gif'/></div>").appendTo($(this).closest(".splash-screen"));
                     $(this).closest(".form").css("opacity","0.3");
                     
                     console.log({
@@ -42,21 +42,26 @@ function UI_Form(options) {
                             data: {
                                 "incident_title":$(element).closest(".form").find("input[label='Incident Title']")[0].value,
                                 "incident_description":$(element).closest(".form").find("input[label='Incident Description']")[0].value,
-                                "incident_date":$(element).closest(".form").find("input[label='Incident Date']")[0].value,
+                                "incident_date": new Util_DateConverter({
+                                    date: $(element).closest(".form").find("input[label='Incident Date']")[0].value
+                                }).format("mm/dd/yy"),
                                 "incident_hour":$(element).closest(".form").find("input[label='Incident Hour']")[0].value,
                                 "incident_minute":$(element).closest(".form").find("input[label='Incident Minute']")[0].value,
                                 "incident_ampm":$(element).closest(".form").find("select").find("option:selected")[0].value,
                                 "incident_category":1,
-                                "latitude": options.lat,
-                                "longitude": options.lng,
+                                "latitude": options.lat+"",
+                                "longitude": options.lng+"",
                                 "location_name": $(element).closest(".form").find("input[label='Incident Location']")[0].value,
-                                "incident_photo": $(element).closest(".form").find("input[label='Location Photo']")[0].value
+                                "incident_photo": $(element).closest(".form").find("input[label='Location Photo']")[0].value,
+                                "task": "report"
                             },
                             success: function(data){
                                 $(this).closest(".form").remove();
-                                timerAnim.remove();
+                                console.log(data);
+                                //timerAnim.remove();
                             },
-                            type: "POST"
+                            type: "POST",
+                            traditional: true
                         });
                     },0);
                 }

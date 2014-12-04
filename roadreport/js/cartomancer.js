@@ -50,7 +50,7 @@ $(document).ready(function() {
                 type: "points",
                 group: config["map-of"]
             },
-            url: "api.json"
+            url: "?task=incidents"
         },
         returnDataMeta: {
             type: "ushahidi_JSON"

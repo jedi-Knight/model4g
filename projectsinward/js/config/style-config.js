@@ -26,7 +26,8 @@ LayerStyles = {
                 weight: 16,
                 opacity: 0.4,
                 color: "#ffaa00",
-                "dashArray": "16 8"
+                "dashArray": "16 8",
+                fillColor: "#ffff00"
             },
             "sewerage": {
             },
@@ -37,7 +38,13 @@ LayerStyles = {
             "heritage": {
             }
         },
-        "min-zoom": 18,
+        "min-zoom": 17,
         "max-zoom": 22
+    },
+    "boundary-mask-style":{
+        fillColor: "#ececec",
+        fillOpacity:1,
+        weight: 0,
+        clickable: false
     }
 };

@@ -8,7 +8,11 @@ config = {
             url: "."
         }
     },
-    "map-of": "Ward Projects"
+    "map-of": "Ward Projects",
+    "map-options":{
+        "min-zoom": 12,
+        "max-zoom": 18
+    }
 };
 
 

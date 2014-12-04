@@ -1,7 +1,7 @@
 config = {
     api: {
-        //url: "http://www.kathmandulivinglabs.org/roadreport/api?task=incidents",
-        url: "data/",
+        url: "http://www.kathmandulivinglabs.org/roadreport/api",
+        //url: "data/",
         type: "GET"
     },
     otherAPIs: {

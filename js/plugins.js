@@ -48,30 +48,30 @@ function UI_Control_Filter(options) {
                     //$(this).parent().toggleClass("filter-search-enabled");
                     e.stopPropagation();
                     var buttonTarget = $(this).next("input");
-                    if (buttonTarget.css("width")!=="160px"){
+                    if (buttonTarget.css("width") !== "160px") {
 //                        buttonTarget.show();
                         buttonTarget.animate({
                             "width": "160px",
-                            "opacity":1
-                        }, function(){
+                            "opacity": 1
+                        }, function() {
 //                            buttonTarget.css("width", "160px");
                         });
                         buttonTarget.closest(".col-header").find("h3").animate({
-                            "opacity":0
-                        }, function(){
+                            "opacity": 0
+                        }, function() {
 //                            buttonTarget.closest(".col-header").find("h3").hide();
                         });
-                    }else{
+                    } else {
 //                            buttonTarget.closest(".col-header").find("h3").show();
-                        
+
                         buttonTarget.animate({
                             "width": "0px",
-                            "opacity":0
-                        }, function(){
+                            "opacity": 0
+                        }, function() {
 //                            buttonTarget.hide();
                         });
                         buttonTarget.closest(".col-header").find("h3").animate({
-                            "opacity":1
+                            "opacity": 1
                         });
                     }
                 }
@@ -85,3 +85,19 @@ function UI_Control_Filter(options) {
 
 }
 
+function Util_DateConverter(options) {
+    var date = new Date(options.date);
+
+    function _format(format) {
+
+        if (format === "mm/dd/yy") {
+            return date.getUTCMonth()+1 + "/" + date.getUTCDate()<10?("0"+date.getUTCDate()):date.getUTCDate() + "/" + date.getUTCFullYear();
+        }
+
+        return date;
+    }
+
+    this.format = function(format) {
+        return _format(format);
+    };
+}

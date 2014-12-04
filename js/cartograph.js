@@ -1,17 +1,24 @@
-function Map() {
-    var map = L.map('map', {
+function Map(options) {
+    
+    var mapOptions = {
         center: [27.71639, 85.34546],
-        zoom: 17,
-        minZoom: 16,
+        zoom: config["map-options"]["max-zoom"],
+        minZoom: config["map-options"]["min-zoom"],
         doubleClickZoom: true
-    });
+    };
+    
+    if(options["mapOptions"]){
+        $.extend(mapOptions, options.mapOptions);
+    };
+    
+    var map = L.map('map', mapOptions);
 
 
     function osmTiles() {
         return L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-            maxZoom: 19,
-            minZoom: 1
+            attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+            //,maxZoom: 19,
+            //minZoom: 1
         });
     }
 
@@ -125,11 +132,17 @@ function UI_OverviewMap(options) {
     };
 }
 
-function Cluster(features, map) {
-    var clusterGroup = L.markerClusterGroup({
+function Cluster(features, options, map) {
+    
+    var clusteringOptions = {
         showCoverageOnHover: false,
         disableClusteringAtZoom: 18
-    });
+    }
+    
+    if(options && options.clusteringOptions)
+        $.extend(clusteringOptions, options.clusteringOptions);
+    
+    var clusterGroup = L.markerClusterGroup(clusteringOptions);
     var clustering = $.Deferred();
 
     setTimeout(function() {

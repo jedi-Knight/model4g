@@ -5,7 +5,11 @@ $(document).ready(function() {
     });
 
 
-    var cartograph = new Map();
+    var cartograph = new Map({
+        mapOptions: {
+            minZoom: 15
+        }
+    });
     $("#map").find("a.leaflet-control-zoom-out").text("–");
     var map = cartograph.getMap();
 
@@ -25,17 +29,55 @@ $(document).ready(function() {
 
     var mapData = new Data();
 
+    var modelQueryWardBoundary = mapData.fetchData({
+        query: {
+            geometries: {
+                type: "polygons",
+                group: "boundarymask"
+            },
+            url: "boundarymask.geojson"
+        },
+        returnDataMeta: {
+        }
+    });
+    modelQueryWardBoundary.done(function(data, params) {
+
+
+        var boundarymask = L.geoJson(data);
+        boundarymask.setStyle(LayerStyles["boundary-mask-style"]);
+        boundarymask.addTo(map);
+        console.log(data.features[0].geometry.coordinates[1]);
+
+        /*map.setMaxBounds(L.latLngBounds(data.features[0].geometry.coordinates[1].map(function(coordinates){
+         return {
+         lat: coordinates[1],
+         lng: coordinates[0]
+         };
+         })));*/
+
+        map.setMaxBounds(L.latLngBounds([27.707981527038417, 85.33703906163997], [27.726973923603865, 85.35909363340271]));
+
+    });
 
 
 
-    var wardProjectsLayers = {
-        "road": L.layerGroup(),
-        "sewerage": L.layerGroup(),
-        "water-supply": L.layerGroup(),
-        "space": L.layerGroup(),
-        "heritage": L.layerGroup()
-    };
-    var municipalProjectsLayers = {
+
+    /*var wardProjectsLayers = {
+     "road": L.layerGroup(),
+     "sewerage": L.layerGroup(),
+     "water-supply": L.layerGroup(),
+     "space": L.layerGroup(),
+     "heritage": L.layerGroup()
+     };
+     var municipalProjectsLayers = {
+     "road": L.layerGroup(),
+     "sewerage": L.layerGroup(),
+     "water-supply": L.layerGroup(),
+     "space": L.layerGroup(),
+     "heritage": L.layerGroup()
+     };*/
+
+    var projectsLayers = {
         "road": L.layerGroup(),
         "sewerage": L.layerGroup(),
         "water-supply": L.layerGroup(),
@@ -46,12 +88,17 @@ $(document).ready(function() {
     //cartograph.getLayersControl().addOverlay(wardProjectsLayerGroup, "Ward-level Projects");
     //cartograph.getLayersControl().addOverlay(municipalProjectsLayerGroup, "Municipal-level Projects");
 
-    var layersControlWardProjects = L.control.layers(null, wardProjectsLayers, {
-        position: "topleft",
-        collapsed: false
-    }).addTo(map);
+    /*var layersControlWardProjects = L.control.layers(null, wardProjectsLayers, {
+     position: "topleft",
+     collapsed: false
+     }).addTo(map);
+     
+     var layersControlMunicipalProjects = L.control.layers(null, municipalProjectsLayers, {
+     position: "topleft",
+     collapsed: false
+     }).addTo(map);*/
 
-    var layersControlMunicipalProjects = L.control.layers(null, municipalProjectsLayers, {
+    var layersControlProjects = L.control.layers(null, projectsLayers, {
         position: "topleft",
         collapsed: false
     }).addTo(map);
@@ -60,13 +107,17 @@ $(document).ready(function() {
 
     (new UI_SlidingTabs({
         tabs: [
-            {
-                "title": "Ward-level Projects",
-                "content": $(layersControlWardProjects._container).find("form")
-            },
+            /*{
+             "title": "Ward-level Projects",
+             "content": $(layersControlWardProjects._container).find("form")
+             },
+             {
+             "title": "Municipal-level Projects",
+             "content": $(layersControlMunicipalProjects._container).find("form")
+             }*/
             {
                 "title": "Municipal-level Projects",
-                "content": $(layersControlMunicipalProjects._container).find("form")
+                "content": $(layersControlProjects._container).find("form")
             }
         ],
         attributes: {
@@ -86,13 +137,14 @@ $(document).ready(function() {
         }
     })).done(function(uiElement) {
         uiElement.appendTo($("#map .leaflet-control-container .leaflet-right")[0]);
-        $(layersControlWardProjects._container).remove();
-        $(layersControlMunicipalProjects._container).remove();
+        /*$(layersControlWardProjects._container).remove();
+         $(layersControlMunicipalProjects._container).remove();*/
+        $(layersControlProjects._container).remove();
         $($(uiElement.find(".content")[1])).find("label").click();
         $(uiElement.find("a.trigger")[0]).click();
     });
 
-    console.log(layersControlWardProjects);
+    //console.log(layersControlWardProjects);
 
     mapGlobals.mapData = mapData;
 
@@ -208,181 +260,278 @@ $(document).ready(function() {
         }
     });
 
-    modelQueryToleLocations.done(function(data, params) {
+    /*modelQueryToleLocations.done(function(data, params) {
+     
+     var zoomingDeferred;
+     
+     var point = L.geoJson(data, {
+     onEachFeature: function(feature, layer) {
+     drawPoints(feature, layer, zoomingDeferred);
+     },
+     pointToLayer: function(feature, latlng) {
+     return L.marker(latlng, {
+     icon: L.divIcon({
+     html: function() {
+     var infobox = $("<div/>").addClass("marker-info-box");
+     infobox.append(new UI_Button({
+     attributes: {
+     class: "marker-info-zoom-trigger"
+     },
+     eventHandlers: {
+     click: function(e) {
+     
+     },
+     mouseenter: function(e) {
+     console.log("mouseover marker");
+     console.log(e);
+     }
+     },
+     content: "<div>" + feature.properties.getAttributes(feature.properties._cartomancer_id).name + "</div>"
+     }));
+     return infobox.html();
+     }()
+     })
+     }).on("click", function(e) {
+     zoomingDeferred = $.Deferred();
+     map.setView(latlng, 18, {
+     animate: true
+     });
+     setTimeout(function() {
+     zoomingDeferred.resolve();
+     });
+     //console.log(this);
+     }).on("mouseover", function(e) {
+     //console.log(e);
+     setTimeout(function() {
+     map.eachLayer(function(layer) {
+     if (!layer.feature)
+     return;
+     if (layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id).tole !== feature.properties.getAttributes(feature.properties._cartomancer_id).tole)
+     return;
+     try {
+     layer.setStyle(
+     LayerStyles["map-features"]["on-tole-hovered"][layer.feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]
+     );
+     } catch (e) {
+     console.log(feature.properties.getAttributes(feature.properties._cartomancer_id));
+     }
+     });
+     }, 0);
+     }).on("mouseout", function(e) {
+     //console.log(e);
+     setTimeout(function() {
+     map.eachLayer(function(layer) {
+     if (!layer.feature)
+     return;
+     if (layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id).tole !== feature.properties.getAttributes(feature.properties._cartomancer_id).tole)
+     return;
+     try {
+     layer.setStyle({
+     opacity: 0
+     
+     });
+     } catch (e) {
+     console.log(feature.properties.getAttributes(feature.properties._cartomancer_id));
+     }
+     });
+     }, 0);
+     });
+     }
+     });
+     
+     });*/
 
-        var zoomingDeferred;
 
-        var point = L.geoJson(data, {
-            onEachFeature: function(feature, layer) {
-                drawPoints(feature, layer, zoomingDeferred);
+
+    var modelQueryProjectCentroids = mapData.fetchData({
+        query: {
+            geometries: {
+                type: "points",
+                group: "projectcentroids"
             },
+            url: "projectcentroids.geojson"
+        },
+        returnDataMeta: {
+        }
+    });
+
+    modelQueryProjectCentroids.done(function(data, params) {
+        /*var modelQueryPoints = mapData.fetchData({
+         query: {
+         geometries: {
+         type: "points",
+         group: config["map-of"]
+         }
+         },
+         returnDataMeta: {
+         //            type: "formhub_JSON"
+         }
+         });*/
+
+        //modelQueryPoints.done(function(data, params) {
+
+        var clusterGeoJson = L.geoJson(data, {
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: L.divIcon({
-                        html: function() {
-                            var infobox = $("<div/>").addClass("marker-info-box");
-                            infobox.append(new UI_Button({
-                                attributes: {
-                                    class: "marker-info-zoom-trigger"
-                                },
-                                eventHandlers: {
-                                    click: function(e) {
-
-                                    },
-                                    mouseenter: function(e) {
-                                        console.log("mouseover marker");
-                                        console.log(e);
-                                    }
-                                },
-                                content: "<div>" + feature.properties.getAttributes(feature.properties._cartomancer_id).name + "</div>"
-                            }));
-                            return infobox.html();
-                        }()
+                        className: "hidden"
                     })
-                }).on("click", function(e) {
-                    zoomingDeferred = $.Deferred();
-                    map.setView(latlng, 18, {
-                        animate: true
-                    });
-                    setTimeout(function() {
-                        zoomingDeferred.resolve();
-                    });
-                    //console.log(this);
-                }).on("mouseover", function(e) {
-                    //console.log(e);
-                    setTimeout(function() {
-                        map.eachLayer(function(layer) {
-                            if (!layer.feature)
-                                return;
-                            if (layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id).tole !== feature.properties.getAttributes(feature.properties._cartomancer_id).tole)
-                                return;
-                            try {
-                                layer.setStyle(
-                                        LayerStyles["map-features"]["on-tole-hovered"][layer.feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]
-                                        );
-                            } catch (e) {
-                                console.log(feature.properties.getAttributes(feature.properties._cartomancer_id));
-                            }
-                        });
-                    }, 0);
-                }).on("mouseout", function(e) {
-                    //console.log(e);
-                    setTimeout(function() {
-                        map.eachLayer(function(layer) {
-                            if (!layer.feature)
-                                return;
-                            if (layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id).tole !== feature.properties.getAttributes(feature.properties._cartomancer_id).tole)
-                                return;
-                            try {
-                                layer.setStyle({
-                                    opacity: 0
-
-                                });
-                            } catch (e) {
-                                console.log(feature.properties.getAttributes(feature.properties._cartomancer_id));
-                            }
-                        });
-                    }, 0);
                 });
+            },
+            onEachFeature: function(feature, layer) {
+                //console.log(feature);
+                var attributes = feature.properties.getAttributes(feature.properties._cartomancer_id);
+                feature.properties.title = attributes.name/*+", "+attributes.city*/;
             }
         });
 
+        /*var searchControl = new L.Control.Search({
+         layer: clusterGeoJson,
+         zoom: 16,
+         circleLocation: false,
+         animateCircle: false
+         });*/
+
+        var popup = L.popup({
+            autoPan: true,
+            keepInView: true,
+            offset: L.point(0, -22)
+        });
+
+        var clusterSpell = new Cluster(data.features, {
+            clusteringOptions: {
+                singleMarkerMode: true,
+                disableClusteringAtZoom: 17,
+                maxClusterRadius: 180,
+                removeOutsideVisibleBounds: false
+            }
+        });
+
+        clusterSpell.done(function(clusterGroup) {
+
+            clusterGroup.addTo(map);
+            //layerGroup.addLayer(layer);
+            map.fire("zoomend");
+            //cartograph.getLayersControl().addOverlay(clusterGroup, "Schools / School Clusters");
+        });
+        //});
     });
 
 
 
-    var modelQueryWardLines = mapData.fetchData({
+
+    /* var modelQueryWardLines = mapData.fetchData({
+     query: {
+     geometries: {
+     type: "lines",
+     group: "ward"
+     },
+     url: "projects_ward_lines.geojson"
+     },
+     returnDataMeta: {
+     }
+     });
+     
+     modelQueryWardLines.done(function(data, params) {
+     
+     var lines = L.geoJson(data, {
+     onEachFeature: function(feature, layer) {
+     drawLinesAndPolygons(feature, layer, wardProjectsLayers[feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]);
+     }
+     });
+     
+     });
+     
+     var modelQueryWardPolygons = mapData.fetchData({
+     query: {
+     geometries: {
+     type: "polygons",
+     group: "ward"
+     },
+     url: "projects_ward_polygons.geojson"
+     },
+     returnDataMeta: {
+     }
+     });
+     
+     modelQueryWardPolygons.done(function(data, params) {
+     
+     var polygons = L.geoJson(data, {
+     onEachFeature: function(feature, layer) {
+     drawLinesAndPolygons(feature, layer, wardProjectsLayers[feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]);
+     }
+     });
+     
+     
+     });
+     
+     
+     var modelQueryMunicipalLines = mapData.fetchData({
+     query: {
+     geometries: {
+     type: "lines",
+     group: "municipal"
+     },
+     url: "projects_municipal_lines.geojson"
+     },
+     returnDataMeta: {
+     }
+     });
+     
+     modelQueryMunicipalLines.done(function(data, params) {
+     
+     var lines = L.geoJson(data, {
+     onEachFeature: function(feature, layer) {
+     drawLinesAndPolygons(feature, layer, municipalProjectsLayers[feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]);
+     }
+     });
+     
+     });
+     
+     var modelQueryMunicipalPolygons = mapData.fetchData({
+     query: {
+     geometries: {
+     type: "polygons",
+     group: "municipal"
+     },
+     url: "projects_municipal_polygons.geojson"
+     },
+     returnDataMeta: {
+     }
+     });
+     
+     modelQueryMunicipalPolygons.done(function(data, params) {
+     
+     var polygons = L.geoJson(data, {
+     onEachFeature: function(feature, layer) {
+     drawLinesAndPolygons(feature, layer, municipalProjectsLayers[feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]);
+     }
+     });
+     
+     
+     });*/
+
+    var modelQueryProjectFeatures = mapData.fetchData({
         query: {
             geometries: {
                 type: "lines",
                 group: "ward"
             },
-            url: "projects_ward_lines.geojson"
+            url: "combined.geojson"
         },
         returnDataMeta: {
         }
     });
 
-    modelQueryWardLines.done(function(data, params) {
+    modelQueryProjectFeatures.done(function(data, params) {
 
         var lines = L.geoJson(data, {
             onEachFeature: function(feature, layer) {
-                drawLinesAndPolygons(feature, layer, wardProjectsLayers[feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]);
+                drawLinesAndPolygons(feature, layer, projectsLayers[feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]);
             }
         });
 
     });
-
-    var modelQueryWardPolygons = mapData.fetchData({
-        query: {
-            geometries: {
-                type: "polygons",
-                group: "ward"
-            },
-            url: "projects_ward_polygons.geojson"
-        },
-        returnDataMeta: {
-        }
-    });
-
-    modelQueryWardPolygons.done(function(data, params) {
-
-        var polygons = L.geoJson(data, {
-            onEachFeature: function(feature, layer) {
-                drawLinesAndPolygons(feature, layer, wardProjectsLayers[feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]);
-            }
-        });
-
-
-    });
-
-
-    var modelQueryMunicipalLines = mapData.fetchData({
-        query: {
-            geometries: {
-                type: "lines",
-                group: "municipal"
-            },
-            url: "projects_municipal_lines.geojson"
-        },
-        returnDataMeta: {
-        }
-    });
-
-    modelQueryMunicipalLines.done(function(data, params) {
-
-        var lines = L.geoJson(data, {
-            onEachFeature: function(feature, layer) {
-                drawLinesAndPolygons(feature, layer, municipalProjectsLayers[feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]);
-            }
-        });
-
-    });
-
-    var modelQueryMunicipalPolygons = mapData.fetchData({
-        query: {
-            geometries: {
-                type: "polygons",
-                group: "municipal"
-            },
-            url: "projects_municipal_polygons.geojson"
-        },
-        returnDataMeta: {
-        }
-    });
-
-    modelQueryMunicipalPolygons.done(function(data, params) {
-
-        var polygons = L.geoJson(data, {
-            onEachFeature: function(feature, layer) {
-                drawLinesAndPolygons(feature, layer, municipalProjectsLayers[feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]);
-            }
-        });
-
-
-    });
-
-
 
 
 
@@ -407,7 +556,7 @@ $(document).ready(function() {
                     return;
 
                 try {
-                    
+
                     if (element.getZoom() < layer.feature.properties["min-zoom"])
                         layer.setStyle({
                             //weight: 0,
@@ -419,9 +568,9 @@ $(document).ready(function() {
                         layer.setStyle(LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]]);
                     }
 
-                    
+
                 } catch (e) {
-                    
+
                     if (element.getZoom() > layer.feature.properties["max-zoom"]) {
                         console.log(layer);
                         $(layer._icon).css("display", "none");
@@ -430,6 +579,11 @@ $(document).ready(function() {
                     }
 
                 }
+
+                if (element.getZoom() > 16) {
+                    $(".marker-cluster").hide();
+                } else
+                    $(".marker-cluster").show();
 
 
             });
@@ -458,6 +612,23 @@ $(document).ready(function() {
 
     overviewMap.drawMap();
     map.fire("moveend");
+
+    /*map.on("movestart", function() {
+     if (map.getZoom() >= 17) {
+     setTimeout(function(){
+     $(".marker-cluster").each(function() {
+     console.log($(this).text()==='1');
+     $(".marker-cluster").children("span").attrByFunction(function() {
+     if ($(this).text() === '1') {
+     console.log("what?");
+     $(this).addClass("hidden");
+     }
+     });
+     });
+     },0);
+     }
+     
+     });*/
 
 });
 $.fn.attrByFunction = function(fn) {
