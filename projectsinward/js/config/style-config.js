@@ -42,8 +42,8 @@ LayerStyles = {
         "max-zoom": 22
     },
     "boundary-mask-style":{
-        fillColor: "#ececec",
-        fillOpacity:1,
+        fillColor: "#000000",
+        fillOpacity:0.4,
         weight: 0,
         clickable: false
     }
