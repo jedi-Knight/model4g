@@ -86,7 +86,7 @@ $(document).ready(function() {
         "space": L.layerGroup(),
         "heritage": L.layerGroup()
     };
-
+    
     //cartograph.getLayersControl().addOverlay(wardProjectsLayerGroup, "Ward-level Projects");
     //cartograph.getLayersControl().addOverlay(municipalProjectsLayerGroup, "Municipal-level Projects");
 
@@ -195,6 +195,9 @@ $(document).ready(function() {
              }
              }
              }*/
+            
+            layer.setStyle(LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]]);
+
 
             //layer.setStyle(LayerStyles["map-features"]["road"]);
             //layer.addTo(map);
@@ -560,9 +563,7 @@ $(document).ready(function() {
 
                     if (element.getZoom() < layer.feature.properties["min-zoom"])
                         layer.setStyle({
-                            //weight: 0,
                             opacity: 0,
-                            //color: "#000000",
                             clickable: false
                         });
                     else {
@@ -573,7 +574,11 @@ $(document).ready(function() {
                          styleCollection: LayerStyles["map-features"],
                          styleID: layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]
                          });*/
-                        layer.setStyle(LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]]);
+                        
+                        layer.setStyle({
+                            opacity: 1,
+                            clickable: true
+                        });
                     }
 
 
