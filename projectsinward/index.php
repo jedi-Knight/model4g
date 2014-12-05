@@ -49,6 +49,7 @@ $page = "
         <script src=\"../js/guiActions.js\"></script>
         <script src=\"../js/data.js\"></script>
         <script src=\"../js/cartograph.js\"></script>
+        <script src=\"js/plugins/helperfeatures.js\"></script>
         <script src=\"js/cartomancer.js\"></script>
     </head>
     <body>

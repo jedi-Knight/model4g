@@ -29,6 +29,8 @@ $(document).ready(function() {
 
     var mapData = new Data();
 
+    var helperFeatures = new HelperFeatures();
+
     var modelQueryWardBoundary = mapData.fetchData({
         query: {
             geometries: {
@@ -46,7 +48,7 @@ $(document).ready(function() {
         var boundarymask = L.geoJson(data);
         boundarymask.setStyle(LayerStyles["boundary-mask-style"]);
         boundarymask.addTo(map);
-        console.log(data.features[0].geometry.coordinates[1]);
+        //console.log(data.features[0].geometry.coordinates[1]);
 
         /*map.setMaxBounds(L.latLngBounds(data.features[0].geometry.coordinates[1].map(function(coordinates){
          return {
@@ -55,7 +57,7 @@ $(document).ready(function() {
          };
          })));*/
 
-        map.setMaxBounds(L.latLngBounds(config["map-options"]["map-bounds"]["northeast"],config["map-options"]["map-bounds"]["southwest"]));
+        map.setMaxBounds(L.latLngBounds(config["map-options"]["map-bounds"]["northeast"], config["map-options"]["map-bounds"]["southwest"]));
 
     });
 
@@ -196,8 +198,18 @@ $(document).ready(function() {
 
             //layer.setStyle(LayerStyles["map-features"]["road"]);
             //layer.addTo(map);
-            if (layerGroup)
+            if (layerGroup) {
                 layerGroup.addLayer(layer);
+
+                helperFeatures.addFeatureStyle({
+                    "feature-group": feature["properties"]["getAttributes"](feature["properties"]["_cartomancer_id"])["project-category"],
+                    "styles": LayerStyles["map-features"]["helper-styles"],
+                    "layerGroup": layerGroup,
+                    "popup": layer._popup,
+                    "feature": feature
+                });
+            }
+
             //map.addLayer(layerGroup);
         }, 0);
 
@@ -385,18 +397,7 @@ $(document).ready(function() {
             }
         });
 
-        /*var searchControl = new L.Control.Search({
-         layer: clusterGeoJson,
-         zoom: 16,
-         circleLocation: false,
-         animateCircle: false
-         });*/
 
-        var popup = L.popup({
-            autoPan: true,
-            keepInView: true,
-            offset: L.point(0, -22)
-        });
 
         var clusterSpell = new Cluster(data.features, {
             clusteringOptions: {
@@ -565,6 +566,13 @@ $(document).ready(function() {
                             clickable: false
                         });
                     else {
+                        /*console.log({
+                         layer: layer,
+                         category:layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"],
+                         attributes: layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id),
+                         styleCollection: LayerStyles["map-features"],
+                         styleID: layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]
+                         });*/
                         layer.setStyle(LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]]);
                     }
 
@@ -613,22 +621,26 @@ $(document).ready(function() {
     overviewMap.drawMap();
     map.fire("moveend");
 
-    map.on("movestart", function() {
-        //if (map.getZoom() >= 17) {
-            setTimeout(function() {
-                $(".marker-cluster").each(function() {
-                    //console.log(Number($(this).text()) > 40);
-                    $(".marker-cluster").children("span").attrByFunction(function() {
-                        if (Number($(this).text()) > 40) {
-                            console.log("what?");
-                            $(this).addClass("hidden");
-                        }
-                    });
-                });
-            }, 0);
-        //}
-
-    });
+    /*map.on("zoomstart zoomend", function() {
+     //console.log(1);
+     /*setTimeout(function() {
+     if (map.getZoom() >= 17) {
+     
+     
+     $(".marker-cluster").find("span").each(function() {
+     $(this).addClass("hidden");
+     
+     });
+     } else {
+     
+     $(".marker-cluster").find("span").each(function() {
+     $(this).removeClass("hidden");
+     
+     });
+     }
+     }, 0);
+     
+     });*/
 
 });
 $.fn.attrByFunction = function(fn) {
