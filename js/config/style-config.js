@@ -17,16 +17,16 @@ LayerStyles = {
             lineJoin: "miter",
         },
         "sewerage": {
-            weight: 16,
-            opacity: 0.4,
+            weight: 6,
+            opacity: 1,
             color: "#333300",
             "dashArray": "16 8",
             fillColor: "#ffff00"
         },
         "water-supply": {
-            weight: 16,
-            opacity: 0.4,
-            color: "#00aaff",
+            weight: 8,
+            opacity: 1,
+            color: "#ff0000",
             "dashArray": "16 8",
             fillColor: "#ffff00"
         },
@@ -54,7 +54,7 @@ LayerStyles = {
                 lineJoin: "miter"
             }
         },
-        "min-zoom": 17,
+        "min-zoom": 16,
         "max-zoom": 22
     },
     "boundary-mask-style": {

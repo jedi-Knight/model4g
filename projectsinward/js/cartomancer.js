@@ -405,9 +405,10 @@ $(document).ready(function() {
         var clusterSpell = new Cluster(data.features, {
             clusteringOptions: {
                 singleMarkerMode: true,
-                disableClusteringAtZoom: 17,
+                disableClusteringAtZoom: LayerStyles["map-features"]["min-zoom"],
                 maxClusterRadius: 160,
-                removeOutsideVisibleBounds: false
+                removeOutsideVisibleBounds: false,
+                showCoverageOnHover: true
             }
         });
 
@@ -593,7 +594,7 @@ $(document).ready(function() {
 
                 }
 
-                if (element.getZoom() > 16) {
+                if (element.getZoom() >= LayerStyles["map-features"]["min-zoom"]) {
                     $(".marker-cluster").hide();
                 } else
                     $(".marker-cluster").show();
