@@ -38,7 +38,7 @@ function UI_Form(options) {
                     
                     setTimeout(function(){
                         $.ajax({
-                            url: config["report-submission-url"],
+                            url: options["submission-url"],
                             data: {
                                 "incident_title":$(element).closest(".form").find("input[label='Incident Title']")[0].value,
                                 "incident_description":$(element).closest(".form").find("input[label='Incident Description']")[0].value,

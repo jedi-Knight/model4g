@@ -1,22 +1,15 @@
 config = {
-    api: {
+    /*api: {
         url: "data/schools.geojson",
         type: "GET"
-    },
+    },*/
     otherAPIs: {
         overpass: {
             url: "."
         }
     },
     "map-of": "Schools",
-    "data-columns": [
-        "Level",
-        "Operator",
-        "Number of Students",
-        "Number of Personnel",
-        "Phone Number",
-        "Source of Information"
-    ]
+    "data-src": "schools.geojson"
 };
 
 

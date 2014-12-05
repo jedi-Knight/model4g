@@ -7,7 +7,7 @@ function Map(options) {
         doubleClickZoom: true
     };
     
-    if(options["mapOptions"]){
+    if(options && options["mapOptions"]){
         $.extend(mapOptions, options.mapOptions);
     };
     

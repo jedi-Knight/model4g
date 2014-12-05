@@ -55,7 +55,7 @@ $(document).ready(function() {
          };
          })));*/
 
-        map.setMaxBounds(L.latLngBounds([27.706991527038417, 85.33393906163997], [27.727843923603865, 85.35989363340271]));
+        map.setMaxBounds(L.latLngBounds(config["map-options"]["map-bounds"]["northeast"],config["map-options"]["map-bounds"]["southwest"]));
 
     });
 
@@ -402,7 +402,7 @@ $(document).ready(function() {
             clusteringOptions: {
                 singleMarkerMode: true,
                 disableClusteringAtZoom: 17,
-                maxClusterRadius: 180,
+                maxClusterRadius: 160,
                 removeOutsideVisibleBounds: false
             }
         });
@@ -613,22 +613,22 @@ $(document).ready(function() {
     overviewMap.drawMap();
     map.fire("moveend");
 
-    /*map.on("movestart", function() {
-     if (map.getZoom() >= 17) {
-     setTimeout(function(){
-     $(".marker-cluster").each(function() {
-     console.log($(this).text()==='1');
-     $(".marker-cluster").children("span").attrByFunction(function() {
-     if ($(this).text() === '1') {
-     console.log("what?");
-     $(this).addClass("hidden");
-     }
-     });
-     });
-     },0);
-     }
-     
-     });*/
+    map.on("movestart", function() {
+        //if (map.getZoom() >= 17) {
+            setTimeout(function() {
+                $(".marker-cluster").each(function() {
+                    //console.log(Number($(this).text()) > 40);
+                    $(".marker-cluster").children("span").attrByFunction(function() {
+                        if (Number($(this).text()) > 40) {
+                            console.log("what?");
+                            $(this).addClass("hidden");
+                        }
+                    });
+                });
+            }, 0);
+        //}
+
+    });
 
 });
 $.fn.attrByFunction = function(fn) {

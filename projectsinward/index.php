@@ -44,7 +44,7 @@ $page = "
         <link rel=\"stylesheet\" href=\"../css/popuptab.css\"/>
         <link rel=\"stylesheet\" href=\"../css/mediaviewer.css\"/>
         <script src=\"" . "js/config/config.js" . "\"></script>
-        <script src=\"js/config/style-config.js\"></script>
+        <script src=\"../js/config/style-config.js\"></script>
         <script src=\"../js/plugins.js\"></script>
         <script src=\"../js/guiActions.js\"></script>
         <script src=\"../js/data.js\"></script>

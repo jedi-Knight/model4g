@@ -41,6 +41,36 @@ $(document).ready(function() {
 
 
     var mapData = new Data();
+    
+    var modelQueryWardBoundary = mapData.fetchData({
+        query: {
+            geometries: {
+                type: "polygons",
+                group: "boundarymask"
+            },
+            url: "boundarymask.geojson"
+        },
+        returnDataMeta: {
+        }
+    });
+    modelQueryWardBoundary.done(function(data, params) {
+
+
+        var boundarymask = L.geoJson(data);
+        boundarymask.setStyle(LayerStyles["boundary-mask-style"]);
+        boundarymask.addTo(map);
+        console.log(data.features[0].geometry.coordinates[1]);
+
+        /*map.setMaxBounds(L.latLngBounds(data.features[0].geometry.coordinates[1].map(function(coordinates){
+         return {
+         lat: coordinates[1],
+         lng: coordinates[0]
+         };
+         })));*/
+
+        map.setMaxBounds(L.latLngBounds(config["map-options"]["map-bounds"]["northeast"],config["map-options"]["map-bounds"]["southwest"]));
+
+    });
 
     mapGlobals.mapData = mapData;
 
@@ -48,8 +78,9 @@ $(document).ready(function() {
         query: {
             geometries: {
                 type: "points",
-                group: config["map-of"]
-            }
+                group: config["map-of"],
+            },
+            url: config["data-src"]
         },
         returnDataMeta: {
 //            type: "formhub_JSON"

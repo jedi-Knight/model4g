@@ -177,9 +177,9 @@ function Data() {
 
                     //delete data[form]._geolocation;
                     /*data[form]._metaX = {
-                        dataSource: "formhub",
-                        group: params.query.geometries.group
-                    };*/
+                     dataSource: "formhub",
+                     group: params.query.geometries.group
+                     };*/
 
 
                     geoJSONDB_attributes[c] = {
@@ -188,14 +188,14 @@ function Data() {
                             group: params.query.geometries.group
                         },
                         "category": data["payload"]["incidents"][form]["categories"][0]["category"]["title"],
-                        "pictures":[  //update this for multiple photos / other types of media
+                        "pictures": [//update this for multiple photos / other types of media
                             {
-                                "photo":data["payload"]["incidents"][form]["media"].length?data["payload"]["incidents"][form]["media"][0]["link_url"]:"",
-                                "thumb":data["payload"]["incidents"][form]["media"].length?data["payload"]["incidents"][form]["media"][0]["thumb_url"]:""
+                                "photo": data["payload"]["incidents"][form]["media"].length ? data["payload"]["incidents"][form]["media"][0]["link_url"] : "",
+                                "thumb": data["payload"]["incidents"][form]["media"].length ? data["payload"]["incidents"][form]["media"][0]["thumb_url"] : ""
                             }
                         ]
                     };
-                    
+
                     $.extend(geoJSONDB_attributes[c], data["payload"]["incidents"][form]["incident"])
 
                     c++;
@@ -283,18 +283,19 @@ function Data() {
             //var id="name";
 
 
-
-            if (Boolean(params.url)) {
-                url = params.url;
-                //delete params.url;
+            if (params["override"]) {
+                if (Boolean(params["override"]["api-url"])) {
+                    url = params["override"]["api-url"];
+                    //delete params.url;
+                }
+                if (Boolean(params["override"]["requestType"])) {
+                    requestType = params["override"]["requestType"];
+                }
+                //    if(Boolean(params.id)){
+                //        id=params.id;
+                //        delete params.id;
+                //    }
             }
-            if (Boolean(params.requestType)) {
-                requestType = params.requestType;
-            }
-            //    if(Boolean(params.id)){
-            //        id=params.id;
-            //        delete params.id;
-            //    }
 
             if (thirdPartyAPIQueue) {
                 apiCall.resolve({

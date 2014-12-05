@@ -1,6 +1,6 @@
 config = {
     api: {
-        url: "http://www.kathmandulivinglabs.org/roadreport/api",
+        url: "data/",
         //url: "data/",
         type: "GET"
     },
@@ -68,7 +68,10 @@ config = {
             "accept": "image/*"
         }
     ],
-    "report-submission-url": "http://www.kathmandulivinglabs.org/roadreport/api?task=report"
+    "road-report-api": {
+        "url-query-report" : "http://www.kathmandulivinglabs.org/roadreport/api?task=incidents",
+        "url-submit-report": "http://www.kathmandulivinglabs.org/roadreport/api"
+    }
 };
 
 

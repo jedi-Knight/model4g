@@ -1,14 +1,15 @@
 config={
-    api:{
+    /*api:{
         url: "data/colleges.geojson",
         type: "GET"
-    },
+    },*/
     otherAPIs:{
         overpass: {
             url:"."
         }
     },
-    "map-of": "Colleges" 
+    "map-of": "Colleges" ,
+    "data-src": "colleges.geojson"
 };
 
 

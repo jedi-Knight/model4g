@@ -34,6 +34,7 @@ $page = "
         <link rel=\"stylesheet\" href=\"../css/leaflet.css\"/>
         <link rel=\"stylesheet\" href=\"../css/MarkerCluster.Default.css\"/>
         <link rel=\"stylesheet\" href=\"../css/MarkerCluster.css\"/>
+        <script src=\"js/plugins/leaflet-pip.js\"></script>
         <!--<link rel=\"stylesheet\" href=\"../css/leaflet-search.css\"/>-->
         
         <link rel=\"stylesheet\" href=\"../css/layout.css\"/>
@@ -47,10 +48,12 @@ $page = "
         <link rel=\"stylesheet\" href=\"css/roadreport_styles.css\"/>
 
         <script src=\"" . $config_js . "\"></script>
-        <script src=\"js/config/style-config.js\"></script>
+        <script src=\"js/config/config.js\"></script>
+        <script src=\"../js/config/style-config.js\"></script>
         <script src=\"../js/plugins.js\"></script>
         <script src=\"../js/guiActions.js\"></script>
         <script src=\"../js/data.js\"></script>
+        <script src=\"js/plugins/datafilter.js\"></script>
         <script src=\"../js/cartograph.js\"></script>
         <script src=\"js/plugins/reportform.js\"></script>
         <script src=\"js/cartomancer.js\"></script>

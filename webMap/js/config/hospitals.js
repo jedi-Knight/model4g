@@ -1,14 +1,15 @@
 config={
-    api:{
+    /*api:{
         url: "data/hospitals.geojson",
         type: "GET"
-    },
+    },*/
     otherAPIs:{
         overpass: {
             url:"."
         }
     },
     "map-of": "Hospitals" ,
+    "data-src": "hospitals.geojson"
 };
 
 

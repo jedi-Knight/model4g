@@ -44,11 +44,12 @@ $page = "
         <link rel=\"stylesheet\" href=\"css/popuptab.css\"/>
         <link rel=\"stylesheet\" href=\"css/mediaviewer.css\"/>
         <script src=\"" . $config_js . "\"></script>
-        <script src=\"js/config/style-config.js\"></script>
-        <script src=\"js/plugins.js\"></script>
-        <script src=\"js/guiActions.js\"></script>
-        <script src=\"js/data.js\"></script>
-        <script src=\"js/cartograph.js\"></script>
+        <script src=\"js/config/config.js\"></script>
+        <script src=\"../js/config/style-config.js\"></script>
+        <script src=\"../js/plugins.js\"></script>
+        <script src=\"../js/guiActions.js\"></script>
+        <script src=\"../js/data.js\"></script>
+        <script src=\"../js/cartograph.js\"></script>
         <script src=\"js/cartomancer.js\"></script>
     </head>
     <body>
