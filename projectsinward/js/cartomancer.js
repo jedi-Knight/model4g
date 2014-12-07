@@ -79,14 +79,33 @@ $(document).ready(function() {
      "heritage": L.layerGroup()
      };*/
 
-    var projectsLayers = {
-        "road": L.layerGroup(),
-        "sewerage": L.layerGroup(),
-        "water-supply": L.layerGroup(),
-        "space": L.layerGroup(),
-        "heritage": L.layerGroup()
+    var layerGroupExtendedOptions = function() {
+        var layerGroup = L.layerGroup();
+        layerGroup["min-zoom"] = LayerStyles["map-features"]["min-zoom"];
+        layerGroup["max-zoom"] = LayerStyles["map-features"]["max-zoom"];
+        return layerGroup;
     };
-    
+
+
+
+    /*var projectsLayers = {
+     "road": L.layerGroup(),
+     "sewerage": L.layerGroup(),
+     "water-supply": L.layerGroup(),
+     "space": L.layerGroup(),
+     "heritage": L.layerGroup()
+     };*/
+
+    var projectsLayers = {
+        "road": new layerGroupExtendedOptions(),
+        "sewerage": new layerGroupExtendedOptions(),
+        "water-supply": new layerGroupExtendedOptions(),
+        "space": new layerGroupExtendedOptions(),
+        "heritage": new layerGroupExtendedOptions()
+    };
+
+    mapGlobals.layerGroup = projectsLayers;
+
     //cartograph.getLayersControl().addOverlay(wardProjectsLayerGroup, "Ward-level Projects");
     //cartograph.getLayersControl().addOverlay(municipalProjectsLayerGroup, "Municipal-level Projects");
 
@@ -195,7 +214,7 @@ $(document).ready(function() {
              }
              }
              }*/
-            
+
             layer.setStyle(LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]]);
 
 
@@ -552,59 +571,86 @@ $(document).ready(function() {
              "title": $(this).find("span").text() + " " + config["map-of"] + " in this cluster. Click to zoom in."
              };
              });*/
-            
-            if (element.getZoom() >= LayerStyles["map-features"]["min-zoom"]) {
+            setTimeout(function() {
+                if (element.getZoom() >= LayerStyles["map-features"]["min-zoom"]) {
                     $(".marker-cluster").hide();
                 } else
                     $(".marker-cluster").show();
+            }, 0);
 
-            element.eachLayer(function(layer) {
-                if (!layer.feature)
-                    return;
-                //console.log(layer.feature);
-                if (!(layer.feature.properties["min-zoom"] || layer.feature.properties["max-zoom"]))
-                    return;
+            setTimeout(function() {
+                $.map(projectsLayers, function(layerGroup, index) {
+                    setTimeout(function() {
+                        if (element.getZoom() < layerGroup["min-zoom"]) {
+                            layerGroup.getLayers().map(function(layer, index) {
+                                setTimeout(function() {
+                                    layer.setStyle({
+                                        opacity: 0,
+                                        clickable: false
+                                    });
+                                }, 0);
+                            });
+                        } else {
+                            layerGroup.getLayers().map(function(layer, index) {
+                                setTimeout(function() {
+                                    layer.setStyle({
+                                        opacity: 1,
+                                        clickable: true
+                                    });
+                                }, 0);
+                            });
+                        }
+                    }, 0);
+                });
+            }, 0);
 
-                try {
+            /*element.eachLayer(function(layer) {
+             if (!layer.feature)
+             return;
+             //console.log(layer.feature);
+             if (!(layer.feature.properties["min-zoom"] || layer.feature.properties["max-zoom"]))
+             return;
+             
+             try {
+             
+             if (element.getZoom() < layer.feature.properties["min-zoom"])
+             layer.setStyle({
+             opacity: 0,
+             clickable: false
+             });
+             else {
+             /*console.log({
+             layer: layer,
+             category:layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"],
+             attributes: layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id),
+             styleCollection: LayerStyles["map-features"],
+             styleID: layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]
+             });*\/
+             
+             layer.setStyle({
+             opacity: 1,
+             clickable: true
+             });
+             }
+             
+             
+             } catch (e) {
+             
+             if (element.getZoom() > layer.feature.properties["max-zoom"]) {
+             console.log(layer);
+             $(layer._icon).css("display", "none");
+             } else {
+             $(layer._icon).css("display", "inline-block");
+             }
+             
+             }
+             
+             
+             
+             
+             });*/
 
-                    if (element.getZoom() < layer.feature.properties["min-zoom"])
-                        layer.setStyle({
-                            opacity: 0,
-                            clickable: false
-                        });
-                    else {
-                        /*console.log({
-                         layer: layer,
-                         category:layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"],
-                         attributes: layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id),
-                         styleCollection: LayerStyles["map-features"],
-                         styleID: layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]
-                         });*/
-                        
-                        layer.setStyle({
-                            opacity: 1,
-                            clickable: true
-                        });
-                    }
 
-
-                } catch (e) {
-
-                    if (element.getZoom() > layer.feature.properties["max-zoom"]) {
-                        console.log(layer);
-                        $(layer._icon).css("display", "none");
-                    } else {
-                        $(layer._icon).css("display", "inline-block");
-                    }
-
-                }
-
-                
-
-
-            });
-            
-            
 
         }, 0);
     });
