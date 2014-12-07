@@ -38,7 +38,7 @@ LayerStyles = {
             "heritage": {
             }
         },
-        "min-zoom": 17,
+        "min-zoom": 18,
         "max-zoom": 22
     },
     "boundary-mask-style":{

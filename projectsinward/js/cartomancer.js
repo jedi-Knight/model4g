@@ -552,6 +552,11 @@ $(document).ready(function() {
              "title": $(this).find("span").text() + " " + config["map-of"] + " in this cluster. Click to zoom in."
              };
              });*/
+            
+            if (element.getZoom() >= LayerStyles["map-features"]["min-zoom"]) {
+                    $(".marker-cluster").hide();
+                } else
+                    $(".marker-cluster").show();
 
             element.eachLayer(function(layer) {
                 if (!layer.feature)
@@ -594,13 +599,12 @@ $(document).ready(function() {
 
                 }
 
-                if (element.getZoom() >= LayerStyles["map-features"]["min-zoom"]) {
-                    $(".marker-cluster").hide();
-                } else
-                    $(".marker-cluster").show();
+                
 
 
             });
+            
+            
 
         }, 0);
     });
