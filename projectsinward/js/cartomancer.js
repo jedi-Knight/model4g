@@ -562,8 +562,7 @@ $(document).ready(function() {
 
 
 
-
-    map.on("zoomstart zoomend", function() {
+    map.on("zoomend", function() {
         var element = this;
         setTimeout(function() {
             /*$("#map").find("div.marker-cluster").attrByFunction(function() {
@@ -603,7 +602,7 @@ $(document).ready(function() {
                     }, 0);
                 });
             }, 0);
-
+            
             /*element.eachLayer(function(layer) {
              if (!layer.feature)
              return;
