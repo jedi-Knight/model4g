@@ -1,24 +1,25 @@
 function Map(options) {
-    
+
     var mapOptions = {
         center: [27.71639, 85.34546],
         zoom: config["map-options"]["init-zoom"],
         minZoom: config["map-options"]["min-zoom"],
         doubleClickZoom: true
     };
-    
-    if(options && options["mapOptions"]){
+
+    if (options && options["mapOptions"]) {
         $.extend(mapOptions, options.mapOptions);
-    };
-    
+    }
+    ;
+
     var map = L.map('map', mapOptions);
 
 
     function osmTiles() {
         return L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
-            //,maxZoom: 19,
-            //minZoom: 1
+                    //,maxZoom: 19,
+                    //minZoom: 1
         });
     }
 
@@ -133,15 +134,15 @@ function UI_OverviewMap(options) {
 }
 
 function Cluster(features, options, map) {
-    
+
     var clusteringOptions = {
         showCoverageOnHover: false,
         disableClusteringAtZoom: 18
     };
-    
-    if(options && options.clusteringOptions)
+
+    if (options && options.clusteringOptions)
         $.extend(clusteringOptions, options.clusteringOptions);
-    
+
     var clusterGroup = L.markerClusterGroup(clusteringOptions);
     var clustering = $.Deferred();
 
@@ -273,7 +274,7 @@ function Cluster(features, options, map) {
         }
         clustering.resolve(clusterGroup);
     }, 0);
-    
+
     return clustering.promise();
 }
 
@@ -471,10 +472,10 @@ function UI_SlidingTabs(options) {
                 eventHandlers: {
                     click: function(e) {
                         //if($(this).parent().hasClass("expanded")) return;
-                        
+
 
                         /*$(this).parent().addClass("expanded");
-                        $(this).parent().siblings().removeClass("expanded");*/
+                         $(this).parent().siblings().removeClass("expanded");*/
 
                         //options["tabs-trigger-eventHandlers"]["click"].call(element, e);
                         //}, 0);
@@ -487,9 +488,9 @@ function UI_SlidingTabs(options) {
             $(options.tabs[c].content).appendTo(content);
             content.appendTo(tab);
             /*content.css({
-                "height": "0px",
-                "opacity": 0
-            });*/
+             "height": "0px",
+             "opacity": 0
+             });*/
             tab.appendTo(uiElement);
         }
 
@@ -499,88 +500,88 @@ function UI_SlidingTabs(options) {
 }
 
 /*
-function UI_SlidingTabs(options) {
-    var deferred = $.Deferred();
-    setTimeout(function() {
-        var uiElement = $("<div/>");
-        options.attributes.class += " ui-sliding-tabs";
-        uiElement.attr(options.attributes);
-
-        for (var c in options.tabs) {
-            var tab = $("<div/>");
-            var content = $("<div class='content'/>");
-            var tabTrigger = new UI_Button({
-                attributes: {
-                    class: "trigger"
-                },
-                eventHandlers: {
-                    click: function(e) {
-                        //if($(this).parent().hasClass("expanded")) return;
-                        var element = this;
-                        //setTimeout(function() {
-
-                        //$(element).parent().siblings().find("input").prop("checked", false);
-                        /*$(element).parent().siblings().find(".content").css({
-                            "height": "0px",
-                            "min-height": "0px",
-                            "opacity": 0
-                        });
-
-                        $(element).siblings(".content").css({
-                            "min-height": "80px",
-                            "opacity": 1,
-                            "height": "auto"
-                        }, function() {
-                            $(this).css("height", "auto");
-
-                        });*\/
-                        
-                        $(element).parent().siblings().find(".content").css({
-                            "display": "none"
-                        });
-
-                        $(element).siblings(".content").css({
-                            "display": "inline"
-                        });
-                       $(element).closest(".ui-sliding-tabs").find("label").css({
-                           "display":"block"
-                       });
-
-                        var checkbox = $(this).parent().find("input");
-
-                        /*if ($(this).parent().hasClass("expanded"))
-                            return;*\/
-                        $(this).parent().siblings().find("input").each(function(){
-                            if($(this)[0].checked) $(this).click();
-                        });
-                        checkbox.each(function(){
-                            if(!$(this)[0].checked)$(this).click();
-                        });
-
-                        /*$(this).parent().addClass("expanded");
-                        $(this).parent().siblings().removeClass("expanded");*\/
-
-                        //options["tabs-trigger-eventHandlers"]["click"].call(element, e);
-                        //}, 0);
-
-                    }
-                },
-                content: "<div>" + options.tabs[c].title + "</div>"
-            });
-            tabTrigger.appendTo(tab);
-            $(options.tabs[c].content).appendTo(content);
-            content.appendTo(tab);
-            content.css({
-                "height": "0px",
-                "opacity": 0
-            });
-            tab.appendTo(uiElement);
-        }
-
-        deferred.resolve(uiElement);
-    }, 0);
-    return deferred;
-}*/
+ function UI_SlidingTabs(options) {
+ var deferred = $.Deferred();
+ setTimeout(function() {
+ var uiElement = $("<div/>");
+ options.attributes.class += " ui-sliding-tabs";
+ uiElement.attr(options.attributes);
+ 
+ for (var c in options.tabs) {
+ var tab = $("<div/>");
+ var content = $("<div class='content'/>");
+ var tabTrigger = new UI_Button({
+ attributes: {
+ class: "trigger"
+ },
+ eventHandlers: {
+ click: function(e) {
+ //if($(this).parent().hasClass("expanded")) return;
+ var element = this;
+ //setTimeout(function() {
+ 
+ //$(element).parent().siblings().find("input").prop("checked", false);
+ /*$(element).parent().siblings().find(".content").css({
+ "height": "0px",
+ "min-height": "0px",
+ "opacity": 0
+ });
+ 
+ $(element).siblings(".content").css({
+ "min-height": "80px",
+ "opacity": 1,
+ "height": "auto"
+ }, function() {
+ $(this).css("height", "auto");
+ 
+ });*\/
+ 
+ $(element).parent().siblings().find(".content").css({
+ "display": "none"
+ });
+ 
+ $(element).siblings(".content").css({
+ "display": "inline"
+ });
+ $(element).closest(".ui-sliding-tabs").find("label").css({
+ "display":"block"
+ });
+ 
+ var checkbox = $(this).parent().find("input");
+ 
+ /*if ($(this).parent().hasClass("expanded"))
+ return;*\/
+ $(this).parent().siblings().find("input").each(function(){
+ if($(this)[0].checked) $(this).click();
+ });
+ checkbox.each(function(){
+ if(!$(this)[0].checked)$(this).click();
+ });
+ 
+ /*$(this).parent().addClass("expanded");
+ $(this).parent().siblings().removeClass("expanded");*\/
+ 
+ //options["tabs-trigger-eventHandlers"]["click"].call(element, e);
+ //}, 0);
+ 
+ }
+ },
+ content: "<div>" + options.tabs[c].title + "</div>"
+ });
+ tabTrigger.appendTo(tab);
+ $(options.tabs[c].content).appendTo(content);
+ content.appendTo(tab);
+ content.css({
+ "height": "0px",
+ "opacity": 0
+ });
+ tab.appendTo(uiElement);
+ }
+ 
+ deferred.resolve(uiElement);
+ }, 0);
+ return deferred;
+ }*/
 
 
 
@@ -776,4 +777,59 @@ function UI_ExtensionColumns(options) {
     this.getUI = function() {
         return column;
     };
+}
+
+function UI_ColumnPageSwitcher(options) {
+    var uiElement = $("<div class='ui-column-page-switcher'></div>");
+    var _buttons = ["prev", "next"];
+    
+    var pageStatus = $("<div class='ui-page-status'></div>");
+
+    setTimeout(function() {
+        for (var c in _buttons) {
+            (new UI_Button({
+                attributes: {
+                    class: Number(c) ? "btn-next" : "btn-prev"
+                },
+                eventHandlers: {
+                    click: function(e) {
+                        var element = e.target;
+                        setTimeout(function() {
+                            options.domElementsSelection.map(function(index, domElement) {
+                                if (index >= options["start-index"] && index <= options["stop-index"])
+                                    $(domElement).show();
+                                else
+                                    $(domElement).hide();
+
+
+                            });
+                            //console.log(element);
+                            //console.log(options.domElementsSelection.length);
+
+                            if ($(element).hasClass("btn-prev") && options["start-index"]>9) {
+                                //console.log("btn-prev pressed");
+                                options["start-index"] = Number(options["start-index"])-10;
+                                options["stop-index"] = Number(options["stop-index"])-10;
+                            }else if($(element).hasClass("btn-next") && options["stop-index"] < options.domElementsSelection.length){
+                                //console.log("btn-next pressed");
+                                options["start-index"] = Number(options["start-index"])+10;
+                                options["stop-index"] = Number(options["stop-index"])+10;
+                            }
+                            
+                            pageStatus.text(options["start-index"]+1+"-"+options["stop-index"]+1+" of "+Number(options.domElementsSelection.length)+1);
+                            //console.log(options);
+
+                            //options.pageChangeCallback.call(element, e, options);
+                        }, 0);
+                    }
+                },
+                content: Number(c) ? "<div class='ui-btn-prev'>></div>" : "<div class='ui-btn-next'><</div>"
+            })).appendTo(uiElement);
+        }
+        
+        pageStatus.appendTo(uiElement.find(".btn-prev"));
+        
+    }, 0);
+
+    return uiElement;
 }

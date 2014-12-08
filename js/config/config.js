@@ -29,7 +29,7 @@ var Styles = {
             //return svg pattern urls..
             return "#000000"; //temporary/fallback fill color..
         }(),
-        fillOpacity: 1
+        fillOpacity: 0.8
     },
     lineStyle: {
         color: "#333366",

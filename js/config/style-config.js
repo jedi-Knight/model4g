@@ -60,7 +60,7 @@ LayerStyles = {
     "boundary-mask-style": {
         fillColor: "#ececec",
         color: "#666666",
-        fillOpacity: 1,
+        fillOpacity: 0.8,
         weight: 2,
         clickable: false
     }

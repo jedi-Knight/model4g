@@ -35,7 +35,29 @@ function Data() {
         return geometries;
     };
     this.getAttributes = function(query) {
-
+        
+        if(query){
+            var orderedCollection = [];
+            var orderedAttributes = $.extend(true, {}, attributes[query["geometry-type"]]);
+            var orderedKeys = $.map(orderedAttributes, function(item, index){
+               //console.log(item[query["order-by"]]+"_:_"+index);
+               return item[query["order-by"]]+"_:_"+index; 
+            });
+            
+            orderedKeys.sort();
+            orderedKeys = orderedKeys.map(function(item, index){
+                return item.replace(/.*_:_/,"");
+            });
+            
+            
+            for(var c in orderedKeys){
+                orderedAttributes[orderedKeys[c]]["_cartomancer_id"] = orderedKeys[c];
+                orderedCollection.push(orderedAttributes[orderedKeys[c]]);
+            }
+            
+            return orderedCollection;
+        }
+        
         return attributes;
     };
 

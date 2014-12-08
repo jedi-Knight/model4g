@@ -208,8 +208,55 @@ col.right + .ui-button-column-toggle{
     
     cursor: pointer;
     display: block;
-    margin-top: 20px;
+    margin-top: 10px;
     border-radius: 20px;
+    
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.col-footer a .ui-btn-prev, .col-footer a .ui-btn-next{
+    text-align: center;
+    
+    cursor: pointer;
+    /*display: block;*/
+    margin-top: 0px;
+    border-radius: 20px;
+    text-height: 12px;
+    font-size: 12px;
+}
+
+#extension-box div.ui-column-page-switcher{
+    line-height: 12px;
+    display: inline-block;
+    font-size: 12px;
+}
+#extension-box div.ui-column-page-switcher a{
+    display: inline-flex;
+    margin-top: 0px;
+    
+}
+#extension-box div.ui-column-page-switcher div{
+    display: inline-flex;
+    line-height: 10px;
+    font-size: 10px;
+    vertical-align: text-bottom;
+    margin: 2px 6px;
+    
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    
+    pointer-events: none;
+}
+
+.col-footer{
+    /*margin-top: -16px;*/
 }
 
 .col-footer div{

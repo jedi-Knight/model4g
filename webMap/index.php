@@ -31,18 +31,18 @@ $page = "
         <script src=\"js/leaflet.markercluster.js\"></script>
         <!--<script src=\"js/leaflet-search.js\"></script>-->
 
-        <link rel=\"stylesheet\" href=\"css/leaflet.css\"/>
-        <link rel=\"stylesheet\" href=\"css/MarkerCluster.Default.css\"/>
-        <link rel=\"stylesheet\" href=\"css/MarkerCluster.css\"/>
-        <!--<link rel=\"stylesheet\" href=\"css/leaflet-search.css\"/>-->
+        <link rel=\"stylesheet\" href=\"../css/leaflet.css\"/>
+        <link rel=\"stylesheet\" href=\"../css/MarkerCluster.Default.css\"/>
+        <link rel=\"stylesheet\" href=\"../css/MarkerCluster.css\"/>
+        <!--<link rel=\"stylesheet\" href=\"../css/leaflet-search.css\"/>-->
         
-        <link rel=\"stylesheet\" href=\"css/layout.css\"/>
+        <link rel=\"stylesheet\" href=\"../css/layout.css\"/>
 
-        <link rel=\"stylesheet\" href=\"css/theme.css\"/>        
-        <link rel=\"stylesheet\" href=\"css/mapstyle.css\"/>
+        <link rel=\"stylesheet\" href=\"../css/theme.css\"/>        
+        <link rel=\"stylesheet\" href=\"../css/mapstyle.css\"/>
         
-        <link rel=\"stylesheet\" href=\"css/popuptab.css\"/>
-        <link rel=\"stylesheet\" href=\"css/mediaviewer.css\"/>
+        <link rel=\"stylesheet\" href=\"../css/popuptab.css\"/>
+        <link rel=\"stylesheet\" href=\"../css/mediaviewer.css\"/>
         <script src=\"" . $config_js . "\"></script>
         <script src=\"js/config/config.js\"></script>
         <script src=\"../js/config/style-config.js\"></script>

@@ -59,7 +59,7 @@ $(document).ready(function() {
         var boundarymask = L.geoJson(data);
         boundarymask.setStyle(LayerStyles["boundary-mask-style"]);
         boundarymask.addTo(map);
-        console.log(data.features[0].geometry.coordinates[1]);
+                //console.log(data.features[0].geometry.coordinates[1]);
 
         /*map.setMaxBounds(L.latLngBounds(data.features[0].geometry.coordinates[1].map(function(coordinates){
          return {
@@ -163,14 +163,17 @@ $(document).ready(function() {
             header: "<h3>" + config["map-of"] + "</h3>",
             body: function() {
                 var bodyTable = {};
-                var pointAttributeList = mapData.getAttributes()["points"];
+                var pointAttributeList = mapData.getAttributes({
+                    "order-by": "name",
+                    "geometry-type": "points"
+                });
                 for (var point in pointAttributeList) {
                     bodyTable[pointAttributeList[point].name] = function() {
                         if (highlightButton)
                             delete highlightButton;
                         var highlightButton = new UI_Button({
                             attributes: {
-                                _id: point,
+                                _id: pointAttributeList[point]["_cartomancer_id"],
                                 class: "find-mapfeature"
                             },
                             eventHandlers: {
@@ -281,6 +284,22 @@ $(document).ready(function() {
         }).getUI()).appendTo($("#extension-box").find(".col-header"));
 
 
+
+        var paginationOptions = {
+            "start-index": 0,
+            "stop-index": 9,
+            "domElementsSelection": $("#extension-box").find(".body-row"),
+            "pageChangeCallback": function(e, options){
+                //paginationOptions = options;
+                //console.log(paginationOptions);
+            }
+        };
+        
+        console.log(new UI_ColumnPageSwitcher(paginationOptions));
+        
+        (new UI_ColumnPageSwitcher(paginationOptions)).prependTo($("#extension-box").find(".col-footer"));
+        
+        
 
 
 

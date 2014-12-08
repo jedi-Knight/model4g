@@ -499,29 +499,33 @@ $(document).ready(function() {
                 disableClusteringAtZoom: LayerStyles["map-features"]["min-zoom"],
                 maxClusterRadius: 160,
                 removeOutsideVisibleBounds: false,
-                showCoverageOnHover: true
-            }).addLayer(L.geoJson(data, {
-                onEachFeature: function(feature, layer) {
-
-                }
-            })).addTo(map);
-            //console.log(clusterGroup);
-            $.map(clusterGroup._featureGroup._layers, function(cluster, index) {
-                setTimeout(function() {
+                showCoverageOnHover: true,
+                iconCreateFunction: function(cluster) {
                     $(cluster).hover(function(e) {
+                        //console.log(cluster);
                         var clusterElement = this;
                         //setTimeout(function() {
                         //console.log(clusterElement);
                         var hoveredFeatures_cartomancer_ids = clusterElement._markers ? $.map(clusterElement._markers, function(marker, index) {
+                            //console.log(marker.feature);
+                            if(e.type==="mouseenter"){
+                            marker.addTo(map);
+                            $(cluster._icon).css("z-index", 1000);
+                            }else{
+                            map.removeLayer(marker);
+                            $(cluster._icon).css("z-index", 1);
+                        }
                             return marker.feature.properties._cartomancer_id;
                         }) : [clusterElement.feature.properties._cartomancer_id];
-                        $.map(projectsLayers, function(layerGroup, index) {
+                        //console.log(hoveredFeatures_cartomancer_ids);
+                        
+                       /* $.map(projectsLayers, function(layerGroup, index) {
                             //setTimeout(function() {
-
+                            //console.log(layerGroup)
                             layerGroup.getLayers().map(function(layer, index) {
                                 //console.log(hoveredFeatures_cartomancer_ids);
                                 //console.log(layer.feature.properties["_cartomancer_id"]);
-                                if ($.inArray(layer.feature.properties["_cartomancer_id"], hoveredFeatures_cartomancer_ids))
+                                if ($.inArray(layer.feature.properties["_cartomancer_id"], hoveredFeatures_cartomancer_ids)+1){
                                     //console.log(e);
                                     if (e.type === "mouseenter") {
                                         //setTimeout(function() {
@@ -538,14 +542,76 @@ $(document).ready(function() {
                                             clickable: false
                                         });
                                     }
+                                }
+
 
 
                             });
 
                             //}, 0);
-                        });
+                        });*/
                         //}, 0);
+
                     });
+                    var childCount = cluster.getChildCount();
+
+                    var c = ' marker-cluster-';
+                    if (childCount < 10) {
+                        c += 'small';
+                    } else if (childCount < 100) {
+                        c += 'medium';
+                    } else {
+                        c += 'large';
+                    }
+
+                    return new L.DivIcon({html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)});
+                }
+            }).addLayer(L.geoJson(data, {
+                onEachFeature: function(feature, layer) {
+
+                }
+            })).addTo(map);
+            //console.log(clusterGroup);
+            $.map(clusterGroup._featureGroup._layers, function(cluster, index) {
+                setTimeout(function() {
+                    /* $(cluster).hover(function(e) {
+                     var clusterElement = this;
+                     //setTimeout(function() {
+                     //console.log(clusterElement);
+                     var hoveredFeatures_cartomancer_ids = clusterElement._markers ? $.map(clusterElement._markers, function(marker, index) {
+                     return marker.feature.properties._cartomancer_id;
+                     }) : [clusterElement.feature.properties._cartomancer_id];
+                     $.map(projectsLayers, function(layerGroup, index) {
+                     //setTimeout(function() {
+                     
+                     layerGroup.getLayers().map(function(layer, index) {
+                     //console.log(hoveredFeatures_cartomancer_ids);
+                     //console.log(layer.feature.properties["_cartomancer_id"]);
+                     if ($.inArray(layer.feature.properties["_cartomancer_id"], hoveredFeatures_cartomancer_ids))
+                     //console.log(e);
+                     if (e.type === "mouseenter") {
+                     //setTimeout(function() {
+                     //console.log(layer);
+                     //console.log($(layer._path).attr("stroke-opacity"));
+                     layer.setStyle({
+                     opacity: 1,
+                     clickable: false
+                     });
+                     //}, 0);
+                     } else {
+                     layer.setStyle({
+                     opacity: 0,
+                     clickable: false
+                     });
+                     }
+                     
+                     
+                     });
+                     
+                     //}, 0);
+                     });
+                     //}, 0);
+                     });*/
                 }, 0);
             });
         }, 0);
