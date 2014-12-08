@@ -59,9 +59,10 @@ function HelperFeatures(options) {
             onEachFeature: function(feature, layer) {
                 layer.bindPopup(popup._content);
                 layer.setStyle(style);
+                layerGroup.addLayer(layer);
             }
         });
-        layerGroup.addLayer(geojsonLayer);
+        //layerGroup.addLayer(geojsonLayer);
     }
 
     this.addFeatureStyle = function(options) {

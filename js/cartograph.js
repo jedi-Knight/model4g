@@ -2,7 +2,7 @@ function Map(options) {
     
     var mapOptions = {
         center: [27.71639, 85.34546],
-        zoom: config["map-options"]["max-zoom"],
+        zoom: config["map-options"]["init-zoom"],
         minZoom: config["map-options"]["min-zoom"],
         doubleClickZoom: true
     };
@@ -137,7 +137,7 @@ function Cluster(features, options, map) {
     var clusteringOptions = {
         showCoverageOnHover: false,
         disableClusteringAtZoom: 18
-    }
+    };
     
     if(options && options.clusteringOptions)
         $.extend(clusteringOptions, options.clusteringOptions);
@@ -273,7 +273,7 @@ function Cluster(features, options, map) {
         }
         clustering.resolve(clusterGroup);
     }, 0);
-
+    
     return clustering.promise();
 }
 
@@ -453,6 +453,52 @@ function Tabs() {
     };
 }
 
+
+function UI_SlidingTabs(options) {
+    var deferred = $.Deferred();
+    setTimeout(function() {
+        var uiElement = $("<div/>");
+        options.attributes.class += " ui-sliding-tabs";
+        uiElement.attr(options.attributes);
+
+        for (var c in options.tabs) {
+            var tab = $("<div/>");
+            var content = $("<div class='content'/>");
+            var tabTrigger = new UI_Button({
+                attributes: {
+                    class: "trigger"
+                },
+                eventHandlers: {
+                    click: function(e) {
+                        //if($(this).parent().hasClass("expanded")) return;
+                        
+
+                        /*$(this).parent().addClass("expanded");
+                        $(this).parent().siblings().removeClass("expanded");*/
+
+                        //options["tabs-trigger-eventHandlers"]["click"].call(element, e);
+                        //}, 0);
+
+                    }
+                },
+                content: "<div>" + options.tabs[c].title + "</div>"
+            });
+            tabTrigger.appendTo(tab);
+            $(options.tabs[c].content).appendTo(content);
+            content.appendTo(tab);
+            /*content.css({
+                "height": "0px",
+                "opacity": 0
+            });*/
+            tab.appendTo(uiElement);
+        }
+
+        deferred.resolve(uiElement);
+    }, 0);
+    return deferred;
+}
+
+/*
 function UI_SlidingTabs(options) {
     var deferred = $.Deferred();
     setTimeout(function() {
@@ -487,7 +533,7 @@ function UI_SlidingTabs(options) {
                         }, function() {
                             $(this).css("height", "auto");
 
-                        });*/
+                        });*\/
                         
                         $(element).parent().siblings().find(".content").css({
                             "display": "none"
@@ -503,7 +549,7 @@ function UI_SlidingTabs(options) {
                         var checkbox = $(this).parent().find("input");
 
                         /*if ($(this).parent().hasClass("expanded"))
-                            return;*/
+                            return;*\/
                         $(this).parent().siblings().find("input").each(function(){
                             if($(this)[0].checked) $(this).click();
                         });
@@ -512,7 +558,7 @@ function UI_SlidingTabs(options) {
                         });
 
                         /*$(this).parent().addClass("expanded");
-                        $(this).parent().siblings().removeClass("expanded");*/
+                        $(this).parent().siblings().removeClass("expanded");*\/
 
                         //options["tabs-trigger-eventHandlers"]["click"].call(element, e);
                         //}, 0);
@@ -534,7 +580,7 @@ function UI_SlidingTabs(options) {
         deferred.resolve(uiElement);
     }, 0);
     return deferred;
-}
+}*/
 
 
 
