@@ -22,22 +22,30 @@ $(document).ready(function() {
     };
 
 
-    /*var osmWays = L.geoJson(null, {
-     onEachFeature: function(feature, layer) {
-     setTimeout(function() {
-     layer._container.setAttribute("title", "This is a " + feature.geometry.type.replace("String", "") + " feature. Click to have a look at some of its attributes.");
-     
-     layer.setStyle(feature.geometry.type === "Polygon" ? Styles.polygonStyle : Styles.lineStyle);
-     layer.on("click", function(e) {
-     popup.setLatLng(e.latlng);
-     popup.openOn(map);
-     popup.setContent(new TableContent(feature.properties, true));
-     popup.update();
-     });
-     }, 0);
-     },
-     className: "vector-layer"
-     }).addTo(map);*/
+    var layerGroupExtendedOptions = function() {
+        var layerGroup = L.layerGroup();
+        layerGroup["min-zoom"] = LayerStyles["map-features"]["min-zoom"];
+        layerGroup["max-zoom"] = LayerStyles["map-features"]["max-zoom"];
+        return layerGroup;
+    };
+
+
+
+    /*var projectsLayers = {
+     "road": L.layerGroup(),
+     "sewerage": L.layerGroup(),
+     "water-supply": L.layerGroup(),
+     "space": L.layerGroup(),
+     "heritage": L.layerGroup()
+     };*/
+
+    var projectsLayers = {
+        "buildings": new layerGroupExtendedOptions()
+    };
+    
+    map.addLayer(projectsLayers["buildings"]);
+    
+    mapGlobals.layerGroup = projectsLayers;
 
 
     var mapData = new Data();
@@ -73,6 +81,80 @@ $(document).ready(function() {
     });
 
     mapGlobals.mapData = mapData;
+    
+    function drawLinesAndPolygons(feature, layer, layerGroup) {
+        //console.log(feature);
+        var attributes = feature.properties.getAttributes(feature.properties._cartomancer_id);
+        feature.properties.title = attributes.name/*+", "+attributes.city*/;
+
+        //feature.properties["min-zoom"] = LayerStyles["map-features"]["min-zoom"];
+
+        setTimeout(function() {
+
+            //for (var point in features) {
+            var pointAttributes = feature.properties.getAttributes(feature.properties._cartomancer_id);
+
+
+            var dom = new PanelDocumentModel(pointAttributes);
+
+            var panelDocument = new PanelDocument(dom.documentModel);
+            panelDocument.addToTitleBar(dom.titleBarJson);
+            panelDocument.addHeader(dom.headerJson);
+            panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
+
+            layer.bindPopup(panelDocument.getDocument(), {
+                autoPan: true,
+                keepInView: true
+                        //,offset: L.point(0, -22)
+            });
+
+            layer.on("popupopen", function() {
+                setTimeout(function() {
+                    $("#map").find(".panel-document-header .header-row>div:last-child").each(function() {
+                        if ($(this).outerHeight() > 56)
+                            $(this).addClass("smaller-text");
+                    });
+                }, 0);
+            });
+
+            /* switch(pointAttributes["project-category"]){
+             case "road": 
+             {
+             /*var newLine
+             for(var c in feature.geometry.coordinates){
+             
+             }
+             }
+             }*/
+
+            //layer.setStyle(LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]]);
+            layer.setStyle($.extend({}, LayerStyles["map-features"]["buildings"], {opacity: 0, fillOpacity: 0}));
+
+
+
+            //layer.setStyle(LayerStyles["map-features"]["road"]);
+            //layer.addTo(map);
+            if (layerGroup) {
+                layerGroup.addLayer(layer);
+            }
+
+               /* helperFeatures.addFeatureStyle({
+                    "feature-group": feature["properties"]["getAttributes"](feature["properties"]["_cartomancer_id"])["project-category"],
+                    "styles": LayerStyles["map-features"]["helper-styles"],
+                    "layerGroup": layerGroup,
+                    "popup": layer._popup,
+                    "feature": feature
+                });
+            }*/
+
+            //map.addLayer(layerGroup);
+        }, 0);
+
+
+    }
+    
+    
+    
 
     var modelQueryPoints = mapData.fetchData({
         query: {
@@ -88,6 +170,13 @@ $(document).ready(function() {
     });
 
     modelQueryPoints.done(function(data, params) {
+        
+        var polygons = L.geoJson(data, {
+            onEachFeature: function(feature, layer) {
+                drawLinesAndPolygons(feature, layer, projectsLayers["buildings"]);
+            }
+        });
+        
 
         data = mapData.getGeometries({
             "geometry-type": "polygons",
@@ -95,7 +184,6 @@ $(document).ready(function() {
             "function": "getCentroids"
         });
         
-        console.log(data);
 
         var clusterGeoJson = L.geoJson(data, {
             pointToLayer: function(feature, latlng) {
@@ -158,16 +246,92 @@ $(document).ready(function() {
 
 
 
-        var clusterSpell = new Cluster(data.features);
+       /* var clusterSpell = new Cluster(data.features);
         clusterSpell.done(function(clusterGroup) {
             clusterGroup.addTo(map);
             map.fire("zoomend");
-            //cartograph.getLayersControl().addOverlay(clusterGroup, "Schools / School Clusters");
-            
-            
-            
-            
-        });
+        });*/
+        
+        
+         var clusterGroup = L.markerClusterGroup({
+                singleMarkerMode: true,
+                disableClusteringAtZoom: LayerStyles["map-features"]["min-zoom"],
+                maxClusterRadius: 80,
+                removeOutsideVisibleBounds: false,
+                showCoverageOnHover: true,
+                iconCreateFunction: function(cluster) {
+                    $(cluster).hover(function(e) {
+                        //console.log(cluster);
+                        var clusterElement = this;
+                        //setTimeout(function() {
+                        //console.log(clusterElement);
+                        var hoveredFeatures_cartomancer_ids = clusterElement._markers ? $.map(clusterElement._markers, function(marker, index) {
+                            //console.log(marker.feature);
+                            if(e.type==="mouseenter"){
+                            marker.addTo(map);
+                            $(cluster._icon).css("z-index", 1000);
+                            }else{
+                            map.removeLayer(marker);
+                            $(cluster._icon).css("z-index", 1);
+                        }
+                            return marker.feature.properties._cartomancer_id;
+                        }) : [clusterElement.feature.properties._cartomancer_id];
+                        //console.log(hoveredFeatures_cartomancer_ids);
+                        
+                       /* $.map(projectsLayers, function(layerGroup, index) {
+                            //setTimeout(function() {
+                            //console.log(layerGroup)
+                            layerGroup.getLayers().map(function(layer, index) {
+                                //console.log(hoveredFeatures_cartomancer_ids);
+                                //console.log(layer.feature.properties["_cartomancer_id"]);
+                                if ($.inArray(layer.feature.properties["_cartomancer_id"], hoveredFeatures_cartomancer_ids)+1){
+                                    //console.log(e);
+                                    if (e.type === "mouseenter") {
+                                        //setTimeout(function() {
+                                        //console.log(layer);
+                                        //console.log($(layer._path).attr("stroke-opacity"));
+                                        layer.setStyle({
+                                            opacity: 1,
+                                            clickable: false
+                                        });
+                                        //}, 0);
+                                    } else {
+                                        layer.setStyle({
+                                            opacity: 0,
+                                            clickable: false
+                                        });
+                                    }
+                                }
+
+
+
+                            });
+
+                            //}, 0);
+                        });*/
+                        //}, 0);
+
+                    });
+                    var childCount = cluster.getChildCount();
+
+                    var c = ' marker-cluster-';
+                    if(childCount === 1){
+                        c+= 'small hidden';
+                    }else if (childCount < 10) {
+                        c += 'small';
+                    } else if (childCount < 100) {
+                        c += 'medium';
+                    }else {
+                        c += 'large';
+                    }
+
+                    return new L.DivIcon({html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)});
+                }
+            }).addLayer(L.geoJson(data, {
+                onEachFeature: function(feature, layer) {
+
+                }
+            })).addTo(map);
 
 
 
@@ -306,7 +470,6 @@ $(document).ready(function() {
             }
         };
 
-        console.log(new UI_ColumnPageSwitcher(paginationOptions));
 
         (new UI_ColumnPageSwitcher(paginationOptions)).prependTo($("#extension-box").find(".col-footer"));
 
@@ -334,6 +497,57 @@ $(document).ready(function() {
 
     $("#mapBox").toggleClass("smaller larger");
     map.fire("dragend");
+    
+    map.on("zoomend", function() {
+        var element = this;
+        setTimeout(function() {
+            /*$("#map").find("div.marker-cluster").attrByFunction(function() {
+             return {
+             "title": $(this).find("span").text() + " " + config["map-of"] + " in this cluster. Click to zoom in."
+             };
+             });*/
+            
+
+            setTimeout(function() {
+                $.map(projectsLayers, function(layerGroup, index) {
+                    setTimeout(function() {
+                        if (element.getZoom() < layerGroup["min-zoom"]) {
+                            layerGroup.getLayers().map(function(layer, index) {
+                                setTimeout(function() {
+                                    layer.setStyle({
+                                        opacity: 0,
+                                        fillOpacity: 0,
+                                        clickable: false
+                                    });
+                                }, 0);
+                            });
+                        } else {
+                            layerGroup.getLayers().map(function(layer, index) {
+                                setTimeout(function() {
+                                    layer.setStyle({
+                                        opacity: 1,
+                                        fillOpacity: 1,
+                                        clickable: true
+                                    });
+                                }, 0);
+                            });
+                        }
+                    }, 0);
+                });
+            }, 0);
+
+            
+
+
+
+        }, 0);
+    });
+    
+    
+    
+    
+    
+    
 
     (new UI_Button({
         attributes: {

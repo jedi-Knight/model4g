@@ -44,6 +44,13 @@ LayerStyles = {
             "dashArray": "16 8",
             fillColor: "#ffff00"
         },
+        "buildings":{
+            weight: 4,
+            color: "#666666",
+            fillColor: "#00ff66",
+            fillOpacity: 1
+        }
+        ,
         "helper-styles": {
             "road": {
                 weight: 2,

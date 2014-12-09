@@ -52,7 +52,6 @@ function Data() {
                         centroid = [centroid[0] / (n - 1), centroid[1] / (n - 1)];
                     }
                     
-                    console.log($.extend(true,{},feature.properties));
                     
                     var returnFeature = {
                         "type": "Feature",
