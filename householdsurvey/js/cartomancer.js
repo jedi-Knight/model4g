@@ -42,9 +42,9 @@ $(document).ready(function() {
     var projectsLayers = {
         "buildings": new layerGroupExtendedOptions()
     };
-    
+
     map.addLayer(projectsLayers["buildings"]);
-    
+
     mapGlobals.layerGroup = projectsLayers;
 
 
@@ -81,7 +81,7 @@ $(document).ready(function() {
     });
 
     mapGlobals.mapData = mapData;
-    
+
     function drawLinesAndPolygons(feature, layer, layerGroup) {
         //console.log(feature);
         var attributes = feature.properties.getAttributes(feature.properties._cartomancer_id);
@@ -138,23 +138,23 @@ $(document).ready(function() {
                 layerGroup.addLayer(layer);
             }
 
-               /* helperFeatures.addFeatureStyle({
-                    "feature-group": feature["properties"]["getAttributes"](feature["properties"]["_cartomancer_id"])["project-category"],
-                    "styles": LayerStyles["map-features"]["helper-styles"],
-                    "layerGroup": layerGroup,
-                    "popup": layer._popup,
-                    "feature": feature
-                });
-            }*/
+            /* helperFeatures.addFeatureStyle({
+             "feature-group": feature["properties"]["getAttributes"](feature["properties"]["_cartomancer_id"])["project-category"],
+             "styles": LayerStyles["map-features"]["helper-styles"],
+             "layerGroup": layerGroup,
+             "popup": layer._popup,
+             "feature": feature
+             });
+             }*/
 
             //map.addLayer(layerGroup);
         }, 0);
 
 
     }
-    
-    
-    
+
+
+
 
     var modelQueryPoints = mapData.fetchData({
         query: {
@@ -170,20 +170,20 @@ $(document).ready(function() {
     });
 
     modelQueryPoints.done(function(data, params) {
-        
+
         var polygons = L.geoJson(data, {
             onEachFeature: function(feature, layer) {
                 drawLinesAndPolygons(feature, layer, projectsLayers["buildings"]);
             }
         });
-        
+
 
         data = mapData.getGeometries({
             "geometry-type": "polygons",
-            "feature-group": "Household Survey",
+            "feature-group": config["map-of"],
             "function": "getCentroids"
         });
-        
+
 
         var clusterGeoJson = L.geoJson(data, {
             pointToLayer: function(feature, latlng) {
@@ -246,92 +246,179 @@ $(document).ready(function() {
 
 
 
-       /* var clusterSpell = new Cluster(data.features);
-        clusterSpell.done(function(clusterGroup) {
-            clusterGroup.addTo(map);
-            map.fire("zoomend");
-        });*/
-        
-        
-         var clusterGroup = L.markerClusterGroup({
-                singleMarkerMode: true,
-                disableClusteringAtZoom: LayerStyles["map-features"]["min-zoom"],
-                maxClusterRadius: 80,
-                removeOutsideVisibleBounds: false,
-                showCoverageOnHover: true,
-                iconCreateFunction: function(cluster) {
-                    $(cluster).hover(function(e) {
-                        //console.log(cluster);
-                        var clusterElement = this;
-                        //setTimeout(function() {
-                        //console.log(clusterElement);
-                        var hoveredFeatures_cartomancer_ids = clusterElement._markers ? $.map(clusterElement._markers, function(marker, index) {
-                            //console.log(marker.feature);
-                            if(e.type==="mouseenter"){
-                            marker.addTo(map);
-                            $(cluster._icon).css("z-index", 1000);
-                            }else{
-                            map.removeLayer(marker);
-                            $(cluster._icon).css("z-index", 1);
-                        }
-                            return marker.feature.properties._cartomancer_id;
-                        }) : [clusterElement.feature.properties._cartomancer_id];
-                        //console.log(hoveredFeatures_cartomancer_ids);
-                        
-                       /* $.map(projectsLayers, function(layerGroup, index) {
-                            //setTimeout(function() {
-                            //console.log(layerGroup)
-                            layerGroup.getLayers().map(function(layer, index) {
-                                //console.log(hoveredFeatures_cartomancer_ids);
-                                //console.log(layer.feature.properties["_cartomancer_id"]);
-                                if ($.inArray(layer.feature.properties["_cartomancer_id"], hoveredFeatures_cartomancer_ids)+1){
-                                    //console.log(e);
-                                    if (e.type === "mouseenter") {
-                                        //setTimeout(function() {
-                                        //console.log(layer);
-                                        //console.log($(layer._path).attr("stroke-opacity"));
-                                        layer.setStyle({
-                                            opacity: 1,
-                                            clickable: false
-                                        });
-                                        //}, 0);
-                                    } else {
-                                        layer.setStyle({
-                                            opacity: 0,
-                                            clickable: false
-                                        });
+        /* var clusterSpell = new Cluster(data.features);
+         clusterSpell.done(function(clusterGroup) {
+         clusterGroup.addTo(map);
+         map.fire("zoomend");
+         });*/
+
+
+        var clusterGroup = L.markerClusterGroup({
+            singleMarkerMode: true,
+            disableClusteringAtZoom: LayerStyles["map-features"]["min-zoom"],
+            maxClusterRadius: 80,
+            removeOutsideVisibleBounds: false,
+            showCoverageOnHover: true,
+            iconCreateFunction: function(cluster) {
+
+                var childCount = cluster.getChildCount();
+
+                $(cluster).hover(function(e) {
+                    //console.log(cluster);
+
+
+                    var clusterElement = this;
+                    var popup = L.popup({
+                        className: "tooltip",
+                        closeButton: false
+                    });
+                    //setTimeout(function() {
+                    //console.log(clusterElement);
+                    //var hoveredFeatures_cartomancer_ids = clusterElement._markers ? $.map(clusterElement._markers, function(marker, index) {
+                    //console.log(marker.feature);
+                    if (e.type === "mouseenter") {
+                        /*marker.addTo(map);
+                         $(cluster._icon).css("z-index", 1000);*/
+
+                        //var tooltip = function() {
+                        var tooltip = $("<div/>");
+                        var tooltipDef = {
+                            "house:count": childCount,
+                            " use Solar-power inverter": "power:solar_panel",
+                            " self-manage sewage": "waste:blackwater",
+                            " segregate bio-degradable waste from non-degradable": "waste:segregation"
+                        };
+                        tooltipDef.count = {
+                        };
+                        setTimeout(function() {
+                            cluster.getAllChildMarkers().map(function(marker, index) {
+                                var pointAttributes = $.extend(true, {}, marker.feature.properties.getAttributes(marker.feature.properties._cartomancer_id));
+                                $.map(tooltipDef, function(dataKey, tooltipKey) {
+                                    if (!tooltipDef.count[dataKey])
+                                        tooltipDef.count[dataKey] = 0;
+                                    switch (pointAttributes[dataKey]) {
+                                        case "yes":
+                                            pointAttributes[dataKey] = 1;
+                                            break;
+                                        case "no":
+                                            pointAttributes[dataKey] = 0;
+                                            break;
+                                        case "septic tank":
+                                            pointAttributes[dataKey] = 1;
+                                            break;
+                                        case "null":
+                                            pointAttributes[dataKey] = 0;
+                                            break;
+                                        default:
+                                            pointAttributes[dataKey] = Number(pointAttributes[dataKey]) ? Number(pointAttributes[dataKey]) : 0;
                                     }
-                                }
-
-
-
+                                    tooltipDef.count[dataKey] += pointAttributes[dataKey];
+                                });
                             });
 
-                            //}, 0);
-                        });*/
-                        //}, 0);
+                            tooltip.append("<div class='content'>" + $.map(tooltipDef, function(dataKey, tooltipKey) {
+                                if (tooltipKey === "count")
+                                    return;
+                                else if (tooltipKey === "house:count")
+                                    return "There are " + childCount + " houses in this cluster. Of these";
+                                return tooltipDef.count[dataKey] + tooltipKey;
+                            }).join(", ") + "</div>");
+                            //console.log(tooltip);
 
-                    });
-                    var childCount = cluster.getChildCount();
+                            console.log(tooltip.text());
+                            popup.setLatLng(cluster._latlng);
+                            popup.openOn(map);
+                            $(popup._container).find(".leaflet-popup-content").append(tooltip);
+                        }, 0);
 
-                    var c = ' marker-cluster-';
-                    if(childCount === 1){
-                        c+= 'small hidden';
-                    }else if (childCount < 10) {
-                        c += 'small';
-                    } else if (childCount < 100) {
-                        c += 'medium';
-                    }else {
-                        c += 'large';
+                        //return tooltip;
+                        //}();
+
+                        console.log(popup);
+
+                        //popup.setContent(tooltip);
+
+
+                    } else {
+                        map.closePopup();
+                        /*map.removeLayer(marker);
+                         $(cluster._icon).css("z-index", 1);*/
                     }
+                    //return marker.feature.properties._cartomancer_id;
+                    //}) : [clusterElement.feature.properties._cartomancer_id];
+                    //console.log(hoveredFeatures_cartomancer_ids);
 
-                    return new L.DivIcon({html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)});
-                }
-            }).addLayer(L.geoJson(data, {
-                onEachFeature: function(feature, layer) {
+                    /* $.map(projectsLayers, function(layerGroup, index) {
+                     //setTimeout(function() {
+                     //console.log(layerGroup)
+                     layerGroup.getLayers().map(function(layer, index) {
+                     //console.log(hoveredFeatures_cartomancer_ids);
+                     //console.log(layer.feature.properties["_cartomancer_id"]);
+                     if ($.inArray(layer.feature.properties["_cartomancer_id"], hoveredFeatures_cartomancer_ids)+1){
+                     //console.log(e);
+                     if (e.type === "mouseenter") {
+                     //setTimeout(function() {
+                     //console.log(layer);
+                     //console.log($(layer._path).attr("stroke-opacity"));
+                     layer.setStyle({
+                     opacity: 1,
+                     clickable: false
+                     });
+                     //}, 0);
+                     } else {
+                     layer.setStyle({
+                     opacity: 0,
+                     clickable: false
+                     });
+                     }
+                     }
+                     
+                     
+                     
+                     });
+                     
+                     //}, 0);
+                     });*/
+                    //}, 0);
 
+
+
+
+
+                });
+
+
+                var c = ' marker-cluster-';
+                if (childCount === 1) {
+                    c += 'small hidden';
+                } else if (childCount < 10) {
+                    c += 'small';
+                } else if (childCount < 100) {
+                    c += 'medium';
+                } else {
+                    c += 'large';
                 }
-            })).addTo(map);
+
+
+
+
+
+
+                return new L.DivIcon({html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)});
+            },
+            polygonOptions: {
+                weight: 4,
+                color: "#333333",
+                opacity: 1,
+                dashArray: "6 6",
+                fillColor: "#eeeeee",
+                fillOpacity: 0.6
+            }
+        }).addLayer(L.geoJson(data, {
+            onEachFeature: function(feature, layer) {
+
+            }
+        })).addTo(map);
 
 
 
@@ -340,76 +427,79 @@ $(document).ready(function() {
             body: function() {
                 var bodyTable = {};
                 var pointAttributeList = mapData.getAttributes({
-                    "order-by": "name",
-                    "geometry-type": "points"
+                    "order-by": "addr:street",
+                    "geometry-type": "polygons"
                 });
                 for (var point in pointAttributeList) {
-                    bodyTable[pointAttributeList[point].name] = function() {
-                        if (highlightButton)
-                            delete highlightButton;
-                        var highlightButton = new UI_Button({
-                            attributes: {
-                                _id: pointAttributeList[point]["_cartomancer_id"],
-                                class: "find-mapfeature"
-                            },
-                            eventHandlers: {
-                                click: function() {
-                                    map.closePopup();
+                    if (pointAttributeList[point]["addr:street"] && pointAttributeList[point]["addr:street"] !== "Others" && pointAttributeList[point]["addr:housenumber"]) {
+                        bodyTable[pointAttributeList[point]["addr:housenumber"] + " - " + pointAttributeList[point]["addr:street"]] = function() {
+                            if (highlightButton)
+                                delete highlightButton;
+                            var highlightButton = new UI_Button({
+                                attributes: {
+                                    _id: pointAttributeList[point]["_cartomancer_id"],
+                                    class: "find-mapfeature"
+                                },
+                                eventHandlers: {
+                                    click: function() {
+                                        map.closePopup();
 
-                                    map.setZoom(16, {
-                                        animate: true
-                                    });
-
-                                    var buttonDOMElement = this;
-
-                                    setTimeout(function() {
-                                        var pointOfAttributes = mapData.getGeometries()["points"][config["map-of"]]["features"][$(buttonDOMElement).attr("_id")];
-                                        //var pointAttributes = e.layer.feature.properties.getAttributes(e.layer.feature.properties._cartomancer_id);
-                                        var dom = new PanelDocumentModel(pointOfAttributes.properties.getAttributes($(buttonDOMElement).attr("_id")));
-
-                                        var panelDocument = new PanelDocument(dom.documentModel);
-                                        panelDocument.addToTitleBar(dom.titleBarJson);
-                                        panelDocument.addHeader(dom.headerJson);
-                                        panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
-
-                                        popup.setContent(panelDocument.getDocument());
-
-                                        var latlng = L.latLng(pointOfAttributes.geometry.coordinates[1], pointOfAttributes.geometry.coordinates[0]);
-
-                                        popup.setLatLng(latlng);
-                                        map.setView(latlng, 18, {
+                                        map.setZoom(16, {
                                             animate: true
                                         });
 
-                                        map.once("zoomend", function() {
-                                            setTimeout(function() {
-                                                popup.openOn(map);
+                                        var buttonDOMElement = this;
 
-                                                popup.update();
-                                            }, 300);
+                                        setTimeout(function() {
+                                            var pointOfAttributes = mapData.getGeometries()["points"]["centroidsCollections"][config["map-of"]]["features"][$(buttonDOMElement).attr("_id")];
+                                            //var pointAttributes = e.layer.feature.properties.getAttributes(e.layer.feature.properties._cartomancer_id);
+                                            var dom = new PanelDocumentModel(pointOfAttributes.properties.getAttributes($(buttonDOMElement).attr("_id")));
+
+                                            var panelDocument = new PanelDocument(dom.documentModel);
+                                            panelDocument.addToTitleBar(dom.titleBarJson);
+                                            panelDocument.addHeader(dom.headerJson);
+                                            panelDocument.addTabs(dom.tabsJson, PlugsForStyling.popup && PlugsForStyling.popup.body ? PlugsForStyling.popup.body : false);
+
+                                            popup.setContent(panelDocument.getDocument());
+
+                                            var latlng = L.latLng(pointOfAttributes.geometry.coordinates[1], pointOfAttributes.geometry.coordinates[0]);
+
+                                            popup.setLatLng(latlng);
+                                            map.setView(latlng, 18, {
+                                                animate: true
+                                            });
+
+                                            map.once("zoomend", function() {
+                                                setTimeout(function() {
+                                                    popup.openOn(map);
+
+                                                    popup.update();
+                                                }, 300);
+                                            });
+                                        }, 500);
+
+                                        map.on("popupclose", function() {
+
                                         });
-                                    }, 500);
 
-                                    map.on("popupclose", function() {
-
-                                    });
-
+                                    }
                                 }
-                            }
-                        });
-                        //highlightButton.text("Show on the Map");
-                        highlightButton.append("<div class=icon/>");
-                        return highlightButton;
-                    }();
+                            });
+                            //highlightButton.text("Show on the Map");
+                            highlightButton.append("<div class=icon/>");
+                            return highlightButton;
+                        }();
+                    }
                 }
                 return bodyTable;
+                //}
             }(),
             //footer: "<a class='ui-button-download-data'><div>Download as CSV</div></a>",
             footer: function() {
                 var csvFileBlob;
                 var url;
                 var csvFileURL = "";
-                var csvDataSource = mapData.getAttributes()["points"];
+                var csvDataSource = mapData.getAttributes()["polygons"];
                 var documentModel = new PanelDocumentModel(csvDataSource[0]);
                 var csvColumns = documentModel.tabsJson.tabs[0].content;
                 var csvArray = [Object.keys(csvColumns).toString()];
@@ -497,7 +587,7 @@ $(document).ready(function() {
 
     $("#mapBox").toggleClass("smaller larger");
     map.fire("dragend");
-    
+
     map.on("zoomend", function() {
         var element = this;
         setTimeout(function() {
@@ -506,7 +596,7 @@ $(document).ready(function() {
              "title": $(this).find("span").text() + " " + config["map-of"] + " in this cluster. Click to zoom in."
              };
              });*/
-            
+
 
             setTimeout(function() {
                 $.map(projectsLayers, function(layerGroup, index) {
@@ -528,6 +618,7 @@ $(document).ready(function() {
                                         opacity: 1,
                                         fillOpacity: 1,
                                         clickable: true
+                                        , weight: element.getZoom() < 18 ? 2 : 4
                                     });
                                 }, 0);
                             });
@@ -536,18 +627,18 @@ $(document).ready(function() {
                 });
             }, 0);
 
-            
+
 
 
 
         }, 0);
     });
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 
     (new UI_Button({
         attributes: {

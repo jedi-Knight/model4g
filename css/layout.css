@@ -309,6 +309,15 @@ a.marker-info-zoom-trigger>div{
     /*text-shadow: 0px 0px 8px #ffffff;*/
 }
 
+.leaflet-popup.tooltip{
+    width: 200px;
+}
+.leaflet-popup.tooltip .leaflet-popup-content{
+    padding: 4px 6px;
+    font-size: 10pt;
+    line-height: 12pt;
+}
+
 .hidden{
     display:none !important;
 }

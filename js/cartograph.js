@@ -39,9 +39,9 @@ function Map(options) {
     var baseMaps = {
         "OpenStreetMap": osmTileLayer,
         "OpenStreetMap Grayscale": osmTileLayerClone
-        , "Other base layer 1": {_leaflet_id: "dummylayer1"},
+       /* , "Other base layer 1": {_leaflet_id: "dummylayer1"},
         "Other base layer 2..": {_leaflet_id: "dummylayer2"},
-        "...": {_leaflet_id: "dummylayer3"}
+        "...": {_leaflet_id: "dummylayer3"}*/
     };
 
     var overlayMaps = {
@@ -50,7 +50,7 @@ function Map(options) {
     var layersControl = L.control.layers(baseMaps, overlayMaps, {
         position: "topleft"
     }).addTo(map);
-    layersControl._layers.dummylayer1.layer;
+    //layersControl._layers.dummylayer1.layer;
 
     this.getMap = function() {
         return map;

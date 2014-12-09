@@ -31,11 +31,23 @@
 
 
 
+.leaflet-popup.tooltip{
+    pointer-events: none;
+}
 
 
+.leaflet-popup.tooltip .leaflet-popup-content-wrapper, .leaflet-popup.tooltip .leaflet-popup-tip{
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: none;
+}
+.leaflet-popup.tooltip .leaflet-popup-content{
+    font-family: "Verdana";
+}
 
 
-
+.marker-cluster *{
+    pointer-events: none;
+}
 
 
 

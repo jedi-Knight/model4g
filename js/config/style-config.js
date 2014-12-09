@@ -45,9 +45,9 @@ LayerStyles = {
             fillColor: "#ffff00"
         },
         "buildings":{
-            weight: 4,
+            weight: 2,
             color: "#666666",
-            fillColor: "#00ff66",
+            fillColor: "#33cc66",
             fillOpacity: 1
         }
         ,

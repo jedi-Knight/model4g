@@ -51,37 +51,38 @@ function Data() {
                         });
                         centroid = [centroid[0] / (n - 1), centroid[1] / (n - 1)];
                     }
-                    
-                    
+
+
                     var returnFeature = {
                         "type": "Feature",
-                        "properties": $.extend(true,{},feature.properties),
+                        "properties": $.extend(true, {}, feature.properties),
                         "geometry": {
                             "type": "Point",
                             "coordinates": centroid
                         }
                     };
-                    
+
                     /*returnFeature.properties.getAttributes = function(){
-                        
-                    };*/
-                    
+                     
+                     };*/
+
                     return returnFeature;
 
                 });
-                
+
                 var centroidsCollection = $.extend(true, {}, geometries[query["geometry-type"]][query["feature-group"]]);
                 centroidsCollection.features = features;
-                
-                /*geometries.points.centroidsCollections = {};
+
+                if (query["one-time"])
+                    return centroidsCollection;
+
+                geometries.points.centroidsCollections = {};
                 geometries.points.centroidsCollections[query["feature-group"]] = centroidsCollection;
-                return geometries.points.centroidsCollections[query["feature-group"]];*/
-                
-                return centroidsCollection;
+                return geometries.points.centroidsCollections[query["feature-group"]];
             }
-            
-            
-            
+
+
+
         }
         return geometries;
     };

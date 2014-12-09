@@ -8,7 +8,7 @@ config = {
             url: "."
         }
     },
-    "map-of": "Household Survey",
+    "map-of": "Houses",
     "data-src": "data.geojson",
     "map-options": {
         "init-zoom": 15,
@@ -58,7 +58,9 @@ var PlugsForStyling = {
 };
 
 function PanelDocumentModel(pointAttributes) {
-
+    if(!pointAttributes){
+        console.log("error");
+    }
     return {titleBarJson: {
             /*"title": pointAttributes.name + ", " + pointAttributes.city
              ,"slider": new UI_ThumbnailView({
@@ -91,7 +93,9 @@ function PanelDocumentModel(pointAttributes) {
              }).createSlider()*/
         },
         headerJson: {
-            "": "pointAttributes.name"
+            "": Boolean(pointAttributes["addr:street"]) && Boolean(pointAttributes["addr:housenumber"]) 
+            ? pointAttributes["addr:street"]+", "+pointAttributes["addr:housenumber"]
+            : "<span class='notice'>Full address for this house is not available. You can add the information on <a href='www.openstreetmap.org'>OpenStreetMap</a>. You can learn how to do this at <a href='http://www.kathmandulivinglabs.org/resource'>kathmandulivinglabs.org.</a></span>"
 //            "Contact Person": pointAttributes.contact_person,
 //            "Contact Number": pointAttributes.contact_number
 //                ,"city": pointAttributes.city
@@ -123,5 +127,6 @@ function PanelDocumentModel(pointAttributes) {
             }
         }
     };
+
 
 }
