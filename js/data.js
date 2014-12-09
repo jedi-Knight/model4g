@@ -31,33 +31,85 @@ function Data() {
     this.plugins = _plugins;
 
     /**temporary hack:**/
-    this.getGeometries = function() {
+    this.getGeometries = function(query) {
+        if (query) {
+            //console.log(geometries[query["geometry-type"]][query["feature-group"]]["features"]);
+            var features = geometries[query["geometry-type"]][query["feature-group"]]["features"];
+            if (query["function"] === "getCentroids") {
+                features = features.map(function(feature, index) {
+                    //console.log(feature);
+                    var coordinates = feature.geometry.coordinates;
+                    var n = coordinates[0].length;
+                    var centroid = [0, 0];
+
+                    if (feature.geometry.type === "Polygon") {
+                        coordinates[0].map(function(coordinatePair, index) {
+                            if (index === n - 1)
+                                return;
+                            centroid[0] += coordinatePair[0];
+                            centroid[1] += coordinatePair[1];
+                        });
+                        centroid = [centroid[0] / (n - 1), centroid[1] / (n - 1)];
+                    }
+                    
+                    console.log($.extend(true,{},feature.properties));
+                    
+                    var returnFeature = {
+                        "type": "Feature",
+                        "properties": $.extend(true,{},feature.properties),
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": centroid
+                        }
+                    };
+                    
+                    /*returnFeature.properties.getAttributes = function(){
+                        
+                    };*/
+                    
+                    return returnFeature;
+
+                });
+                
+                var centroidsCollection = $.extend(true, {}, geometries[query["geometry-type"]][query["feature-group"]]);
+                centroidsCollection.features = features;
+                
+                /*geometries.points.centroidsCollections = {};
+                geometries.points.centroidsCollections[query["feature-group"]] = centroidsCollection;
+                return geometries.points.centroidsCollections[query["feature-group"]];*/
+                
+                return centroidsCollection;
+            }
+            
+            
+            
+        }
         return geometries;
     };
     this.getAttributes = function(query) {
-        
-        if(query){
+
+        if (query) {
             var orderedCollection = [];
             var orderedAttributes = $.extend(true, {}, attributes[query["geometry-type"]]);
-            var orderedKeys = $.map(orderedAttributes, function(item, index){
-               //console.log(item[query["order-by"]]+"_:_"+index);
-               return item[query["order-by"]]+"_:_"+index; 
+            var orderedKeys = $.map(orderedAttributes, function(item, index) {
+                //console.log(item[query["order-by"]]+"_:_"+index);
+                return item[query["order-by"]] + "_:_" + index;
             });
-            
+
             orderedKeys.sort();
-            orderedKeys = orderedKeys.map(function(item, index){
-                return item.replace(/.*_:_/,"");
+            orderedKeys = orderedKeys.map(function(item, index) {
+                return item.replace(/.*_:_/, "");
             });
-            
-            
-            for(var c in orderedKeys){
+
+
+            for (var c in orderedKeys) {
                 orderedAttributes[orderedKeys[c]]["_cartomancer_id"] = orderedKeys[c];
                 orderedCollection.push(orderedAttributes[orderedKeys[c]]);
             }
-            
+
             return orderedCollection;
         }
-        
+
         return attributes;
     };
 
