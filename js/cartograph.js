@@ -10,7 +10,7 @@ function Map(options) {
     if (options && options["mapOptions"]) {
         $.extend(mapOptions, options.mapOptions);
     }
-    ;
+    
 
     var map = L.map('map', mapOptions);
 
@@ -756,7 +756,8 @@ function UI_TabularColumn(options) {
 
     for (var c in options.body) {
         body.append(function() {
-            return $("<div class='body-row'/>").append($("<div/>").append(c)).append($("<div/>").append(options.body[c]));
+           //return $("<div class='body-row'/>").append($("<div/>").append(c)).append($("<div/>").append(options.body[c]));
+            return $("<div class='body-row'/>").append($("<div/>").append(options.body[c]));
         });
     }
 

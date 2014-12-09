@@ -41,7 +41,7 @@ $(document).ready(function() {
 
 
     var mapData = new Data();
-    
+
     var modelQueryWardBoundary = mapData.fetchData({
         query: {
             geometries: {
@@ -59,7 +59,7 @@ $(document).ready(function() {
         var boundarymask = L.geoJson(data);
         boundarymask.setStyle(LayerStyles["boundary-mask-style"]);
         boundarymask.addTo(map);
-                //console.log(data.features[0].geometry.coordinates[1]);
+        //console.log(data.features[0].geometry.coordinates[1]);
 
         /*map.setMaxBounds(L.latLngBounds(data.features[0].geometry.coordinates[1].map(function(coordinates){
          return {
@@ -68,7 +68,7 @@ $(document).ready(function() {
          };
          })));*/
 
-        map.setMaxBounds(L.latLngBounds(config["map-options"]["map-bounds"]["northeast"],config["map-options"]["map-bounds"]["southwest"]));
+        map.setMaxBounds(L.latLngBounds(config["map-options"]["map-bounds"]["northeast"], config["map-options"]["map-bounds"]["southwest"]));
 
     });
 
@@ -219,10 +219,12 @@ $(document).ready(function() {
                                     });
 
                                 }
-                            }
+
+                            },
+                            content: "<div class='icon' title='Click to find on map'>" + pointAttributeList[point].name + "</div>"
                         });
                         //highlightButton.text("Show on the Map");
-                        highlightButton.append("<div class=icon/>");
+                        //highlightButton.append("<div class=icon/>");
                         return highlightButton;
                     }();
                 }
@@ -234,39 +236,47 @@ $(document).ready(function() {
                 var url;
                 var csvFileURL = "";
                 var csvDataSource = mapData.getAttributes()["points"];
-                    var documentModel = new PanelDocumentModel(csvDataSource[0]);
-                    var csvColumns = documentModel.tabsJson.tabs[0].content;
-                    var csvArray = [Object.keys(csvColumns).toString()];
-                
+                var documentModel = "";//= new PanelDocumentModel(csvDataSource[0]);
+                var csvColumns = "";// documentModel.tabsJson.tabs[0].content;
+                var csvArray = [];//[Object.keys(csvColumns).toString()];
+                var nameColumn = {};
+                nameColumn[config["map-of"] + "-name"] = "name";
+
                 //setTimeout(function() {
-                    
-                    
-                    for (var c in csvDataSource) {
-                        var csvLine = [];
-                        for (var d in csvColumns) {
-                            //console.log(csvColumns);
-                            csvLine.push(csvDataSource[csvColumns[d]]);
-                        }
-                        csvArray.push(csvLine.join(","));
-                        //console.log(csvLine.toString());
+
+
+                for (var c in csvDataSource) {
+
+                    documentModel = new PanelDocumentModel(csvDataSource[c]);
+                    csvColumns = documentModel.tabsJson.tabs[0].content;
+                    if (!csvArray.length)
+                        csvArray = [Object.keys($.extend(nameColumn, csvColumns)).toString()];
+
+                    var csvLine = [];
+                    csvLine.push(csvDataSource[c]["name"]);
+                    for (var d in csvColumns) {
+                        //console.log([csvColumns[d]]);
+                        csvLine.push(csvColumns[d]);
                     }
+                    csvArray.push(csvLine.join(","));
+                    //console.log(csvLine);
+                }
 
-                    csvFileBlob = new Blob(new Array(csvArray.join("\n")), {type: "application/binary"});
-                    //console.log(csvArray.join("\n"));
+                csvFileBlob = new Blob(new Array(csvArray.join("\n")), {type: "application/binary"});
+                //console.log(csvArray.join("\n"));
 
-                    url = window.URL || window.webkitURL;
-                    csvFileURL = url.createObjectURL(csvFileBlob);
-                    
+                url = window.URL || window.webkitURL;
+                csvFileURL = url.createObjectURL(csvFileBlob);
+
                 //}, 0);
 
                 return new UI_Button({
                     attributes: {
                         class: "ui-button-download-data",
                         href: csvFileURL,
-                        download: config["map-of"]+".csv"
+                        download: config["map-of"] + ".csv"
                     },
                     eventHandlers: {
-                        
                     },
                     content: "<div>Download as CSV</div>"
                 });
@@ -289,17 +299,17 @@ $(document).ready(function() {
             "start-index": 0,
             "stop-index": 9,
             "domElementsSelection": $("#extension-box").find(".body-row"),
-            "pageChangeCallback": function(e, options){
+            "pageChangeCallback": function(e, options) {
                 //paginationOptions = options;
                 //console.log(paginationOptions);
             }
         };
-        
+
         console.log(new UI_ColumnPageSwitcher(paginationOptions));
-        
+
         (new UI_ColumnPageSwitcher(paginationOptions)).prependTo($("#extension-box").find(".col-footer"));
-        
-        
+
+
 
 
 

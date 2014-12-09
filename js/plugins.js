@@ -38,6 +38,14 @@ function UI_Control_Filter(options) {
         }, 100);
     });
 
+    $(uiElement).focus(function(e) {
+        $(uiElement).parent().addClass("active");
+    });
+
+    $(uiElement).blur(function(e) {
+        $(uiElement).parent().removeClass("active");
+    });
+
     function _getUI() {
         return $("<div class='ui-control-filter'/>").append(uiElement).prepend(new UI_Button({
             attributes: {
@@ -46,21 +54,26 @@ function UI_Control_Filter(options) {
             eventHandlers: {
                 click: function(e) {
                     //$(this).parent().toggleClass("filter-search-enabled");
+                    var container = $(this).parent();
                     e.stopPropagation();
                     var buttonTarget = $(this).next("input");
-                    if (buttonTarget.css("width") !== "160px") {
+                    if (buttonTarget.css("width") !== "140px") {
 //                        buttonTarget.show();
                         buttonTarget.animate({
-                            "width": "160px",
+                            "width": "140px",
                             "opacity": 1
                         }, function() {
-//                            buttonTarget.css("width", "160px");
+                            container.addClass("expanded");
+                            $(this).focus();
                         });
                         buttonTarget.closest(".col-header").find("h3").animate({
                             "opacity": 0
                         }, function() {
 //                            buttonTarget.closest(".col-header").find("h3").hide();
                         });
+
+
+
                     } else {
 //                            buttonTarget.closest(".col-header").find("h3").show();
 
@@ -68,11 +81,13 @@ function UI_Control_Filter(options) {
                             "width": "0px",
                             "opacity": 0
                         }, function() {
-//                            buttonTarget.hide();
+                            container.removeClass("expanded");
                         });
                         buttonTarget.closest(".col-header").find("h3").animate({
                             "opacity": 1
                         });
+
+
                     }
                 }
             }
@@ -91,7 +106,7 @@ function Util_DateConverter(options) {
     function _format(format) {
 
         if (format === "mm/dd/yy") {
-            return date.getUTCMonth()+1 + "/" + date.getUTCDate()<10?("0"+date.getUTCDate()):date.getUTCDate() + "/" + date.getUTCFullYear();
+            return date.getUTCMonth() + 1 + "/" + date.getUTCDate() < 10 ? ("0" + date.getUTCDate()) : date.getUTCDate() + "/" + date.getUTCFullYear();
         }
 
         return date;

@@ -483,10 +483,11 @@ $(document).ready(function() {
                                         });
 
                                     }
-                                }
+                                },
+                                content: "<div class='icon' title='Click to find on map'>"+pointAttributeList[point]["addr:housenumber"] + " - " + pointAttributeList[point]["addr:street"]+"</div>"
                             });
                             //highlightButton.text("Show on the Map");
-                            highlightButton.append("<div class=icon/>");
+                            //highlightButton.append("<div class=icon/>");
                             return highlightButton;
                         }();
                     }
@@ -495,7 +496,7 @@ $(document).ready(function() {
                 //}
             }(),
             //footer: "<a class='ui-button-download-data'><div>Download as CSV</div></a>",
-            footer: function() {
+            footer: function() {/*
                 var csvFileBlob;
                 var url;
                 var csvFileURL = "";
@@ -535,7 +536,7 @@ $(document).ready(function() {
                     },
                     content: "<div>Download as CSV</div>"
                 });
-            }(),
+            */}(),
             class: "right"
         };
 
