@@ -824,11 +824,11 @@ function UI_ColumnPageSwitcher(options) {
                         }, 0);
                     }
                 },
-                content: Number(c) ? "<div class='ui-btn-prev'>></div>" : "<div class='ui-btn-next'><</div>"
+                content: Number(c) ? "<div class='ui-btn-next'>></div>" : "<div class='ui-btn-prev'><</div>"
             })).appendTo(uiElement);
         }
         
-        pageStatus.appendTo(uiElement.find(".btn-prev"));
+        pageStatus.insertAfter(uiElement.find(".btn-prev"));
         
     }, 0);
 

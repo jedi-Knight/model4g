@@ -244,15 +244,42 @@ col.right + .ui-button-column-toggle{
     font-size: 12px;
 }
 
+.col-footer a.ui-button-download-data{
+    display: inline-block;
+}
+
 #extension-box div.ui-column-page-switcher{
     line-height: 12px;
-    display: inline-block;
+    display: block;
+    width: 200px;
     font-size: 12px;
+    background-color: #f6f6f6;
+    
 }
-#extension-box div.ui-column-page-switcher a{
-    display: inline-flex;
-    margin-top: 0px;
 
+#extension-box div.ui-column-page-switcher>div{
+}
+
+#extension-box div.ui-column-page-switcher a{
+    display: inline-block;
+    margin-top: 0px;
+    background-color: #f6f6f6;
+}
+
+#extension-box div.ui-column-page-switcher a:hover div{
+    font-weight: 800;
+    /*font-size: 12pt;*/
+    color: #1998fc;
+    text-shadow: 0px 0px 4px #ffffff;
+}
+
+#extension-box div.ui-column-page-switcher *{
+    background-color: initial;
+    color: #333333;
+}
+
+#extension-box div.ui-column-page-switcher a.btn-next{
+    float:right;
 }
 #extension-box div.ui-column-page-switcher div{
     display: inline-flex;
