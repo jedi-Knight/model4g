@@ -407,11 +407,11 @@ $(document).ready(function() {
                 return new L.DivIcon({html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)});
             },
             polygonOptions: {
-                weight: 4,
+                weight: 2,
                 color: "#333333",
                 opacity: 1,
                 dashArray: "6 6",
-                fillColor: "#eeeeee",
+                fillColor: "#ffcc00",
                 fillOpacity: 0.6
             }
         }).addLayer(L.geoJson(data, {
@@ -578,7 +578,7 @@ $(document).ready(function() {
         setTimeout(function() {
             $("#map").find("div.marker-cluster").attrByFunction(function() {
                 return {
-                    "title": $(this).find("span").text() + " " + config["map-of"] + " in this cluster. Click to zoom in."
+                    "title": "Click to zoom in."
                 };
             });
 
@@ -586,7 +586,7 @@ $(document).ready(function() {
     });
 
     $("#mapBox").toggleClass("smaller larger");
-    map.fire("dragend");
+    map.fire("dragend zoomend");
 
     map.on("zoomend", function() {
         var element = this;
