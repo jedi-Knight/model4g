@@ -197,7 +197,7 @@ col.right + .ui-button-column-toggle{
     width: 18px;
     height: 44px;
     /*margin-top: 450%;*/
-    margin-top: 24%;
+    margin-top: 14%;
     cursor: pointer;
 }
 /*.ui-button-column-toggle .icon:hover, .ui-button-column-toggle .icon:active{
@@ -209,6 +209,7 @@ col.right + .ui-button-column-toggle{
     -ms-transform: rotate(180deg);
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
+    margin-top: 24%;
 }
 
 .col .body-row a{
@@ -324,8 +325,10 @@ col.right + .ui-button-column-toggle{
 .ui-trigger-filter-search{
     background: url("gfx/search-map.svg");
     height: 28px;
-    background-size: 28px;
-    background-position-y: 0px;
+/*    background-size: 28px;
+    background-position-y: 0px;*/
+    background-size: 20px;
+    background-position-y: 4px;
     background-repeat: no-repeat;
     /*margin-top: -4px;*/
     margin-left: 6px;

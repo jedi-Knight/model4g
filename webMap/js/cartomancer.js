@@ -114,7 +114,7 @@ $(document).ready(function() {
         var popup = L.popup({
             autoPan: true,
             keepInView: true,
-            offset: L.point(0, -22)
+            offset: L.point(0, -34)
         });
 
         /*searchControl.on('search_locationfound', function(e) {

@@ -210,7 +210,7 @@ $(document).ready(function() {
         var popup = L.popup({
             autoPan: true,
             keepInView: true,
-            offset: L.point(0, -22)
+            offset: L.point(0, -4)
         });
 
         /*searchControl.on('search_locationfound', function(e) {
@@ -485,7 +485,7 @@ $(document).ready(function() {
 
                                     }
                                 },
-                                content: "<div class='icon' title='Click to find on map'>"+pointAttributeList[point]["addr:housenumber"] + " - " + pointAttributeList[point]["addr:street"]+"</div>"
+                                content: "<div class='icon' title='Click to find on map'>" + pointAttributeList[point]["addr:housenumber"] + " - " + pointAttributeList[point]["addr:street"] + "</div>"
                             });
                             //highlightButton.text("Show on the Map");
                             //highlightButton.append("<div class=icon/>");
@@ -498,46 +498,47 @@ $(document).ready(function() {
             }(),
             //footer: "<a class='ui-button-download-data'><div>Download as CSV</div></a>",
             footer: function() {/*
-                var csvFileBlob;
-                var url;
-                var csvFileURL = "";
-                var csvDataSource = mapData.getAttributes()["polygons"];
-                var documentModel = new PanelDocumentModel(csvDataSource[0]);
-                var csvColumns = documentModel.tabsJson.tabs[0].content;
-                var csvArray = [Object.keys(csvColumns).toString()];
-
-                //setTimeout(function() {
-
-
-                for (var c in csvDataSource) {
-                    var csvLine = [];
-                    for (var d in csvColumns) {
-                        //console.log(csvColumns);
-                        csvLine.push(csvDataSource[csvColumns[d]]);
-                    }
-                    csvArray.push(csvLine.join(","));
-                    //console.log(csvLine.toString());
-                }
-
-                csvFileBlob = new Blob(new Array(csvArray.join("\n")), {type: "application/binary"});
-                //console.log(csvArray.join("\n"));
-
-                url = window.URL || window.webkitURL;
-                csvFileURL = url.createObjectURL(csvFileBlob);
-
-                //}, 0);
-
-                return new UI_Button({
-                    attributes: {
-                        class: "ui-button-download-data",
-                        href: csvFileURL,
-                        download: config["map-of"] + ".csv"
-                    },
-                    eventHandlers: {
-                    },
-                    content: "<div>Download as CSV</div>"
-                });
-            */}(),
+             var csvFileBlob;
+             var url;
+             var csvFileURL = "";
+             var csvDataSource = mapData.getAttributes()["polygons"];
+             var documentModel = new PanelDocumentModel(csvDataSource[0]);
+             var csvColumns = documentModel.tabsJson.tabs[0].content;
+             var csvArray = [Object.keys(csvColumns).toString()];
+             
+             //setTimeout(function() {
+             
+             
+             for (var c in csvDataSource) {
+             var csvLine = [];
+             for (var d in csvColumns) {
+             //console.log(csvColumns);
+             csvLine.push(csvDataSource[csvColumns[d]]);
+             }
+             csvArray.push(csvLine.join(","));
+             //console.log(csvLine.toString());
+             }
+             
+             csvFileBlob = new Blob(new Array(csvArray.join("\n")), {type: "application/binary"});
+             //console.log(csvArray.join("\n"));
+             
+             url = window.URL || window.webkitURL;
+             csvFileURL = url.createObjectURL(csvFileBlob);
+             
+             //}, 0);
+             
+             return new UI_Button({
+             attributes: {
+             class: "ui-button-download-data",
+             href: csvFileURL,
+             download: config["map-of"] + ".csv"
+             },
+             eventHandlers: {
+             },
+             content: "<div>Download as CSV</div>"
+             });
+             */
+            }(),
             class: "right"
         };
 
@@ -564,6 +565,8 @@ $(document).ready(function() {
 
 
         (new UI_ColumnPageSwitcher(paginationOptions)).prependTo($("#extension-box").find(".col-footer"));
+
+
 
 
 

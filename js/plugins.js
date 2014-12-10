@@ -49,7 +49,8 @@ function UI_Control_Filter(options) {
     function _getUI() {
         return $("<div class='ui-control-filter'/>").append(uiElement).prepend(new UI_Button({
             attributes: {
-                "class": "ui-trigger-filter-search"
+                "class": "ui-trigger-filter-search",
+                "title": "Search for "+config["map-of"]
             },
             eventHandlers: {
                 click: function(e) {
@@ -64,6 +65,7 @@ function UI_Control_Filter(options) {
                             "opacity": 1
                         }, function() {
                             container.addClass("expanded");
+                            container.find("a").attr("title", "Close the searchbox");
                             $(this).focus();
                         });
                         buttonTarget.closest(".col-header").find("h3").animate({
@@ -82,6 +84,7 @@ function UI_Control_Filter(options) {
                             "opacity": 0
                         }, function() {
                             container.removeClass("expanded");
+                            container.find("a").attr("title", "Search for "+config["map-of"]);
                         });
                         buttonTarget.closest(".col-header").find("h3").animate({
                             "opacity": 1

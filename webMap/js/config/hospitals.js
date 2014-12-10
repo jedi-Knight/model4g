@@ -98,8 +98,7 @@ function PanelDocumentModel(pointAttributes) {
                     content: {
                         "Operator": pointAttributes.operator_t,
                         "Average OPD patients per day": pointAttributes.opd_patien,
-                        "Number of Hospital Staff": pointAttributes.personnel_,
-                        "Source of Information": pointAttributes.source
+                        "Number of Hospital Staff": pointAttributes.personnel_
                     }
                 }
             ]
