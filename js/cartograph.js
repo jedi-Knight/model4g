@@ -812,13 +812,17 @@ function UI_ColumnPageSwitcher(options) {
                 },
                 eventHandlers: {
                     click: function(e) {
+                        if($(this).closest(".ui-column-page-switcher").hasClass("inactive")) return;
                         var element = e.target;
                         setTimeout(function() {
                             options.domElementsSelection.map(function(index, domElement) {
-                                if (index >= options["start-index"] && index <= options["stop-index"])
+                                if (index >= options["start-index"] && index <= options["stop-index"]){
                                     $(domElement).show();
-                                else
+                                $(domElement).addClass("current-page");
+                            }else{
                                     $(domElement).hide();
+                                $(domElement).removeClass("current-page");
+                            }
 
 
                             });

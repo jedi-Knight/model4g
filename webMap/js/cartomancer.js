@@ -316,6 +316,8 @@ $(document).ready(function() {
                     //console.log(index);
                    if(index>=10)
                    $(this).hide();
+               else
+                   $(this).addClass("current-page");
                 });
             }
         })).prependTo("#extension-box");
@@ -391,13 +393,14 @@ $(document).ready(function() {
                             width: "0px"
                         }, function() {
                             btn_icon.css("opacity", 1);
+                            btn_target.toggleClass("collapsed");
                         });
                     } else {
                         btn_target.animate({
                             width: "196px"
                         }, function() {
                             btn_target.children().css("opacity", 1);
-
+                            btn_target.toggleClass("collapsed");
                             btn_icon.css("opacity", 1);
                         });
                     }

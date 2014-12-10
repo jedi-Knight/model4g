@@ -32,7 +32,7 @@ body{
     display: inline-block;
     /*width:340px;*/
     /*padding: 0px 20px 0px 10px;*/
-    padding: 0px 20px 0px 10px;
+    padding: 0px 16px 0px 10px;
     text-align: left;
     vertical-align: text-top;
     width: 196px;
@@ -153,7 +153,7 @@ body{
 .col-plug{
     display: inline-block;
     position: absolute;
-    width: 10px;
+    width: 9px;
     margin-left: -4px;
     height: 48px;
     background-color: #ececec;
@@ -161,7 +161,7 @@ body{
 
 .icon.collapse + .col-plug{
     margin-top: -51px;
-    margin-left: 10px;
+    margin-left: 11px;
 }
 
 .leaflet-control-attribution{ /**until overlay positions are finalized**/
