@@ -283,6 +283,7 @@ $(document).ready(function() {
             maxClusterRadius: 80,
             removeOutsideVisibleBounds: false,
             showCoverageOnHover: true,
+            zoomToBoundsOnClick:false,
             iconCreateFunction: function(cluster) {
 
                 var childCount = cluster.getChildCount();
@@ -294,7 +295,8 @@ $(document).ready(function() {
                     var clusterElement = this;
                     var popup = L.popup({
                         className: "tooltip",
-                        closeButton: false
+                        closeButton: false,
+                        offset: childCount>100? L.point(0,-24): L.point(0,-12)
                     });
                     //setTimeout(function() {
                     //console.log(clusterElement);
@@ -349,7 +351,7 @@ $(document).ready(function() {
                             }).join(", ") + "</div>");
                             //console.log(tooltip);
 
-                            console.log(tooltip.text());
+                            //console.log(tooltip.text());
                             popup.setLatLng(cluster._latlng);
                             popup.openOn(map);
                             $(popup._container).find(".leaflet-popup-content").append(tooltip);
@@ -358,7 +360,7 @@ $(document).ready(function() {
                         //return tooltip;
                         //}();
 
-                        console.log(popup);
+                        //console.log(popup);
 
                         //popup.setContent(tooltip);
 
@@ -509,7 +511,7 @@ $(document).ready(function() {
 
                                     }
                                 },
-                                content: "<div class='icon' title='Click to find on map'>" + pointAttributeList[point]["addr:housenumber"] + " - " + pointAttributeList[point]["addr:street"] + "</div>"
+                                content: "<div class='icon'>" + pointAttributeList[point]["addr:housenumber"] + " - " + pointAttributeList[point]["addr:street"] + "</div>"
                             });
                             //highlightButton.text("Show on the Map");
                             //highlightButton.append("<div class=icon/>");
@@ -612,7 +614,7 @@ $(document).ready(function() {
 
 
 
-    map.on("zoomend", function() {
+    /*map.on("zoomend", function() {
         setTimeout(function() {
             $("#map").find("div.marker-cluster").attrByFunction(function() {
                 return {
@@ -621,7 +623,7 @@ $(document).ready(function() {
             });
 
         }, 0);
-    });
+    });*/
 
     $("#mapBox").toggleClass("smaller larger");
     map.fire("dragend zoomend");

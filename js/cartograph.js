@@ -834,7 +834,7 @@ function UI_ColumnPageSwitcher(options) {
                                 options["stop-index"] = Number(options["stop-index"])+10;
                             }
                             
-                            pageStatus.text(options["start-index"]+1+"-"+options["stop-index"]+1+" of "+Number(options.domElementsSelection.length)+1);
+                            pageStatus.text((options["start-index"]+1)+"-"+(options["stop-index"]+1)+" of "+(options.domElementsSelection.length+1));
                             //console.log(options);
 
                             //options.pageChangeCallback.call(element, e, options);
@@ -845,7 +845,7 @@ function UI_ColumnPageSwitcher(options) {
             })).appendTo(uiElement);
         }
         
-        pageStatus.text(options["start-index"]+1+"-"+options["stop-index"]+1+" of "+Number(options.domElementsSelection.length)+1);
+        pageStatus.text((options["start-index"]+1)+"-"+(options["stop-index"]+1)+" of "+(options.domElementsSelection.length+1));
 
         pageStatus.insertAfter(uiElement.find(".btn-prev"));
         
