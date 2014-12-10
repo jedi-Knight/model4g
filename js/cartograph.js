@@ -92,8 +92,16 @@ function UI_OverviewMap(options) {
         });
 
         map.addLayer(options.basemap);
+        if(options.overlays && options.overlays.length) options.overlays.map(function(overlay, index){
+           overlay.setStyle({
+              color: "#000000",
+              weight: 1,
+              opacity: 1
+           });
+           map.addLayer(overlay); 
+        });
 
-        options.map.on("movestart moveend", function() {
+        options.map.on("move", function() {
             setTimeout(function() {
 
                 map.eachLayer(function(layer) {
@@ -101,7 +109,7 @@ function UI_OverviewMap(options) {
                         map.removeLayer(layer);
                     }
                 });
-
+                
                 L.geoJson(new GeoJsonFromLatLngBounds(options.map.getBounds()), {
                     onEachFeature: function(feature, layer) {
                         feature.redrawable = true;
@@ -129,7 +137,7 @@ function UI_OverviewMap(options) {
     };
 
     this.getUI = function() {
-        return $("<div>").append($("<div/>").attr("id", options["ui-dom-id"])).addClass(options["ui-container-class"])[0];
+        return $("<div>").append($("<div/>").append($("<div/>").attr("id", options["ui-dom-id"])).addClass(options["ui-map-box-class"])).addClass(options["ui-container-class"])[0];
     };
 }
 
@@ -766,17 +774,26 @@ function UI_TabularColumn(options) {
     header.appendTo(column);
     body.appendTo(column);
     footer.appendTo(column);
-
-    this.getUI = function() {
+    
+    function _getUI(guiOptions){
+        if(guiOptions){
+            if(guiOptions["prepareUI"]){
+                guiOptions["prepareUI"].call(column[0]);
+            }
+        }
         return column[0];
+    }
+
+    this.getUI = function(guiOptions) {
+        return _getUI(guiOptions);
     };
 }
 
 
 function UI_ExtensionColumns(options) {
-    var column = $(new UI_TabularColumn(options).getUI()).addClass(options.class);
-    this.getUI = function() {
-        return column;
+    var column = new UI_TabularColumn(options);
+    this.getUI = function(guiOptions) {
+        return $(column.getUI(guiOptions)).addClass(options.class);
     };
 }
 

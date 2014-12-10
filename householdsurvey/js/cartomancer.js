@@ -69,6 +69,30 @@ $(document).ready(function() {
         boundarymask.addTo(map);
         //console.log(data.features[0].geometry.coordinates[1]);
 
+        var overviewMap = new UI_OverviewMap({
+            map: map,
+            zoom: 13,
+            "ui-dom-id": "ui-overview-map",
+            "ui-container-class": "ui-container-overview-map",
+            "ui-map-box-class": "ui-overview-map-box",
+            basemap: L.tileLayer('images/minimap_tiles/{z}/{x}/{y}.png', {
+                //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+                maxZoom: 13,
+                minZoom: 13
+            }),
+            "ui-control-map": true,
+            "overlays": function() {
+                var areaboundary = $.extend(true, {}, data);
+                areaboundary.features[0].geometry.coordinates.reverse().pop();
+                //console.log(areaboundary);
+                return [L.geoJson(areaboundary)];
+            }()
+        });
+
+        $("#mapBox").append(overviewMap.getUI());
+
+        overviewMap.drawMap();
+
         /*map.setMaxBounds(L.latLngBounds(data.features[0].geometry.coordinates[1].map(function(coordinates){
          return {
          lat: coordinates[1],
@@ -538,11 +562,20 @@ $(document).ready(function() {
              content: "<div>Download as CSV</div>"
              });
              */
-            }(),
-            class: "right"
+            }()
+            , class: "right"
         };
 
-        $(new UI_ExtensionColumns(listColumnOptions).getUI()).prependTo("#extension-box");
+        $((new UI_ExtensionColumns(listColumnOptions)).getUI({
+            "prepareUI": function() {
+                //console.log($(this));
+                $(this).find(".body-row").each(function(index) {
+                    //console.log(index);
+                    if (index >= 10)
+                        $(this).hide();
+                });
+            }
+        })).prependTo("#extension-box");
         $("<div class='col-plug'>").appendTo($("#extension-box").find(".ui-button-column-toggle"));
 
         $(new UI_Control_Filter({
@@ -685,22 +718,11 @@ $(document).ready(function() {
         //content: ">"
     })).appendTo("#extension-box").append("<div class='icon collapse'></div>");
 
-    var overviewMap = new UI_OverviewMap({
-        map: map,
-        zoom: 13,
-        "ui-dom-id": "ui-overview-map",
-        "ui-container-class": "ui-container-overview-map",
-        basemap: L.tileLayer('images/minimap_tiles/{z}/{x}/{y}.png', {
-            //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-            maxZoom: 13,
-            minZoom: 13
-        }),
-        "ui-control-map": true
-    });
 
-    $("#mapBox").append(overviewMap.getUI());
 
-    overviewMap.drawMap();
+
+
+
     map.fire("moveend");
 
 });

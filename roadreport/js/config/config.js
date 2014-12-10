@@ -1,5 +1,6 @@
 config["map-options"] = {
-    "min-zoom": 12,
+    "init-zoom":15,
+    "min-zoom": 15,
     "max-zoom": 18,
     "map-bounds": {
         northeast: [27.706991527038417, 85.33393906163997], 

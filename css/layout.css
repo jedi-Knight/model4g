@@ -25,7 +25,7 @@ body{
     /*z-index:200;*/
     text-align:center;
     /*overflow: hidden;*/
-    
+
 }
 
 #extension-box .col{
@@ -47,7 +47,7 @@ body{
 #extension-box .col div{
     display: inline-block;
     line-height: 16px;
-    
+
 }
 
 #extension-box .col .col-header{
@@ -138,7 +138,7 @@ body{
 
 
 .col.right + .ui-button-column-toggle{
-    
+
 }
 
 .col-plug{
@@ -163,9 +163,15 @@ body{
     width: 150px;
     height: 150px;
     cursor: default;
+    overflow: visible;
 }
 #ui-overview-map g{
     pointer-events: none;
+}
+
+.ui-overview-map-box{
+    overflow: hidden;
+    padding: 2px 36px 0px 36px;
 }
 
 .ui-container-overview-map{
@@ -177,13 +183,14 @@ body{
 }
 
 .leaflet-bottom.leaflet-left{
-    left: 164px;
+    /*    left: 164px;*/
+    left: 236px;
 }
 
 #extension-box .col .col-header.filter-search-enabled{
     font-size: 14pt;
     line-height: 14pt;
-    
+
 }
 
 /*#filter-search{
