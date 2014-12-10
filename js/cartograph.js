@@ -765,7 +765,8 @@ function UI_TabularColumn(options) {
     for (var c in options.body) {
         body.append(function() {
            //return $("<div class='body-row'/>").append($("<div/>").append(c)).append($("<div/>").append(options.body[c]));
-            return $("<div class='body-row'/>").append($("<div/>").append(options.body[c]));
+            //return $("<div class='body-row'/>").append($("<div/>").append(options.body[c]));
+            return $("<div class='body-row'/>").append(options.body[c]);
         });
     }
 

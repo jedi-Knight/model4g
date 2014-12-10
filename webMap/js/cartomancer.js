@@ -324,7 +324,8 @@ $(document).ready(function() {
         $(new UI_Control_Filter({
             "ui-control-id": "filter-search",
             "target-container": $("#extension-box").find(".col-body"),
-            "target-items-selector": ".body-row>div:first-child"
+            //"target-items-selector": ".body-row>div:first-child"
+            "target-items-selector": ".body-row"
         }).getUI()).appendTo($("#extension-box").find(".col-header"));
 
 

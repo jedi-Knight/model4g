@@ -193,11 +193,11 @@ col.right + .ui-button-column-toggle{
 
 .ui-button-column-toggle .icon{
     background-image: url("gfx/column_toggle_active.svg");
-    background-size: 18px;
+    background-size: 18px 40px;
     width: 18px;
-    height: 44px;
+    height: 40px;
     /*margin-top: 450%;*/
-    margin-top: 14%;
+    margin-top: 6px;
     cursor: pointer;
 }
 /*.ui-button-column-toggle .icon:hover, .ui-button-column-toggle .icon:active{
@@ -209,7 +209,9 @@ col.right + .ui-button-column-toggle{
     -ms-transform: rotate(180deg);
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
-    margin-top: 24%;
+    /*margin-top: 24%;*/
+    margin-top: 2px;
+    margin-left: 10px;
 }
 
 .col .body-row a{
