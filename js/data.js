@@ -103,8 +103,10 @@ function Data() {
 
 
             for (var c in orderedKeys) {
-                orderedAttributes[orderedKeys[c]]["_cartomancer_id"] = orderedKeys[c];
+                if(orderedAttributes[orderedKeys[c]]._metaX["feature-group"] === query["feature-group"]){
+                orderedAttributes[orderedKeys[c]]["_cartomancer_id"] = orderedKeys[c]-Number(geometries[query["geometry-type"]][query["feature-group"]]._cartomancer_countstart);
                 orderedCollection.push(orderedAttributes[orderedKeys[c]]);
+            }
             }
 
             return orderedCollection;
@@ -296,9 +298,14 @@ function Data() {
                 setTimeout(function() {
                     var c = Object.keys(attributes[params.query.geometries.type]).length;
                     var geojsonDB_attributes = {};
+                    geometries[params.query.geometries.type][params.query.geometries.group]._cartomancer_countstart = c;
 
                     for (var feature in geometries[params.query.geometries.type][params.query.geometries.group].features) {
                         geojsonDB_attributes[c] = geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties;
+                        
+                        geojsonDB_attributes[c]._metaX={
+                            "feature-group" : params.query.geometries.group
+                        };
 
                         if (geometries[params.query.geometries.type][params.query.geometries.group]["features"][feature]["properties"]["@id"]) {
                             geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties.id
@@ -310,9 +317,10 @@ function Data() {
                             feature_id: geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties.id,
                             _cartomancer_id: c,
                             getAttributes: function(_cartomancer_id) {
-                                return attributes[params.query.geometries.type][_cartomancer_id];
+                                //return attributes[params.query.geometries.type][_cartomancer_id];
+                                return attributes[params.query.geometries.type][this._cartomancer_id];
                             }
-                        }
+                        };
                         c++;
                     }
 

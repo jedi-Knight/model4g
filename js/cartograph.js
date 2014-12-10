@@ -828,6 +828,8 @@ function UI_ColumnPageSwitcher(options) {
             })).appendTo(uiElement);
         }
         
+        pageStatus.text(options["start-index"]+1+"-"+options["stop-index"]+1+" of "+Number(options.domElementsSelection.length)+1);
+
         pageStatus.insertAfter(uiElement.find(".btn-prev"));
         
     }, 0);

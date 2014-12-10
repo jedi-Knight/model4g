@@ -428,7 +428,8 @@ $(document).ready(function() {
                 var bodyTable = {};
                 var pointAttributeList = mapData.getAttributes({
                     "order-by": "addr:street",
-                    "geometry-type": "polygons"
+                    "geometry-type": "polygons",
+                    "feature-group": config["map-of"]
                 });
                 for (var point in pointAttributeList) {
                     if (pointAttributeList[point]["addr:street"] && pointAttributeList[point]["addr:street"] !== "Others" && pointAttributeList[point]["addr:housenumber"]) {

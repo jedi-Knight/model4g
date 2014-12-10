@@ -165,7 +165,8 @@ $(document).ready(function() {
                 var bodyTable = {};
                 var pointAttributeList = mapData.getAttributes({
                     "order-by": "name",
-                    "geometry-type": "points"
+                    "geometry-type": "points",
+                    "feature-group": config["map-of"]
                 });
                 for (var point in pointAttributeList) {
                     bodyTable[pointAttributeList[point].name] = function() {
