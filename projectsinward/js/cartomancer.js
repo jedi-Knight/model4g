@@ -48,7 +48,33 @@ $(document).ready(function() {
         var boundarymask = L.geoJson(data);
         boundarymask.setStyle(LayerStyles["boundary-mask-style"]);
         boundarymask.addTo(map);
+        //console.log(boundarymask._layers[Object.keys(boundarymask._layers)[0]]._container);
+        $(boundarymask._layers[Object.keys(boundarymask._layers)[0]]._container).attr("class","area-boundary");
         //console.log(data.features[0].geometry.coordinates[1]);
+        
+        var overviewMap = new UI_OverviewMap({
+            map: map,
+            zoom: 13,
+            "ui-dom-id": "ui-overview-map",
+            "ui-container-class": "ui-container-overview-map",
+            "ui-map-box-class": "ui-overview-map-box",
+            basemap: L.tileLayer('images/minimap_tiles/{z}/{x}/{y}.png', {
+                //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+                maxZoom: 13,
+                minZoom: 13
+            }),
+            "ui-control-map": true,
+            "overlays": function() {
+                var areaboundary = $.extend(true, {}, data);
+                areaboundary.features[0].geometry.coordinates.reverse().pop();
+                //console.log(areaboundary);
+                return [L.geoJson(areaboundary)];
+            }()
+        });
+
+        $("#mapBox").append(overviewMap.getUI());
+
+        overviewMap.drawMap();
 
         /*map.setMaxBounds(L.latLngBounds(data.features[0].geometry.coordinates[1].map(function(coordinates){
          return {
@@ -103,6 +129,8 @@ $(document).ready(function() {
         "space": new layerGroupExtendedOptions(),
         "heritage": new layerGroupExtendedOptions()
     };
+    
+    
 
     mapGlobals.layerGroup = projectsLayers;
 
@@ -137,7 +165,7 @@ $(document).ready(function() {
              "content": $(layersControlMunicipalProjects._container).find("form")
              }*/
             {
-                "title": "Click here to view all projects",
+                "title": "Projects in ward",
                 "content": $(layersControlProjects._container).find("form")
             }
         ],
@@ -163,9 +191,15 @@ $(document).ready(function() {
         $(layersControlProjects._container).remove();
 
         uiElement.find("input").click();
+        
+        uiElement.find("label").each(function(){
+        $(this).find("input").after(function(){
+           return $("<div/>").addClass("ui-legend-icon").addClass($(this).siblings("span").text()); 
+        });
+    });
 
 
-        (new UI_Button({
+        /*(new UI_Button({
             attributes: {
                 class: "ui-control-layer-switcher leaflet-control"
             },
@@ -209,7 +243,7 @@ $(document).ready(function() {
             content: function() {
                 return "<div class='icon'>Click here to view all projects</div>";
             }
-        }).prependTo($("#map .leaflet-control-container .leaflet-right")[0]));
+        }).prependTo($("#map .leaflet-control-container .leaflet-right")[0]));*/
 
     });
 
@@ -267,8 +301,8 @@ $(document).ready(function() {
              }*/
 
             //layer.setStyle(LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]]);
-            layer.setStyle($.extend({}, LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]], {opacity: 0}));
-
+            layer.setStyle($.extend({}, LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]], {opacity: 0, fillOpacity:0}));
+            layer.__events = $.extend(true, {}, layer._leaflet_events);
 
 
             //layer.setStyle(LayerStyles["map-features"]["road"]);
@@ -495,11 +529,11 @@ $(document).ready(function() {
 
         setTimeout(function() {
             var clusterGroup = L.markerClusterGroup({
-                singleMarkerMode: true,
+                //singleMarkerMode: true,
                 disableClusteringAtZoom: LayerStyles["map-features"]["min-zoom"],
                 maxClusterRadius: 160,
                 removeOutsideVisibleBounds: false,
-                showCoverageOnHover: true,
+                showCoverageOnHover: false,
                 iconCreateFunction: function(cluster) {
                     $(cluster).hover(function(e) {
                         //console.log(cluster);
@@ -569,6 +603,15 @@ $(document).ready(function() {
             }).addLayer(L.geoJson(data, {
                 onEachFeature: function(feature, layer) {
 
+                },
+                pointToLayer: function(feature, latlng){
+                    return L.marker(latlng,{
+                        icon: L.icon({
+                            iconUrl: "../markers/flag_orange.png",
+                            iconSize: [20,20],
+                            iconAnchor: [4, 20]
+                        })
+                    });
                 }
             })).addTo(map);
             //console.log(clusterGroup);
@@ -752,9 +795,11 @@ $(document).ready(function() {
             setTimeout(function() {
                 if (element.getZoom() >= LayerStyles["map-features"]["min-zoom"]) {
                     $(".marker-cluster").hide();
+                    $(".leaflet-marker-icon").hide();
                     $(".leaflet-control.ui-sliding-tabs").removeClass("hidden show");
                 } else {
                     $(".marker-cluster").show();
+                    $(".leaflet-marker-icon").show();
                     $(".leaflet-control.ui-sliding-tabs:not(.show)").addClass("hidden");
                 }
             }, 0);
@@ -767,8 +812,14 @@ $(document).ready(function() {
                                 setTimeout(function() {
                                     layer.setStyle({
                                         opacity: 0,
-                                        clickable: false
+                                        fillOpacity: 0,
+                                        //clickable: false
                                     });
+                                    //layer.__popup = $.extend({},layer._popup);
+                                    layer._leaflet_events = null;
+                                    //console.log(layer);
+                                   // $(layer._container).find("path").addClass("tile");
+                                    //console.log($(layer._container).find("path"));
                                 }, 0);
                             });
                         } else {
@@ -776,8 +827,13 @@ $(document).ready(function() {
                                 setTimeout(function() {
                                     layer.setStyle({
                                         opacity: 1,
-                                        clickable: true
+                                        fillOpacity: 1,
+                                        //clickable: true
                                     });
+                                    layer._leaflet_events = $.extend(true, {}, layer.__events);
+                                    //console.log(layer);
+                                    //console.log($(layer._container).find("path"));
+                                    //$(layer._container).find("path").removeClass("tile");
                                 }, 0);
                             });
                         }
@@ -840,7 +896,7 @@ $(document).ready(function() {
     map.fire("dragend");
 
 
-    var overviewMap = new UI_OverviewMap({
+    /*var overviewMap = new UI_OverviewMap({
         map: map,
         zoom: 13,
         "ui-dom-id": "ui-overview-map",
@@ -855,7 +911,9 @@ $(document).ready(function() {
 
     $("#mapBox").append(overviewMap.getUI());
 
-    overviewMap.drawMap();
+    overviewMap.drawMap();*/
+    
+    
     map.fire("moveend");
 
     /*map.on("zoomstart zoomend", function() {

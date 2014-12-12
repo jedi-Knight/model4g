@@ -1,0 +1,16 @@
+<?xml version="1.0" standalone="no"?>
+<!-- Generator: Adobe Fireworks 10, Export SVG Extension by Aaron Beall (http://fireworks.abeall.com) . Version: 0.6.1  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg id="Untitled-Page%201" viewBox="0 0 500 500" style="background-color:#ffffff00" version="1.1"
+	xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"
+	x="0px" y="0px" width="500px" height="500px"
+>
+	<defs>
+	<pattern id="Course-Orange" width="220" height="220" patternUnits="userSpaceOnUse">
+		<image id="Course-Orange3" x="-10" y="-10" width="220" height="220" xlink:href="testexport.svg.images/Course-Orange2.png"/>
+	</pattern>
+	</defs>
+	<g id="Layer%201">
+		<rect x="0" y="0" width="500" height="500" stroke="#666666" stroke-width="19" fill="url(#Course-Orange)"/>
+	</g>
+</svg>

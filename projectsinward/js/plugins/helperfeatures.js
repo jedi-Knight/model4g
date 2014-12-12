@@ -13,12 +13,22 @@ function HelperFeatures(options) {
                  }
                  };*/
                 drawHelpers(options.feature, {
-                    weight: 6,
-                    opacity: 1,
-                    color: "#999999",
+                    weight: 6.2,
+                    opacity: 0,
+                    color: "#ffdd66",
                     fillColor: "#669999",
                     lineCap: "butt",
                     lineJoin: "miter",
+                    clickable: false
+                }, options.layerGroup, options.popup);
+                drawHelpers(options.feature, {
+                    weight: 5.8,
+                    opacity: 0,
+                    color: "#444444",
+                    fillColor: "#669999",
+                    lineCap: "butt",
+                    lineJoin: "miter",
+                    clickable: false
                 }, options.layerGroup, options.popup);
                 drawHelpers(options.feature, options.styles["road"], options.layerGroup, options.popup);
             }, 0);
@@ -60,6 +70,7 @@ function HelperFeatures(options) {
                 layer.bindPopup(popup._content);
                 layer.setStyle(style);
                 layerGroup.addLayer(layer);
+                $(layer._container).attr("class", "svg-styling")
             }
         });
         //layerGroup.addLayer(geojsonLayer);

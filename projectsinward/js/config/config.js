@@ -105,7 +105,7 @@ function PanelDocumentModel(pointAttributes) {
                     content: {
                         "क्षेत्रफल (ब.मि.\/र.मि)": pointAttributes["project-area-sqm"],
                         "लागत इस्तिमेत": pointAttributes["project-cost-estimate"],
-                        "टोल ": pointAttributes["tole"],
+                        //"टोल ": pointAttributes["tole"],
                         "टोल सुधार समिति": pointAttributes["टोल सुधार समिति"],
                         "टोले सुधार समितिको फोन नम्बर": pointAttributes["टोले सुधार समितिको फोन नम्बर"],
                         "उपभोक्ता समितिको फोन नम्बर": pointAttributes["उपभोक्ता समितिको फोन नम्बर"]

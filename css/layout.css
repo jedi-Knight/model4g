@@ -342,9 +342,30 @@ a.marker-info-zoom-trigger>div{
     line-height: 12pt;
 }
 
+.tile{
+    pointer-events: none;
+}
+
+.leaflet-overlay-pane g{
+    /*filter: url(#shadow);*/
+    /*-webkit-filter: drop-shadow(12px 12px 7px rgba(0,0,0,0.5));*/
+}
+
+.leaflet-overlay-pane g.area-boundary, .svg-styling{
+    filter: initial;
+}
+
 #extension-box .col.collapsed div{
     display:none;
 }
+
+.ui-legend-icon{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    /*background-color: #ff0000;*/
+}
+
 
 .hidden{
     display:none !important;

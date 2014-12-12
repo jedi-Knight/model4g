@@ -373,3 +373,24 @@ div.ui-control-filter.expanded.active{
     border: #1998fd thin solid;
     box-shadow: 0px 0px 4px 2px rgba(255,255,255,1)
 }
+
+
+
+.ui-legend-icon.heritage{
+    background-image: url("../images/heritage.png");
+}
+
+.ui-legend-icon.road{
+    background-image: url("../images/road.png");
+}
+
+.ui-legend-icon.space{
+    background-image: url("../images/space.png");
+}
+.ui-legend-icon.sewerage{
+    background-image: url("../images/sewerage.png");
+}
+
+.ui-legend-icon{
+    background-size: 20px 20px;
+}
