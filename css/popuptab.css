@@ -266,11 +266,13 @@
     /*color: #223366;*/
     color: #e74c3c;
     text-transform: capitalize;
+    font-size: 12pt;
 }
 .cartomancer-popup-table .table-row>div>div.not-available{
     font-weight: 400;
     color: #aaaaaa;
     font-style: italic;
+    font-size: 10pt;
 }
 .cartomancer-popup-table .table-row{
     font-size: 10pt;

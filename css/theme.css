@@ -394,3 +394,37 @@ div.ui-control-filter.expanded.active{
 .ui-legend-icon{
     background-size: 20px 20px;
 }
+
+.ui-sliding-tabs a{
+    font-size: 12pt;
+    color: #e74c3c;
+    cursor: default;
+}
+
+.ui-sliding-tabs a>div{
+    padding-bottom: 2px;
+}
+
+.ui-sliding-tabs label{
+    color: #333333;
+}
+
+.ui-sliding-tabs input{
+    box-shadow: 0px 0px 2px 1px rgba(255,255,255,1);
+}
+
+
+
+
+.ui-sliding-tabs>div:first-child{
+    border-bottom: none;
+    padding-bottom: 6px;
+}
+
+.ui-overview-map-box{
+    /*-webkit-filter: sepia(1) invert(1) contrast(3) brightness(1.5) hue-rotate(180deg);*/
+}
+
+.float.panel-document .panel-document-body{
+    padding-top: 0pt !important;
+}

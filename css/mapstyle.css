@@ -180,6 +180,10 @@
     font-weight: 700;
 }
 
+.leaflet-control-layers span{
+    vertical-align: text-bottom;
+}
+
 .vector-layer{
     fill: url("#fillpattern");
 }

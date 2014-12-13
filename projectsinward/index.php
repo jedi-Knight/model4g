@@ -27,8 +27,10 @@ $page = "
         
         <link rel=\"stylesheet\" href=\"../css/popuptab.css\"/>
         <link rel=\"stylesheet\" href=\"../css/mediaviewer.css\"/>
-        <script src=\"" . "js/config/config.js" . "\"></script>
+        
         <script src=\"../js/config/style-config.js\"></script>
+        <script src=\"" . "js/config/config.js" . "\"></script>
+        
         <script src=\"../js/plugins.js\"></script>
         <script src=\"../js/guiActions.js\"></script>
         <script src=\"../js/data.js\"></script>
@@ -67,6 +69,27 @@ $page = "
 	<use xlink:href='#g' y='8'/>
 	<use xlink:href='#g' y='12'/>
 </pattern>
+
+<filter id='glow'>
+    <feGaussianBlur stdDeviation='2.5' result='coloredBlur'/>
+    <feMerge>
+        <feMergeNode in='coloredBlur'/>
+        <feMergeNode in='SourceGraphic'/>
+    </feMerge>
+</filter>
+
+<filter id='colored-glow'>
+    <feColorMatrix type='matrix' values=
+                '1 0.5 0 0   0
+                 1 0.5 0 0   0
+                 1 0.5 0 0   0
+                 0 0 0 0.7 0'/>
+    <feGaussianBlur stdDeviation='2.5' result='coloredBlur'/>
+    <feMerge>
+        <feMergeNode in='coloredBlur'/>
+        <feMergeNode in='SourceGraphic'/>
+    </feMerge>
+</filter>
 
 <filter id='shadow'>
       <feGaussianBlur in='SourceAlpha' stdDeviation='6.2'/>

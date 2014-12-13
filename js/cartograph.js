@@ -90,13 +90,23 @@ function UI_OverviewMap(options) {
             dragging: false,
             zoomControl: false
         });
-
-        map.addLayer(options.basemap);
+        
+        var basemap = L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {
+                //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+                maxZoom: 13,
+                minZoom: 13
+            });
+        
+        
+        //map.addLayer(options.basemap);
+        map.addLayer(basemap);
         if(options.overlays && options.overlays.length) options.overlays.map(function(overlay, index){
            overlay.setStyle({
-              color: "#000000",
+              color: "#6666ff",
               weight: 1,
-              opacity: 1
+              opacity: 1,
+              fillColor: "#666666",
+              fillOpacity: 0.4
            });
            map.addLayer(overlay); 
         });
@@ -293,7 +303,7 @@ function TableContent(jsonData, invert) {
         var tableRow = $("<div></div>")
                 .addClass("table-row")
                 .append(function() {
-                    return jsonData[row] === "999" || jsonData[row] === "999.0" || !jsonData[row] ? $("<div></div>").text(row).append($("<div></div>").addClass("not-available").text("Not Available")) : $("<div></div>").text(row).append($("<div></div>").text(jsonData[row].replace(/_/g, " ")));
+                    return jsonData[row] === "999" || jsonData[row] === "999.0" || !jsonData[row] ? $("<div></div>").text(row).append($("<div></div>").addClass("not-available").text("उपलब्ध छैन")) : $("<div></div>").text(row).append($("<div></div>").text(jsonData[row].replace(/_/g, " ")));
                 });
         invert ? tableRow.prependTo(content).addClass(row.toLowerCase().replace(/ /g, "_")) : tableRow.appendTo(content).addClass(row.toLowerCase().replace(/ /g, "_"));
     }

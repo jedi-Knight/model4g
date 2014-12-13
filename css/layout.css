@@ -265,11 +265,14 @@ a.find-mapfeature .icon, .ui-button-column-toggle .icon{
 
 .ui-sliding-tabs form label{
     display: inline-block;
-    width: 240px;
+    width: 100%;
+    line-height: 2.6em;
+    vertical-align: text-top;
+    border-bottom: #dddddd thin solid;
 }
 
 .ui-sliding-tabs .content{
-    max-width: 260px;
+    max-width: 224px;
 }
 
 .ui-sliding-tabs>div:first-child{
@@ -347,7 +350,7 @@ a.marker-info-zoom-trigger>div{
 }
 
 .leaflet-overlay-pane g{
-    /*filter: url(#shadow);*/
+    -webkit-filter: url(#colored-glow);
     /*-webkit-filter: drop-shadow(12px 12px 7px rgba(0,0,0,0.5));*/
 }
 
@@ -363,7 +366,15 @@ a.marker-info-zoom-trigger>div{
     display: inline-block;
     width: 20px;
     height: 20px;
+    vertical-align: middle;
+    margin-left: 6px;
+    margin-right: 6px;
     /*background-color: #ff0000;*/
+}
+
+.ui-sliding-tabs input{
+    vertical-align: middle;
+    cursor: pointer;
 }
 
 

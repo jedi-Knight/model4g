@@ -19,6 +19,16 @@ config = {
     }
 };
 
+LayerStyles["ui-legend"] = {
+    "css-class":{
+        "heritage": "पुरातात्विक धरोहरको संरक्ष्यण",
+        "space": "सार्वजनिक जग्गा संरक्ष्यण",
+        "road": "सडक मर्मत",
+        "water-supply": "खानेपानी पाइपलाइन मर्मत",
+        "sewerage": "ढल/मंगाल निर्माण तथा मर्मत"
+    }
+};
+
 
 var Styles = {
     polygonStyle: {
@@ -103,12 +113,15 @@ function PanelDocumentModel(pointAttributes) {
                 {
                     title: "General Information",
                     content: {
-                        "क्षेत्रफल (ब.मि.\/र.मि)": pointAttributes["project-area-sqm"],
-                        "लागत इस्तिमेत": pointAttributes["project-cost-estimate"],
+                        "क्षेत्रफल/लम्बाइ": (pointAttributes["project-area"]+"").replace("."," ")+(pointAttributes["project-category"] === "heritage"||pointAttributes["project-category"] === "space"?"वर्ग मीटर":"मीटर"),
+                        "लागत इस्तिमेट": "रु "+pointAttributes["project-cost-estimate"].replace(".",""),
                         //"टोल ": pointAttributes["tole"],
-                        "टोल सुधार समिति": pointAttributes["टोल सुधार समिति"],
-                        "टोले सुधार समितिको फोन नम्बर": pointAttributes["टोले सुधार समितिको फोन नम्बर"],
-                        "उपभोक्ता समितिको फोन नम्बर": pointAttributes["उपभोक्ता समितिको फोन नम्बर"]
+                        "आयोजक स्तरीय":pointAttributes["project-under"],
+                        //"विभाग": pointAttributes["department"],
+                        "आर्थिक वर्ष": (pointAttributes["ward7pro_3"]+"").replace("आ.व. ",""),
+                        //"टोल सुधार समिति": pointAttributes["टोल सुधार समिति"],
+                        "टोल सुधार समितिको फोन नम्बर": pointAttributes["टोले सुधार समितिको फोन नम्बर"]
+                        //,"उपभोक्ता समितिको फोन नम्बर": pointAttributes["उपभोक्ता समितिको फोन नम्बर"]
                     }
                 }
             ]

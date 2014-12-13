@@ -49,9 +49,9 @@ $(document).ready(function() {
         boundarymask.setStyle(LayerStyles["boundary-mask-style"]);
         boundarymask.addTo(map);
         //console.log(boundarymask._layers[Object.keys(boundarymask._layers)[0]]._container);
-        $(boundarymask._layers[Object.keys(boundarymask._layers)[0]]._container).attr("class","area-boundary");
+        $(boundarymask._layers[Object.keys(boundarymask._layers)[0]]._container).attr("class", "area-boundary");
         //console.log(data.features[0].geometry.coordinates[1]);
-        
+
         var overviewMap = new UI_OverviewMap({
             map: map,
             zoom: 13,
@@ -66,7 +66,7 @@ $(document).ready(function() {
             "ui-control-map": true,
             "overlays": function() {
                 var areaboundary = $.extend(true, {}, data);
-                areaboundary.features[0].geometry.coordinates.reverse().pop();
+                //areaboundary.features[0].geometry.coordinates.reverse().pop();
                 //console.log(areaboundary);
                 return [L.geoJson(areaboundary)];
             }()
@@ -123,14 +123,14 @@ $(document).ready(function() {
      };*/
 
     var projectsLayers = {
-        "road": new layerGroupExtendedOptions(),
-        "sewerage": new layerGroupExtendedOptions(),
-        "water-supply": new layerGroupExtendedOptions(),
-        "space": new layerGroupExtendedOptions(),
-        "heritage": new layerGroupExtendedOptions()
+        "सडक मर्मत": new layerGroupExtendedOptions(),
+        "ढल/मंगाल निर्माण तथा मर्मत": new layerGroupExtendedOptions(),
+        "खानेपानी पाइपलाइन मर्मत": new layerGroupExtendedOptions(),
+        "सार्वजनिक जग्गा संरक्ष्यण": new layerGroupExtendedOptions(),
+        "पुरातात्विक धरोहरको संरक्ष्यण": new layerGroupExtendedOptions()
     };
-    
-    
+
+
 
     mapGlobals.layerGroup = projectsLayers;
 
@@ -165,7 +165,7 @@ $(document).ready(function() {
              "content": $(layersControlMunicipalProjects._container).find("form")
              }*/
             {
-                "title": "Projects in ward",
+                "title": "वडा भित्रका आयोजनाहरु",
                 "content": $(layersControlProjects._container).find("form")
             }
         ],
@@ -190,60 +190,72 @@ $(document).ready(function() {
          $(layersControlMunicipalProjects._container).remove();*/
         $(layersControlProjects._container).remove();
 
-        uiElement.find("input").click();
-        
-        uiElement.find("label").each(function(){
-        $(this).find("input").after(function(){
-           return $("<div/>").addClass("ui-legend-icon").addClass($(this).siblings("span").text()); 
-        });
-    });
+        setTimeout(function() {
+            uiElement.find("input").click();
+
+
+            var labelCSSClass = {};
+
+            for (var cssClass in LayerStyles["ui-legend"]["css-class"]) {
+                labelCSSClass[LayerStyles["ui-legend"]["css-class"][cssClass]] = cssClass;
+            }
+
+            uiElement.find("label").each(function() {
+                var element = this;
+                setTimeout(function() {
+                    $(element).find("input").after(function() {
+                        return $("<div/>").addClass("ui-legend-icon").addClass(labelCSSClass[$(this).siblings("span").text().trim()]);
+                    });
+                }, 100);
+            }, 0);
+        }, 1000);
 
 
         /*(new UI_Button({
-            attributes: {
-                class: "ui-control-layer-switcher leaflet-control"
-            },
-            eventHandlers: {
-                click: function(e) {
-                    if (map.getZoom() >= LayerStyles["map-features"]["min-zoom"])
-                        return;
-                    setTimeout(function() {
-                        //if (element.getZoom() >= LayerStyles["map-features"]["min-zoom"]) {
-                        $(".marker-cluster").toggle();
-                        //} else
-                        //  $(".marker-cluster").show();
-                    }, 0);
-
-                    setTimeout(function() {
-                        $.map(projectsLayers, function(layerGroup, index) {
-                            setTimeout(function() {
-
-                                layerGroup.getLayers().map(function(layer, index) {
-                                    setTimeout(function() {
-                                        //console.log(layer);
-                                        //console.log($(layer._path).attr("stroke-opacity"));
-                                        layer.setStyle({
-                                            opacity: Number($(layer._path).attr("stroke-opacity")) < 1 ? 1 : 0,
-                                            clickable: false
-                                        });
-                                    }, 0);
-                                });
-
-                            }, 0);
-                        });
-                    }, 0);
-
-
-                    setTimeout(function() {
-                        uiElement.toggleClass("hidden show");
-                        //uiElement.addClass("show");
-                    });
-                }
-            },
-            content: function() {
-                return "<div class='icon'>Click here to view all projects</div>";
-            }
-        }).prependTo($("#map .leaflet-control-container .leaflet-right")[0]));*/
+         attributes: {
+         class: "ui-control-layer-switcher leaflet-control"
+         },
+         eventHandlers: {
+         click: function(e) {
+         if (map.getZoom() >= LayerStyles["map-features"]["min-zoom"])
+         return;
+         setTimeout(function() {
+         //if (element.getZoom() >= LayerStyles["map-features"]["min-zoom"]) {
+         $(".marker-cluster").toggle();
+         //} else
+         //  $(".marker-cluster").show();
+         }, 0);
+         
+         setTimeout(function() {
+         $.map(projectsLayers, function(layerGroup, index) {
+         setTimeout(function() {
+         
+         layerGroup.getLayers().map(function(layer, index) {
+         setTimeout(function() {
+         //console.log(layer);
+         //console.log($(layer._path).attr("stroke-opacity"));
+         layer.setStyle({
+         opacity: Number($(layer._path).attr("stroke-opacity")) < 1 ? 1 : 0,
+         clickable: false
+         });
+         }, 0);
+         });
+         
+         }, 0);
+         });
+         }, 0);
+         
+         
+         setTimeout(function() {
+         uiElement.toggleClass("hidden show");
+         //uiElement.addClass("show");
+         });
+         }
+         },
+         content: function() {
+         return "<div class='icon'>Click here to view all projects</div>";
+         }
+         }).prependTo($("#map .leaflet-control-container .leaflet-right")[0]));*/
 
     });
 
@@ -301,8 +313,11 @@ $(document).ready(function() {
              }*/
 
             //layer.setStyle(LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]]);
-            layer.setStyle($.extend({}, LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]], {opacity: 0, fillOpacity:0}));
-            layer.__events = $.extend(true, {}, layer._leaflet_events);
+            layer.setStyle($.extend({}, LayerStyles["map-features"][layer.feature.properties.getAttributes(layer.feature.properties._cartomancer_id)["project-category"]], {opacity: 0, fillOpacity: 0}));
+
+            setTimeout(function() {
+                layer.__events = $.extend(true, {}, layer._leaflet_events);
+            }, 0);
 
 
             //layer.setStyle(LayerStyles["map-features"]["road"]);
@@ -542,48 +557,48 @@ $(document).ready(function() {
                         //console.log(clusterElement);
                         var hoveredFeatures_cartomancer_ids = clusterElement._markers ? $.map(clusterElement._markers, function(marker, index) {
                             //console.log(marker.feature);
-                            if(e.type==="mouseenter"){
-                            marker.addTo(map);
-                            $(cluster._icon).css("z-index", 1000);
-                            }else{
-                            map.removeLayer(marker);
-                            $(cluster._icon).css("z-index", 1);
-                        }
+                            if (e.type === "mouseenter") {
+                                marker.addTo(map);
+                                $(cluster._icon).css("z-index", 1000);
+                            } else {
+                                map.removeLayer(marker);
+                                $(cluster._icon).css("z-index", 1);
+                            }
                             return marker.feature.properties._cartomancer_id;
                         }) : [clusterElement.feature.properties._cartomancer_id];
                         //console.log(hoveredFeatures_cartomancer_ids);
-                        
-                       /* $.map(projectsLayers, function(layerGroup, index) {
-                            //setTimeout(function() {
-                            //console.log(layerGroup)
-                            layerGroup.getLayers().map(function(layer, index) {
-                                //console.log(hoveredFeatures_cartomancer_ids);
-                                //console.log(layer.feature.properties["_cartomancer_id"]);
-                                if ($.inArray(layer.feature.properties["_cartomancer_id"], hoveredFeatures_cartomancer_ids)+1){
-                                    //console.log(e);
-                                    if (e.type === "mouseenter") {
-                                        //setTimeout(function() {
-                                        //console.log(layer);
-                                        //console.log($(layer._path).attr("stroke-opacity"));
-                                        layer.setStyle({
-                                            opacity: 1,
-                                            clickable: false
-                                        });
-                                        //}, 0);
-                                    } else {
-                                        layer.setStyle({
-                                            opacity: 0,
-                                            clickable: false
-                                        });
-                                    }
-                                }
 
-
-
-                            });
-
-                            //}, 0);
-                        });*/
+                        /* $.map(projectsLayers, function(layerGroup, index) {
+                         //setTimeout(function() {
+                         //console.log(layerGroup)
+                         layerGroup.getLayers().map(function(layer, index) {
+                         //console.log(hoveredFeatures_cartomancer_ids);
+                         //console.log(layer.feature.properties["_cartomancer_id"]);
+                         if ($.inArray(layer.feature.properties["_cartomancer_id"], hoveredFeatures_cartomancer_ids)+1){
+                         //console.log(e);
+                         if (e.type === "mouseenter") {
+                         //setTimeout(function() {
+                         //console.log(layer);
+                         //console.log($(layer._path).attr("stroke-opacity"));
+                         layer.setStyle({
+                         opacity: 1,
+                         clickable: false
+                         });
+                         //}, 0);
+                         } else {
+                         layer.setStyle({
+                         opacity: 0,
+                         clickable: false
+                         });
+                         }
+                         }
+                         
+                         
+                         
+                         });
+                         
+                         //}, 0);
+                         });*/
                         //}, 0);
 
                     });
@@ -604,11 +619,11 @@ $(document).ready(function() {
                 onEachFeature: function(feature, layer) {
 
                 },
-                pointToLayer: function(feature, latlng){
-                    return L.marker(latlng,{
+                pointToLayer: function(feature, latlng) {
+                    return L.marker(latlng, {
                         icon: L.icon({
                             iconUrl: "../markers/flag_orange.png",
-                            iconSize: [20,20],
+                            iconSize: [20, 20],
                             iconAnchor: [4, 20]
                         })
                     });
@@ -773,7 +788,7 @@ $(document).ready(function() {
 
         var lines = L.geoJson(data, {
             onEachFeature: function(feature, layer) {
-                drawLinesAndPolygons(feature, layer, projectsLayers[feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]);
+                drawLinesAndPolygons(feature, layer, projectsLayers[LayerStyles["ui-legend"]["css-class"][feature.properties.getAttributes(feature.properties._cartomancer_id)["project-category"]]]);
             }
         });
 
@@ -818,7 +833,7 @@ $(document).ready(function() {
                                     //layer.__popup = $.extend({},layer._popup);
                                     layer._leaflet_events = null;
                                     //console.log(layer);
-                                   // $(layer._container).find("path").addClass("tile");
+                                    // $(layer._container).find("path").addClass("tile");
                                     //console.log($(layer._container).find("path"));
                                 }, 0);
                             });
@@ -830,7 +845,9 @@ $(document).ready(function() {
                                         fillOpacity: 1,
                                         //clickable: true
                                     });
-                                    layer._leaflet_events = $.extend(true, {}, layer.__events);
+                                    setTimeout(function() {
+                                        layer._leaflet_events = layer.__events;
+                                    }, 0);
                                     //console.log(layer);
                                     //console.log($(layer._container).find("path"));
                                     //$(layer._container).find("path").removeClass("tile");
@@ -897,23 +914,23 @@ $(document).ready(function() {
 
 
     /*var overviewMap = new UI_OverviewMap({
-        map: map,
-        zoom: 13,
-        "ui-dom-id": "ui-overview-map",
-        "ui-container-class": "ui-container-overview-map",
-        basemap: L.tileLayer('../images/minimap_tiles/{z}/{x}/{y}.png', {
-            //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-            maxZoom: 13,
-            minZoom: 13
-        }),
-        "ui-control-map": true
-    });
+     map: map,
+     zoom: 13,
+     "ui-dom-id": "ui-overview-map",
+     "ui-container-class": "ui-container-overview-map",
+     basemap: L.tileLayer('../images/minimap_tiles/{z}/{x}/{y}.png', {
+     //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+     maxZoom: 13,
+     minZoom: 13
+     }),
+     "ui-control-map": true
+     });
+     
+     $("#mapBox").append(overviewMap.getUI());
+     
+     overviewMap.drawMap();*/
 
-    $("#mapBox").append(overviewMap.getUI());
 
-    overviewMap.drawMap();*/
-    
-    
     map.fire("moveend");
 
     /*map.on("zoomstart zoomend", function() {
