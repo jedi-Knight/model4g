@@ -122,7 +122,7 @@ function PanelDocumentModel(pointAttributes) {
              var srcs = [];
              for (var photo in pointAttributes.pictures) {
              //                        srcs.push("data/media/photos/thumbs/" + pointAttributes.pictures[photo]["pictures/photo"]);
-             srcs.push("https://raw.githubusercontent.com/biplovbhandari/brckkln/master/media/photos/thumbs/" + pointAttributes.pictures[photo]["pictures/photo"]);
+             srcs.push(pointAttributes.pictures[photo]["thumb"]);
              }
              return srcs;
              }(),
@@ -130,7 +130,7 @@ function PanelDocumentModel(pointAttributes) {
              var srcs = [];
              for (var photo in pointAttributes.pictures) {
              //                        srcs.push("data/media/photos/" + pointAttributes.pictures[photo]["pictures/photo"]);
-             srcs.push("https://raw.githubusercontent.com/biplovbhandari/brckkln/master/media/photos/" + pointAttributes.pictures[photo]["pictures/photo"]);
+             srcs.push(pointAttributes.pictures[photo]["photo"]);
              }
              return srcs;
              }(),
@@ -147,7 +147,7 @@ function PanelDocumentModel(pointAttributes) {
              }).createSlider()*/
         },
         headerJson: {
-            "": pointAttributes.name
+            "": pointAttributes.category
 //            "Contact Person": pointAttributes.contact_person,
 //            "Contact Number": pointAttributes.contact_number
 //                ,"city": pointAttributes.city
@@ -162,12 +162,12 @@ function PanelDocumentModel(pointAttributes) {
                 {
                     title: "General Information",
                     content: {
-                        "Level": pointAttributes.isced_leve,
+                        /*"Level": pointAttributes.isced_leve,
                         "Operator": pointAttributes.operator_t,
                         "Number of Students": pointAttributes.student_co,
                         "Number of Personnel": pointAttributes.personnel_,
                         "Phone Number": pointAttributes.phone,
-                        "Source of Information": pointAttributes.source
+                        "Source of Information": pointAttributes.source*/
                     }
                 }
             ]

@@ -163,6 +163,14 @@ function Cluster(features, options, map) {
 
     var clusterGroup = L.markerClusterGroup(clusteringOptions);
     var clustering = $.Deferred();
+    
+    function _getClusterGroup(){
+        return clusterGroup;
+    }
+    
+    this.getClusterGroup = function(){
+        return _getClusterGroup();
+    };
 
     setTimeout(function() {
 
@@ -174,7 +182,7 @@ function Cluster(features, options, map) {
                 title: pointAttributes.name
             });
 
-
+            marker.pointAttributes = $.extend(true, {}, pointAttributes);
 
             /*var titleBarJson = {
              "title": pointAttributes.name + ", " + pointAttributes.city,
@@ -293,7 +301,7 @@ function Cluster(features, options, map) {
         clustering.resolve(clusterGroup);
     }, 0);
 
-    return clustering.promise();
+    return $.extend(this,clustering.promise());
 }
 
 function TableContent(jsonData, invert) {
@@ -867,4 +875,20 @@ function UI_ColumnPageSwitcher(options) {
     }, 0);
 
     return uiElement;
+}
+
+
+function UI_PictureBox(options){
+    var container = $("<div class='ui-picture-box'/>");
+    $("<img/>").attr({
+       src: options.src 
+    }).appendTo(container);
+    
+    function _getUI(){
+        return container;
+    }
+    
+    this.getUI = function(){
+        return _getUI();
+    };
 }

@@ -75,8 +75,8 @@ $(document).ready(function() {
             "ui-control-map": true,
             "overlays": function() {
                 var areaboundary = $.extend(true, {}, data);
-                areaboundary.features[0].geometry.coordinates.reverse().pop();
-                console.log(areaboundary);
+                //areaboundary.features[0].geometry.coordinates.reverse().pop();
+                //console.log(areaboundary);
                 return [L.geoJson(areaboundary)];
             }()
         });

@@ -125,7 +125,7 @@ $(document).ready(function() {
     var projectsLayers = {
         "सडक मर्मत": new layerGroupExtendedOptions(),
         "ढल/मंगाल निर्माण तथा मर्मत": new layerGroupExtendedOptions(),
-        "खानेपानी पाइपलाइन मर्मत": new layerGroupExtendedOptions(),
+        //"खानेपानी पाइपलाइन मर्मत": new layerGroupExtendedOptions(),
         "सार्वजनिक जग्गा संरक्ष्यण": new layerGroupExtendedOptions(),
         "पुरातात्विक धरोहरको संरक्ष्यण": new layerGroupExtendedOptions()
     };

@@ -59,3 +59,14 @@
     margin-top: 6px;
     float: right;
 }
+
+.ui-picture-box img{
+    height: 160px;
+    margin-bottom: 8px;
+}
+.ui-picture-box, .panel-document-header .header-row{
+    text-align: center;
+}
+.panel-document-header{
+    width: auto;
+}
