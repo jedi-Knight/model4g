@@ -36,30 +36,49 @@ config = {
             "required": "required"
         },
         {
-            "type": "text",
-            "label": "Incident Hour",
-            "name": "incident_hour",
-            "pattern": "[0,1]{1}[0-9]{1}",
-            "required": "required"
-        },
-        {
-            "type": "text",
-            "label": "Incident Minute",
-            "name": "incident_minute",
-            "pattern": "[0-5]{1}[0-9]{1}",
-            "required": "required"
+            "type": "select",
+            "group": "time-select",
+            "group-option": "hours",
+            "options": function(){
+               var hours = [];
+               for (var c=0; c<12; c++){
+                   hours.push({
+                       "label": c?(c>9?c:"0"+c):12,
+                       "value": c
+                   });                 
+               }
+               return hours;
+            }()
         },
         {
             "type": "select",
-            "options": [{
-                    "label": "AM",
-                    "value": "am"
-                },
-                {
-                    "label": "PM",
-                    "value": "pm"
-                }
-            ]
+            "group": "time-select",
+            "group-option": "minutes",
+            "options": function(){
+               var minutes = [];
+               for (var c=0; c<60; c++){
+                   minutes.push({
+                       "label": c>9?c:"0"+c,
+                       "value": c
+                   });                 
+               }
+               return minutes;
+            }()
+        },
+        {
+            "type": "select",
+            "group": "time-select",
+            "group-option": "ampm",
+            "options": function(){
+               var minutes = [];
+               for (var c=0; c<2; c++){
+                   minutes.push({
+                       "label": c?"PM":"AM",
+                       "value": c?"pm":"am",
+                   });                 
+               }
+               return minutes;
+            }()
         },
         {
             "type": "file",

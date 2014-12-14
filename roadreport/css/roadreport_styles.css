@@ -22,6 +22,16 @@
     border-bottom: #aaaaaa thin solid;
 }
 
+.form-box div.time-select{
+    display:flex;
+    border-bottom:none;
+    position:absolute;
+}
+
+.form-box div.label.minutes, .form-box div.label.ampm{
+    display:none;
+}
+
 .form .title{
     display: block;
     line-height: 28pt;
@@ -60,6 +70,8 @@
     float: right;
 }
 
+
+
 .ui-picture-box img{
     height: 160px;
     margin-bottom: 8px;
@@ -70,3 +82,5 @@
 .panel-document-header{
     width: auto;
 }
+
+

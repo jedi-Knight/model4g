@@ -145,54 +145,54 @@ $(document).ready(function() {
 
 
             var clusterSpell = new Cluster(data.features /*, {
-                clusteringOptions: {
-                    iconCreateFunction: function(cluster) {
+             clusteringOptions: {
+             iconCreateFunction: function(cluster) {
+             
+             var clusterElement = this;
+             console.log(this._markers);
+             setTimeout(function() {
+             $.map(clusterElement._markers, function(marker, index) {
+             console.log(marker);
+             marker.on("popupopen", function() {
+             console.log(this);
+             });
+             });
+             }, 0);
+             
+             var childCount = cluster.getChildCount();
+             
+             var c = ' marker-cluster-';
+             if (childCount < 10) {
+             c += 'small';
+             } else if (childCount < 100) {
+             c += 'medium';
+             } else {
+             c += 'large';
+             }
+             
+             return new L.DivIcon({html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)});
+             }
+             }
+             }*/);
 
-                        var clusterElement = this;
-                        console.log(this._markers);
-                        setTimeout(function() {
-                            $.map(clusterElement._markers, function(marker, index) {
-                                console.log(marker);
-                                marker.on("popupopen", function() {
-                                    console.log(this);
-                                });
-                            });
-                        }, 0);
 
-                        var childCount = cluster.getChildCount();
-
-                        var c = ' marker-cluster-';
-                        if (childCount < 10) {
-                            c += 'small';
-                        } else if (childCount < 100) {
-                            c += 'medium';
-                        } else {
-                            c += 'large';
-                        }
-
-                        return new L.DivIcon({html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)});
-                    }
-                }
-            }*/);
-            
-            
 
             //console.log(clusterSpell.getClusterGroup());
 
             clusterSpell.done(function(clusterGroup) {
-                
+
                 clusterGroup.addTo(map);
-                
+
                 //console.log(clusterSpell.getClusterGroup()._featureGroup._layers);
                 var cluster = clusterSpell.getClusterGroup()._featureGroup._layers[Object.keys(clusterSpell.getClusterGroup()._featureGroup._layers)[0]].__parent;
-                
-                
+
+
                 //console.log(cluster);
-                var loadPicture = function(){
-                    
+                var loadPicture = function() {
+
                     $(this._popup._content).find(".panel-document-footer, .panel-document-body").remove();
                     var marker = this;
-                    $(this._popup._content).find(".panel-document-header").append(function(){
+                    $(this._popup._content).find(".panel-document-header").append(function() {
                         return new UI_PictureBox({
                             src: marker.pointAttributes.pictures[0].photo
                         }).getUI();
@@ -200,16 +200,29 @@ $(document).ready(function() {
                     marker._leaflet_events.popupopen.pop();
                     $(marker._icon).click();
                     $(marker._icon).click();
+
+                    //$(glass.getElement).remove();
+                    //deferred.resolve();
+                    //deferred.done(function() {
+                        var glass = new MagnifyingGlass.MagnifyingGlass({
+                            target: $(marker._popup._content)[0]
+                            , glass_diameter: 300
+                            , power: 3
+                        });
+                                glass.magnification.start();
+                        console.log(glass);
+                    //});
+
                 };
-                
-                $.map(cluster._markers, function(marker, index){
+
+                $.map(cluster._markers, function(marker, index) {
                     //console.log(marker);
                     marker._leaflet_events.popupopen.push({
                         action: loadPicture,
                         context: marker
                     });
                 });
-                
+
                 map.fire("zoomend");
             });
         });
@@ -235,7 +248,9 @@ $(document).ready(function() {
 
     map.fire("dragend");
 
-    $("<div class='leaflet-control' aria-haspopup='true'/>").append($("<div/>").append(new UI_Button({
+
+//TODO: ROAD REPORT SUBMISSION BUTTON
+    /*$("<div class='leaflet-control' aria-haspopup='true'/>").append($("<div/>").append(new UI_Button({
         attributes: {
             class: "ui-button-submit-report leaflet-clickable"
         },
@@ -267,7 +282,7 @@ $(document).ready(function() {
             }
         },
         content: "<div class='icon-submit-report'>Submit a Report</div>"
-    }))).appendTo($("#map").find(".leaflet-control-container .leaflet-top.leaflet-right"));
+    }))).appendTo($("#map").find(".leaflet-control-container .leaflet-top.leaflet-right"));*/
 
     /*var overviewMap = new UI_OverviewMap({
      map: map,

@@ -71,13 +71,48 @@ function UI_Form(options) {
             }
         });
         
+        
         $("<div class='form-footer'/>").append(submitButton).appendTo(container);
         
         var formdef = config["report-submission-form"];
+        var timeselect = 0;
         for(var c in formdef){
+            
+            switch(formdef[c]["group"]){
+                case "time-select":
+                    {
+                        //if(timeselect) break;
+                        formbox.append(function(){
+                           var formRow = $("<div class='time-select'></div>").addClass("time-select").append($("<div class='label'>Incident Time</div>").addClass(formdef[c]["group-option"]));
+                           var element = $("<select/>");
+                           for (var o in formdef[c]["options"]){
+                            $("<option/>").attr(formdef[c]["options"][o]).after(formdef[c]["options"][o]["label"]).appendTo(element);
+                           }
+                          /* var next = Number(c);
+                           next++;
+                           for (var o in formdef[next]["options"]){
+                            $("<option/>").attr(formdef[next]["options"][o]).after(formdef[next]["options"][o]["label"]).appendTo(element);
+                           }
+                           next++;
+                           for (var o in formdef[next]["options"]){
+                            $("<option/>").attr(formdef[next]["options"][o]).after(formdef[next]["options"][o]["label"]).appendTo(element);
+                           }*/
+                            $(formRow).append(element);
+                           return formRow;
+                        });
+                        timeselect++;
+                        break;
+                    }
+                default:
+                    {
+                        
+                    }
+            }
+            
             switch(formdef[c]["type"]){
                 case "select":
                     {
+                        if(formdef[c]["group"]==="time-select") break;
                         //var domTag = formdef[c]["type"]+"";
                         var element = $("<select/>");
                         for (var o in formdef[c]["options"]){
@@ -88,6 +123,7 @@ function UI_Form(options) {
                     }
                 default:
                     {
+                       //if(formdef[c]["group"]==="time-select") break;
                        var inputElement = $("<input/>").attr(formdef[c]);
                        $("<div class='label'>"+formdef[c]["label"]+"</div>").appendTo(formbox);
                                inputElement.appendTo(formbox);
