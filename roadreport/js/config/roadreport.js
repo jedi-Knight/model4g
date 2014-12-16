@@ -115,12 +115,12 @@ var Styles = {
     iconStyle: {
         iconSize: [25, 42],
         iconAnchor: [12.5, 40],
-        html: "<img src='markers/school.png'/>"
+        html: "<img src='../markers/flag_orange.png'/>"
     },
     "new-report-iconStyle": {
         iconSize: [25, 42],
         iconAnchor: [12.5, 40],
-        html: "<div class='new-report-marker'>New Report<img src='markers/school.png'/></div>"
+        html: "<div class='new-report-marker'>New Report<img src='markers/flag_orange.png'/></div>"
     }
 };
 

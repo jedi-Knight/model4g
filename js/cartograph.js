@@ -17,7 +17,7 @@ function Map(options) {
 
     function osmTiles() {
         return L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+            //attribution: 'Basemap data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | Powered by <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs <img class="klllogo" src="../images/klllogo.gif"/></a>'
                     //,maxZoom: 19,
                     //minZoom: 1
         });
@@ -27,9 +27,13 @@ function Map(options) {
 
 
     //osmTileLayer.addTo(map);
+    
+
+    L.control.attribution({
+        position: "bottomleft",
+        //prefix: false
+    }).addAttribution('Basemap data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | Map by <a href="http://kathmandulivinglabs.org"><div class="logo"><img class="klllogo" src="../images/klllogo.gif"/></div>Kathmandu Living Labs </a>').addTo(map);
     L.control.scale().addTo(map);
-
-
 
     map.addLayer(osmTileLayer);
 

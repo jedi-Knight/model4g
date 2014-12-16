@@ -165,7 +165,7 @@ body{
 }
 
 .leaflet-control-attribution{ /**until overlay positions are finalized**/
-    display: none;
+    /*display: none;*/
 }
 
 .col-body{
@@ -377,6 +377,27 @@ a.marker-info-zoom-trigger>div{
     cursor: pointer;
 }
 
+.leaflet-control-attribution div.logo{
+    display: inline-block;
+    width: 32px;
+}
+
+.klllogo{
+    position: absolute;
+    /*right: -28px;*/
+    top: -14px;
+    height: 30px;
+    background-color: rgba(255,255,255,0.6);
+    border-radius:14px;
+}
+
+.leaflet-bottom.leaflet-left .leaflet-control-attribution{
+    margin-left: 5px;
+}
+
+.leaflet-bottom.leaflet-right .leaflet-control-attribution{
+    display: none;
+}
 
 .hidden{
     display:none !important;
