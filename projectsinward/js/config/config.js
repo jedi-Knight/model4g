@@ -113,14 +113,14 @@ function PanelDocumentModel(pointAttributes) {
                 {
                     title: "General Information",
                     content: {
-                        "क्षेत्रफल/लम्बाइ": (pointAttributes["project-area"]+"").replace("."," ")+(pointAttributes["project-category"] === "heritage"||pointAttributes["project-category"] === "space"?"वर्ग मीटर":"मीटर"),
-                        "लागत इस्तिमेट": "रु "+pointAttributes["project-cost-estimate"].replace(".",""),
+                        "क्षेत्रफल/लम्बाइ": pointAttributes["project-area"]?(pointAttributes["project-area"]+"").replace("."," ")+(pointAttributes["project-category"] === "heritage"||pointAttributes["project-category"] === "space"?"वर्ग मीटर":"मीटर"):"",
+                        "लागत इस्तिमेट": pointAttributes["project-cost-estimate"]?"रु "+pointAttributes["project-cost-estimate"].replace(".",""):"",
                         //"टोल ": pointAttributes["tole"],
-                        "आयोजक स्तरीय":pointAttributes["project-under"],
+                        "आयोजक स्तरीय":pointAttributes["project-under"]?pointAttributes["project-under"]:"",
                         //"विभाग": pointAttributes["department"],
-                        "आर्थिक वर्ष": (pointAttributes["ward7pro_3"]+"").replace("आ.व. ",""),
+                        "आर्थिक वर्ष": pointAttributes["ward7pro_3"]?(pointAttributes["ward7pro_3"]+"").replace("आ.व. ",""):"",
                         //"टोल सुधार समिति": pointAttributes["टोल सुधार समिति"],
-                        "टोल सुधार समितिको फोन नम्बर": pointAttributes["टोले सुधार समितिको फोन नम्बर"]
+                        "टोल सुधार समितिको फोन नम्बर": pointAttributes["टोले सुधार समितिको फोन नम्बर"]?pointAttributes["टोले सुधार समितिको फोन नम्बर"]:""
                         //,"उपभोक्ता समितिको फोन नम्बर": pointAttributes["उपभोक्ता समितिको फोन नम्बर"]
                     }
                 }
