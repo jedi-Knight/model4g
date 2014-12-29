@@ -205,7 +205,8 @@ $(document).ready(function() {
                     //deferred.resolve();
                     //deferred.done(function() {
                     var glass = new MagnifyingGlass.MagnifyingGlass({
-                        target: $(marker._popup._content).closest(".leaflet-popup")[0]
+                        //target: $(marker._popup._content).closest(".leaflet-popup")[0]
+                        target: $(marker._popup._content).find("img").parent()[0]
                         , glass_diameter: 300
                         , power: 3
                     });
