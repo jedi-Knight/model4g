@@ -56,7 +56,7 @@ $page = "
         <script src=\"js/plugins/datafilter.js\"></script>
         <script src=\"../js/cartograph.js\"></script>
         <script src=\"js/plugins/reportform.js\"></script>
-        <script src=\"http://rawgit.com/jedi-Knight/magnifyingglass.js/master/MagnifyingGlass.js-1.0a/MagnifyingGlass.js-1.0a.js\"></script>
+        <script src=\"js/plugins/MagnifyingGlass.js-1.0a.js\"></script>
         <script src=\"js/cartomancer.js\"></script>
     </head>
     <body>
