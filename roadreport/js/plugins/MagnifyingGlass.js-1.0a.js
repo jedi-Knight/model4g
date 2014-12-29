@@ -84,7 +84,8 @@ MagnifyingGlass = {
                 "overflow:hidden;" +
                 "border-radius:" + (glass_diameter / 2) + "px;" +
                 "box-shadow:0px 0px 6px 2px #000000;" +
-                "position:absolute;";
+                "position:absolute; z-index:10000;";
+                //"position:relative; margin-top:-300px;";
         glass.setAttribute("style", style);
 
         var zoomStyle = "-webkit-transform-origin:-" + contentWidth / 2 + "px -" + contentHeight / 2 + "px;" +
@@ -143,8 +144,8 @@ MagnifyingGlass = {
 
 
 
-                glass.setAttribute("style", style + "left:" + (glassX) + "px;top:" + (glassY) + "px;");
-                content.setAttribute("style", defaultContentStyle() + "left:" + (-power * x + targetRect.left - glass_diameter / 4 /*+ glass_diameter -contentWidth/2*/) + "px;top:" + (-power * y + targetRect.top - glass_diameter / 4 /*+ glass_diameter -contentHeight/2*/) + "px;");
+                glass.setAttribute("style", style + "left:" + (glassX-600) + "px;top:" + (glassY-50) + "px;");
+                content.setAttribute("style", defaultContentStyle() + "left:" + (-power * x + targetRect.left - glass_diameter / 4+1200 /*+ glass_diameter -contentWidth/2*/) + "px;top:" + (-power * y + targetRect.top - glass_diameter / 4 +200 /*+ glass_diameter -contentHeight/2*/) + "px;");
 
             });
         }
