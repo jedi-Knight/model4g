@@ -89,6 +89,14 @@ body{
     cursor: pointer;
 }
 
+#extension-box .body-row.current-page{
+    display: block;
+}
+
+#extension-box .col-body{
+    display: block !important;
+}
+
 /*#extension-box .col .col-footer{
     font-family: "Verdana";
     padding-top: 6px;
