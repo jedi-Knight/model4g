@@ -835,6 +835,9 @@ function UI_ColumnPageSwitcher(options) {
                 eventHandlers: {
                     click: function(e) {
                         if($(this).closest(".ui-column-page-switcher").hasClass("inactive")) return;
+                        
+                        $("#extension-box").trigger("pageChange");
+                        
                         var element = e.target;
                         setTimeout(function() {
                             options.domElementsSelection.map(function(index, domElement) {
@@ -861,7 +864,7 @@ function UI_ColumnPageSwitcher(options) {
                                 options["stop-index"] = Number(options["stop-index"])+10;
                             }
                             
-                            pageStatus.text((options["start-index"]+1)+"-"+(options["stop-index"]+1)+" of "+(options.domElementsSelection.length+1));
+                           // pageStatus.text((options["start-index"]+1)+"-"+(options["stop-index"]+1)+" of "+(options.domElementsSelection.length+1));
                             //console.log(options);
 
                             //options.pageChangeCallback.call(element, e, options);
@@ -872,9 +875,11 @@ function UI_ColumnPageSwitcher(options) {
             })).appendTo(uiElement);
         }
         
-        pageStatus.text((options["start-index"]+1)+"-"+(options["stop-index"]+1)+" of "+(options.domElementsSelection.length+1));
+        //pageStatus.text((options["start-index"]+1)+"-"+(options["stop-index"]+1)+" of "+(options.domElementsSelection.length+1));
 
         pageStatus.insertAfter(uiElement.find(".btn-prev"));
+        
+        $("#extension-box").trigger("pageChange");
         
     }, 0);
 
@@ -910,6 +915,9 @@ function UI_PageSwitcher(options){
        },
        eventHandlers:{
            click: function(e){
+               
+               $("#extension-box").trigger("pageChange");
+               
                $(this).next(".btn-next").removeClass("inactive");
                options.status.start -= 10;
                options.status.start = options.status.start>=1 ? options.status.start : 1;
@@ -927,6 +935,10 @@ function UI_PageSwitcher(options){
     uiElement.append(buttonPrev);
     uiElement.append(buttonNext);
     uiElement.append(pageStatus);
+}
+
+function UI_EventPageSwitcher(options){
+    
 }
 
 

@@ -31,10 +31,17 @@ function UI_Control_Filter(options) {
         setTimeout(function() {
             var container = $(options["target-container"]);
             var selection = container.find(options["target-items-selector"]);
-            selection.closest(".body-row").addClass("hidden");
+            console.log("hello");
+            console.log(selection);
+            /*selection.closest(".body-row").addClass("hidden");
             selection.filter(function() {
                 return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
-            }).closest(".body-row").removeClass("hidden");
+            }).closest(".body-row").removeClass("hidden");*/
+            
+            selection.closest(".body-row").hide();
+            selection.filter(function() {
+                return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
+            }).closest(".body-row").show();
         }, 100);
     });
 

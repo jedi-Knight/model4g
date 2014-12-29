@@ -342,7 +342,7 @@ $(document).ready(function() {
             }
         };
 
-        console.log(new UI_ColumnPageSwitcher(paginationOptions));
+        //console.log(new UI_ColumnPageSwitcher(paginationOptions));
 
         (new UI_ColumnPageSwitcher(paginationOptions)).prependTo($("#extension-box").find(".col-footer"));
 
@@ -358,7 +358,28 @@ $(document).ready(function() {
                     "function": "count"
                 })
         }
-        console.log(paginationOptions);
+        //console.log(paginationOptions);
+        
+        
+        
+        $("#extension-box").on("pageChange", function(e){
+            var visibleRange = $.map($(this).find(".body-row"), function(item, index){
+                if($(item).hasClass("current-page")) return index;
+            });
+            
+            var totalCount = $(this).find(".body-row").length;
+            
+            //console.log(visibleRange);
+            
+            $(this).find(".ui-page-status").text(function(){
+                var start = visibleRange[0]+1;
+                var stop = visibleRange[visibleRange.length-1]+1;
+                
+               return  start + " - " + stop + " of " + totalCount;
+            }());
+        });
+        
+        
 
 
 

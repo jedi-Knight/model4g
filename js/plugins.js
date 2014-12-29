@@ -29,13 +29,27 @@ function UI_Control_Filter(options) {
 
     $(uiElement).on("keydown", function() {
         setTimeout(function() {
-            a=uiElement;
+            //a=uiElement;
             var container = $(options["target-container"]);
             var selection = container.find(options["target-items-selector"]);
-            selection.closest(".body-row").hide();
-            selection.filter(function() {
+            console.log(selection.filter(function() {
                 return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
-            }).closest(".body-row.current-page").show();
+            }));
+            selection.closest(".body-row").hide();
+            /*var filteredSelection = selection.filter(function() {
+                return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
+            }).closest(".body-row").show();*/
+            
+            var filteredSelection = selection.filter(function() {
+                return ((($(this).text().toLowerCase())).indexOf(uiElement.value.toLowerCase()) + 1) ? true : false;
+            });
+            
+            $.map(filteredSelection, function(item, index){
+                if(index>9) delete filteredSelection[index];
+            });
+            
+            filteredSelection.closest(".body-row").show();
+            
             if(Boolean(uiElement.value))$(".ui-column-page-switcher").addClass("inactive");
             else $(".ui-column-page-switcher").removeClass("inactive");
         }, 100);
