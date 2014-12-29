@@ -91,22 +91,53 @@ function Data() {
         if (query) {
             var orderedCollection = [];
             var orderedAttributes = $.extend(true, {}, attributes[query["geometry-type"]]);
-            var orderedKeys = $.map(orderedAttributes, function(item, index) {
-                //console.log(item[query["order-by"]]+"_:_"+index);
-                return item[query["order-by"]] + "_:_" + index;
-            });
+            var orderedKeys;
 
-            orderedKeys.sort();
-            orderedKeys = orderedKeys.map(function(item, index) {
-                return item.replace(/.*_:_/, "");
-            });
+
+            if (query["order-by"]) {
+                orderedKeys = $.map(orderedAttributes, function(item, index) {
+                    //console.log(item[query["order-by"]]+"_:_"+index);
+                    return item[query["order-by"]] + "_:_" + index;
+                });
+
+                orderedKeys.sort();
+                orderedKeys = orderedKeys.map(function(item, index) {
+                    return item.replace(/.*_:_/, "");
+                });
+            } else {
+                orderedKeys = $.map(orderedAttributes, function(item, index) {
+                    //console.log(item[query["order-by"]]+"_:_"+index);
+                    return index;
+                });
+            }
 
 
             for (var c in orderedKeys) {
-                if(orderedAttributes[orderedKeys[c]]._metaX["feature-group"] === query["feature-group"]){
-                orderedAttributes[orderedKeys[c]]["_cartomancer_id"] = orderedKeys[c]-Number(geometries[query["geometry-type"]][query["feature-group"]]._cartomancer_countstart);
-                orderedCollection.push(orderedAttributes[orderedKeys[c]]);
+                if (orderedAttributes[orderedKeys[c]]._metaX["feature-group"] === query["feature-group"]) {
+                    orderedAttributes[orderedKeys[c]]["_cartomancer_id"] = orderedKeys[c] - Number(geometries[query["geometry-type"]][query["feature-group"]]._cartomancer_countstart);
+                    orderedCollection.push(orderedAttributes[orderedKeys[c]]);
+                }
             }
+
+            if (query["start-from"]) {
+                orderedCollection.reverse();
+                for (var c = 0; c < query["start-from"] - 1; c++) {
+                    orderedCollection.pop();
+                }
+                orderedCollection.reverse();
+            }
+
+            if (query["limit"]) {
+                var extra = orderedCollection.length - query["limit"];
+                for (var c = 0; c < extra; c++) {
+                    orderedCollection.pop();
+                }
+            }
+
+            if (query["function"]) {
+                if (query["function"] === "count") {
+                    return orderedCollection.length;
+                }
             }
 
             return orderedCollection;
@@ -302,9 +333,9 @@ function Data() {
 
                     for (var feature in geometries[params.query.geometries.type][params.query.geometries.group].features) {
                         geojsonDB_attributes[c] = geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties;
-                        
-                        geojsonDB_attributes[c]._metaX={
-                            "feature-group" : params.query.geometries.group
+
+                        geojsonDB_attributes[c]._metaX = {
+                            "feature-group": params.query.geometries.group
                         };
 
                         if (geometries[params.query.geometries.type][params.query.geometries.group]["features"][feature]["properties"]["@id"]) {

@@ -881,6 +881,54 @@ function UI_ColumnPageSwitcher(options) {
     return uiElement;
 }
 
+function UI_PageSwitcher(options){
+    var uiElement = $("<div class='ui-column-page-switcher'></div>");
+    var pageStatus = $("<div class='ui-page-status'></div>");
+    
+    var buttonNext = new UI_Button({
+       attributes:{
+           class: "btn-next"
+       },
+       eventHandlers:{
+           click: function(e){
+               $(this).prev(".btn-prev").removeClass("inactive");
+               options.status.start += 10;
+               options.status.stop += 10;
+               options.status.stop = options.count >= options.status.stop ? options.status.stop : options.count;
+               if(options.status.stop === options.count){
+                   $(this).addClass("inactive");
+               }
+               options.target.trigger("next", options);
+           }
+       },
+       content: "<div class='ui-btn-prev'><</div>"
+    });
+    
+    var buttonPrev = new UI_Button({
+       attributes:{
+           class: "btn-prev"
+       },
+       eventHandlers:{
+           click: function(e){
+               $(this).next(".btn-next").removeClass("inactive");
+               options.status.start -= 10;
+               options.status.start = options.status.start>=1 ? options.status.start : 1;
+               options.status.stop -= options.stop%10 ? options.stop%10 : 10;
+               //options.status.stop = options.count >= options.status.stop ? options.status.stop : options.count;
+               if(options.status.start === 0){
+                   $(this).addClass("inactive");
+               }
+               options.target.trigger("prev", options);
+           }
+       },
+       content: "<div class='ui-btn-prev'><</div>"
+    });
+    
+    uiElement.append(buttonPrev);
+    uiElement.append(buttonNext);
+    uiElement.append(pageStatus);
+}
+
 
 function UI_PictureBox(options){
     var container = $("<div class='ui-picture-box'/>");

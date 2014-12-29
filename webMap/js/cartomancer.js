@@ -346,7 +346,19 @@ $(document).ready(function() {
 
         (new UI_ColumnPageSwitcher(paginationOptions)).prependTo($("#extension-box").find(".col-footer"));
 
-
+        var paginationOptions = {
+            status: {
+                start: 1,
+                stop: 10
+            },
+            count: mapData.getAttributes({
+                    //"order-by": "name",
+                    "geometry-type": "points",
+                    "feature-group": config["map-of"],
+                    "function": "count"
+                })
+        }
+        console.log(paginationOptions);
 
 
 

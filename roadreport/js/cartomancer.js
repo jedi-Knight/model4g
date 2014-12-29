@@ -185,7 +185,7 @@ $(document).ready(function() {
 
                 //console.log(clusterSpell.getClusterGroup()._featureGroup._layers);
                 var cluster = clusterSpell.getClusterGroup()._featureGroup._layers[Object.keys(clusterSpell.getClusterGroup()._featureGroup._layers)[0]].__parent;
-
+                //console.log(clusterSpell.getClusterGroup());
 
                 //console.log(cluster);
                 var loadPicture = function() {
@@ -204,24 +204,43 @@ $(document).ready(function() {
                     //$(glass.getElement).remove();
                     //deferred.resolve();
                     //deferred.done(function() {
-                        var glass = new MagnifyingGlass.MagnifyingGlass({
-                            target: $(marker._popup._content)[0]
-                            , glass_diameter: 300
-                            , power: 3
-                        });
-                                glass.magnification.start();
-                        console.log(glass);
+                    var glass = new MagnifyingGlass.MagnifyingGlass({
+                        target: $(marker._popup._content)[0]
+                        , glass_diameter: 300
+                        , power: 3
+                    });
+                    glass.magnification.start();
+                    //console.log(glass);
                     //});
 
                 };
-
-                $.map(cluster._markers, function(marker, index) {
-                    //console.log(marker);
-                    marker._leaflet_events.popupopen.push({
-                        action: loadPicture,
-                        context: marker
+                
+                var clusterLayers = clusterSpell.getClusterGroup()._featureGroup._layers;
+                $.map(clusterLayers, function(layer, index){
+                    //console.log(layer);
+                    try{
+                    layer._leaflet_events.popupopen.push({
+                            action: loadPicture,
+                            context: layer
+                        });
+                    }catch(e){
+                        $.map(layer._markers, function(marker, index) {
+                        //console.log(marker);
+                        marker._leaflet_events.popupopen.push({
+                            action: loadPicture,
+                            context: marker
+                        });
                     });
+                    }
                 });
+
+                    /*$.map(cluster._markers, function(marker, index) {
+                        //console.log(marker);
+                        marker._leaflet_events.popupopen.push({
+                            action: loadPicture,
+                            context: marker
+                        });
+                    });*/
 
                 map.fire("zoomend");
             });
@@ -251,38 +270,38 @@ $(document).ready(function() {
 
 //TODO: ROAD REPORT SUBMISSION BUTTON
     /*$("<div class='leaflet-control' aria-haspopup='true'/>").append($("<div/>").append(new UI_Button({
-        attributes: {
-            class: "ui-button-submit-report leaflet-clickable"
-        },
-        eventHandlers: {
-            click: function() {
-                if ($("#mapBox").find(".info-popup.new-report").length)
-                    return;
-                //alert("hello");
-
-                setTimeout(function() {
-                    $("<div class='info-popup new-report'>Move the marker labelled <b>\"New Report\"</b> to the report's location on the map..</div>").appendTo("#mapBox");
-                    L.marker(map.getCenter(), {
-                        icon: L.divIcon(Styles["new-report-iconStyle"]),
-                        draggable: true
-                    }).on("dragend", function(e) {
-                        var element = this;
-                        $("#mapBox").find(".info-popup.new-report").text("..now please fill up the following form to submit the report.");
-                        (new UI_Form({
-                            "title": "New report",
-                            "form": config["report-form"],
-                            "lat": element.getLatLng().lat,
-                            "lng": element.getLatLng().lng,
-                            "submission-url": config["road-report-api-url"],
-                            "successful-submission-message": "Report submitted. Thank you for your contribution."
-                        }).getUI()).appendTo("#mapBox");
-                    }).addTo(map);
-
-                }, 0);
-            }
-        },
-        content: "<div class='icon-submit-report'>Submit a Report</div>"
-    }))).appendTo($("#map").find(".leaflet-control-container .leaflet-top.leaflet-right"));*/
+     attributes: {
+     class: "ui-button-submit-report leaflet-clickable"
+     },
+     eventHandlers: {
+     click: function() {
+     if ($("#mapBox").find(".info-popup.new-report").length)
+     return;
+     //alert("hello");
+     
+     setTimeout(function() {
+     $("<div class='info-popup new-report'>Move the marker labelled <b>\"New Report\"</b> to the report's location on the map..</div>").appendTo("#mapBox");
+     L.marker(map.getCenter(), {
+     icon: L.divIcon(Styles["new-report-iconStyle"]),
+     draggable: true
+     }).on("dragend", function(e) {
+     var element = this;
+     $("#mapBox").find(".info-popup.new-report").text("..now please fill up the following form to submit the report.");
+     (new UI_Form({
+     "title": "New report",
+     "form": config["report-form"],
+     "lat": element.getLatLng().lat,
+     "lng": element.getLatLng().lng,
+     "submission-url": config["road-report-api-url"],
+     "successful-submission-message": "Report submitted. Thank you for your contribution."
+     }).getUI()).appendTo("#mapBox");
+     }).addTo(map);
+     
+     }, 0);
+     }
+     },
+     content: "<div class='icon-submit-report'>Submit a Report</div>"
+     }))).appendTo($("#map").find(".leaflet-control-container .leaflet-top.leaflet-right"));*/
 
     /*var overviewMap = new UI_OverviewMap({
      map: map,
