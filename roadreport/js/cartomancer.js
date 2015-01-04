@@ -16,7 +16,7 @@ $(document).ready(function() {
         $(map.getPanes().tilePane).toggleClass("grayscale", layer.name === "OpenStreetMap Grayscale");
     });
 
-    var popup = new Popup();
+    //var popup = new Popup();
     mapGlobals = {
         map: map
     };
@@ -190,58 +190,101 @@ $(document).ready(function() {
                 //console.log(cluster);
                 var loadPicture = function() {
 
-                    $(this._popup._content).find(".panel-document-footer, .panel-document-body").remove();
-                    var marker = this;
-                    $(this._popup._content).find(".panel-document-header").append(function() {
-                        return new UI_PictureBox({
-                            src: marker.pointAttributes.pictures[0].photo
-                        }).getUI();
+                    console.log(this);
+                    var element = this;
+                    var setPosition = $.extend(true, {}, element._latlng);
+                    setPosition.lat += 0.0005;
+                    map.setView(setPosition, 18,{
+                        animate:false
                     });
-                    marker._leaflet_events.popupopen.pop();
-                    $(marker._icon).click();
-                    $(marker._icon).click();
+                    $("#glass").remove();
 
-                    //$(glass.getElement).remove();
-                    //deferred.resolve();
-                    //deferred.done(function() {
-                    var glass = new MagnifyingGlass.MagnifyingGlass({
-                        //target: $(marker._popup._content).closest(".leaflet-popup")[0]
-                        target: $(marker._popup._content).find("img").parent()[0]
-                        , glass_diameter: 300
-                        , power: 3
-                    });
-                    glass.magnification.start();
-                    //console.log(glass);
-                    //});
+                    //setTimeout(function() {
+
+                        //var markerPt = map.latLngToLayerPoint(marker._latlng);
+
+                        //console.log(marker);
+
+                        if ($(element._popup._content).find("img").length) {
+                            
+                            //deferred.resolve();
+                            //deferred.done(function() {
+                            var popupRt = element._popup._content.getBoundingClientRect();
+                            var glass = new MagnifyingGlass.MagnifyingGlass({
+                                target: $(element._popup._content).closest(".leaflet-popup")[0]
+                                        //target: $(marker._popup._content).find("img").parent()[0]
+                                , glass_diameter: 300
+                                , power: 3
+                                        //, offsetX: markerPt.x - 100
+                                        //, offsetY: markerPt.y
+                                , offsetX: popupRt.left
+                                , offsetY: popupRt.top
+                            });
+                            glass.magnification.start();
+                            return;
+                        }
+
+                        $(element._popup._content).find(".panel-document-footer, .panel-document-body").remove();
+                        var marker = element;
+                        $(element._popup._content).find(".panel-document-header").append(function() {
+                            return new UI_PictureBox({
+                                src: marker.pointAttributes.pictures[0].photo
+                            }).getUI();
+                        });
+                        //marker._leaflet_events.popupopen.pop();
+                        $(marker._icon).click();
+                        $(marker._icon).click();
+                        var popupRt = element._popup._content.getBoundingClientRect();
+                        console.log(popupRt);
+
+                        $(element._popup._content).find("#glass").remove();
+                        //deferred.resolve();
+                        //deferred.done(function() {
+                        var glass = new MagnifyingGlass.MagnifyingGlass({
+                            target: $(marker._popup._content).closest(".leaflet-popup")[0]
+                                    //target: $(marker._popup._content).find("img").parent()[0]
+                            , glass_diameter: 300
+                            , power: 3
+                                    //, offsetX: markerPt.x - 100
+                                    //, offsetY: markerPt.y
+                            , offsetX: popupRt.left
+                            , offsetY: popupRt.top
+                        });
+                        glass.magnification.start();
+                        //console.log(glass);
+                        //});
+                    //}, 2000);
 
                 };
-                
+
                 var clusterLayers = clusterSpell.getClusterGroup()._featureGroup._layers;
-                $.map(clusterLayers, function(layer, index){
+                $.map(clusterLayers, function(layer, index) {
                     //console.log(layer);
-                    try{
-                    layer._leaflet_events.popupopen.push({
+                    try {
+                        layer._leaflet_events.popupopen.push({
                             action: loadPicture,
                             context: layer
                         });
-                    }catch(e){
+
+                    } catch (e) {
                         $.map(layer._markers, function(marker, index) {
-                        //console.log(marker);
-                        marker._leaflet_events.popupopen.push({
-                            action: loadPicture,
-                            context: marker
+                            //console.log(marker);
+                            marker._leaflet_events.popupopen.push({
+                                action: loadPicture,
+                                context: marker
+                            });
+
                         });
-                    });
                     }
                 });
 
-                    /*$.map(cluster._markers, function(marker, index) {
-                        //console.log(marker);
-                        marker._leaflet_events.popupopen.push({
-                            action: loadPicture,
-                            context: marker
-                        });
-                    });*/
+                /*$.map(cluster._markers, function(marker, index) {
+                 //console.log(marker);
+                 marker._leaflet_events.popupopen.push({
+                 action: loadPicture,
+                 context: marker
+                 });
+                 });*/
 
                 map.fire("zoomend");
             });

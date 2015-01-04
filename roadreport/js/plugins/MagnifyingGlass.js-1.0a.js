@@ -127,12 +127,13 @@ MagnifyingGlass = {
 
 
 
-                var x = (Number(e.pageX));
-                var y = (Number(e.pageY));
+                var x = (Number(e.clientX));
+                var y = (Number(e.clientY));
+                //console.log(x);
 
-                if (x > (targetRect.right + glass_diameter / (2 * power)) | x < (targetRect.left - 1.5 * glass_diameter / (2 * power)))
+                if (x > (targetRect.right + glass_diameter / (2 * power))+20 | x < (targetRect.left - 1.5 * glass_diameter / (2 * power))-20)
                     glass.remove();
-                if (y > (targetRect.bottom + glass_diameter / (2 * power)) | x < (targetRect.top - 1.5 * glass_diameter / (2 * power)))
+                if (y > (targetRect.bottom + glass_diameter / (2 * power))+20 | x < (targetRect.top - 1.5 * glass_diameter / (2 * power))-20)
                     glass.remove();
 
 
@@ -144,8 +145,8 @@ MagnifyingGlass = {
 
 
 
-                glass.setAttribute("style", style + "left:" + (glassX-600) + "px;top:" + (glassY-50) + "px;");
-                content.setAttribute("style", defaultContentStyle() + "left:" + (-power * x + targetRect.left - glass_diameter / 4+1200 /*+ glass_diameter -contentWidth/2*/) + "px;top:" + (-power * y + targetRect.top - glass_diameter / 4 +200 /*+ glass_diameter -contentHeight/2*/) + "px;");
+                glass.setAttribute("style", style + "left:" + (glassX-options.offsetX) + "px;top:" + (glassY-options.offsetY) + "px;");
+                content.setAttribute("style", defaultContentStyle() + "left:" + (-power * x + targetRect.left - glass_diameter/2*power  + options.offsetX*power /*+ glass_diameter -contentWidth/2*/) + "px;top:" + (-power * y + targetRect.top+20 - (glass_diameter/2)*power +options.offsetY*power*power/2 /*+ glass_diameter -contentHeight/2*/) + "px;");
 
             });
         }
