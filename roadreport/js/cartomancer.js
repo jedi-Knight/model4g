@@ -293,7 +293,9 @@ $(document).ready(function() {
 
     });
 
-
+    map.on("dragstart", function(e){
+       this.closePopup(); 
+    });
 
 
 
