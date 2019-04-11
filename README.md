@@ -5,15 +5,15 @@ This is the codebase for the interactive web-GIS maps of Kathmandu Metropolitan 
 
 ## Live map links
 1. Map of projects planned for year B.S. 2071 - 2072
-(http://model4g.net/en/projects/71-72)[http://model4g.net/en/projects/71-72]
+[http://model4g.net/en/projects/71-72](http://model4g.net/en/projects/71-72)
 2. Map of schools
-(http://model4g.net/ne/data/140)[http://model4g.net/ne/data/140]
+[http://model4g.net/ne/data/140](http://model4g.net/ne/data/140)
 3. Map of colleges
-(http://model4g.net/ne/data/141)[http://model4g.net/ne/data/141]
+[http://model4g.net/ne/data/141](http://model4g.net/ne/data/141)
 4. Map of hospitals
-(http://model4g.net/ne/data/142)[http://model4g.net/ne/data/142]
+[http://model4g.net/ne/data/142](http://model4g.net/ne/data/142)
 5. Map of points of interest
-(http://model4g.net/ne/page/151)[http://model4g.net/ne/page/151]
+[http://model4g.net/ne/page/151](http://model4g.net/ne/page/151)
 
 ## Server-side Dependencies
 - Php
